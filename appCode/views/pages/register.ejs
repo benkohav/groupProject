@@ -1,0 +1,17 @@
+<%- include ('../partials/header') %>
+<%- include ('../partials/menu') %>
+
+<main>
+    <div class="col"><%- include ('../partials/message') %></div>
+  <div class="container">
+    <!-- THE REST OF YOUR HTML CODE GOES HERE -->
+    <h1>Register</h1>
+    <form action="/register" method="POST">
+        <p> Username: <input id = "username" name = "username"></p>
+        <p>Password: <input id = "password" name = "password"></p>
+     <button type="submit" id="submitButton" class="btn btn-primary">Register</button>
+     </form>
+  </div>
+</main>
+
+<%- include ('../partials/footer') %>

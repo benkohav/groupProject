@@ -1,0 +1,38 @@
+<%- include ('../partials/header') %>
+<%- include ('../partials/menu') %>
+
+<main>
+  <div class="col"><%- include ('../partials/message') %></div>
+  <div class="container">
+    <!-- THE REST OF YOUR HTML CODE GOES HERE -->
+
+    <h1><centre>Events </centre></h1>
+    <table>
+    <tr>
+      <td>Event Name</td>
+      <td>Image</td>
+      <td>Date</td>
+      <td>Time</td>
+      <!-- <td>Link</td> -->
+    </tr>
+
+    <%results._embedded.events .forEach(function(result){ %>
+      <tr>
+        <td><%=result.name%></td>
+        <td><img src="<%=result.images[0].url%>" width="300"></td>
+        <td><%=result.dates.start.localDate%></td>
+        <td><%=result.dates.start.localTime%></td>
+        <td>
+        <form action="<%=result.url%>">
+            <button type="submit" class="btn btn-block" style="background-color: blue; color: aliceblue;">Book Now</button>
+        </form>
+        </td>
+        </tr>
+
+    <% }); %>
+
+   </table>
+  </div>
+</main>
+
+<%- include ('../partials/footer') %>
