@@ -125,16 +125,16 @@ const dbConfig = {
       });
 
         // Authentication Middleware.
-    const auth = (req, res, next) => {
-        if (!req.session.user) {
-        // Default to register page.
-        return res.redirect('/register');
-        }
-        next();
-    };
+    // const auth = (req, res, next) => {
+    //     if (!req.session.user) {
+    //     // Default to register page.
+    //     return res.redirect('/register');
+    //     }
+    //     next();
+    // };
     
     // Authentication Required
-    app.use(auth);
+    // app.use(auth);
 
 
     app.get('/discover', (req, res) => {
