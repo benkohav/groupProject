@@ -106,7 +106,7 @@ const dbConfig = {
                     api_key: process.env.API_KEY,
                   };
                   req.session.save();
-                res.redirect('/discover');
+                res.redirect('/home');
             }
             else{
               //{message: 'Password incorrect. Please try again.'}
@@ -123,7 +123,9 @@ const dbConfig = {
         })
 
       });
-
+    app.get('/home', (req, res) => {
+        res.render('pages/home'); //{<JSON data required to render the page, if applicable>}
+      });
         // Authentication Middleware.
     // const auth = (req, res, next) => {
     //     if (!req.session.user) {
@@ -134,38 +136,39 @@ const dbConfig = {
     // };
     
     // Authentication Required
-    // app.use(auth);
+    app.use(auth);
+      
+      app.get('/search', (req, res) => {
+            var query = `SELECT ItemName, CategoryName, Description, url
+            FROM Items 
+            INNER JOIN Categories ON Item.ItemID = Categories.ItemID 
+            LEFT OUTER JOIN Images ON ____
+              WHERE ____ LIKE *$1*
+              OR _____ LIKE *$1*;`
 
+            db.any(query, [ 
+              req.body.search
+            ])
 
-    app.get('/discover', (req, res) => {
-        axios({
-            url: `https://app.ticketmaster.com/discovery/v2/events.json`,
-                method: 'GET',
-                dataType:'json',
-                params: {
-                    "apikey": req.session.user.api_key,
-                    "keyword": "Coldplay", //you can choose any artist/event here
-                    "size": 11,
-                }
-            })
             .then(results => {
                 console.log(results.data); // the results will be displayed on the terminal if the docker containers are running
              // Send some parameters
-             res.render('pages/discover', {results: results.data});
+             res.render('pages/home', {results: results.data});
              //print out/present the results etc
             })
             .catch(error => {
             // Handle errors
-            res.render('pages/discover', {results: []});
+            res.render('pages/home', {results: []});
             })
       });
-
-
+      app.post()
       app.get("/logout", (req, res) => {
         req.session.destroy();
         res.render("pages/login", {message: 'Logged out Successfully'});
       });
-
+      app.post('/checkout', async (req, res) => {
+        
+      });
 
 
       app.listen(3000);
