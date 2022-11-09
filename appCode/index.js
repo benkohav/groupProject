@@ -118,13 +118,13 @@ const dbConfig = {
       res.render('pages/home'); //{<JSON data required to render the page, if applicable>}
     });
         // Authentication Middleware.
-    const auth = (req, res, next) => {
-        if (!req.session.user) {
-        // Default to register page.
-        return res.redirect('/register');
-        }
-        next();
-    };
+    // const auth = (req, res, next) => {
+    //     if (!req.session.user) {
+    //     // Default to register page.
+    //     return res.redirect('/register');
+    //     }
+    //     next();
+    // };
     
     // Authentication Required
     app.use(auth);
@@ -142,6 +142,7 @@ const dbConfig = {
             db.any(query, [ 
               req.body.search
             ])
+
             .then(results => {
                 console.log(results.data); // the results will be displayed on the terminal if the docker containers are running
              // Send some parameters
