@@ -45,26 +45,21 @@ const dbConfig = {
           extended: true,
         })
       );
-
-    //A, Part 4
+      app.listen(3000);
+      console.log('Server is listening on port 3000');
 
       app.get('/', (req, res) =>{
         res.redirect('/login'); //this will call the /anotherRoute route in the API
       });
 
-
-    //A, Part 5
-
     app.get('/register', (req, res) => {
         res.render('pages/register'); //{<JSON data required to render the page, if applicable>}
       });
 
-    //A, Part 6
-
     app.post('/register', async (req, res) => {
         //the logic goes here
         const hash = await bcrypt.hash(req.body.password, 10);
-        var query = "INSERT INTO users (username,password) values ($1, $2);";
+        var query = "INSERT INTO User (username,password) values ($1, $2);";
 
         db.any(query, [ 
         req.body.username,
@@ -79,19 +74,15 @@ const dbConfig = {
 
       });
 
-    //A, Part 7
-
     app.get('/login', (req, res) => {
         res.render('pages/login'); //{<JSON data required to render the page, if applicable>}
       });
 
-    //A, Part 8
-
     app.post('/login', async (req, res) => {
         //the logic goes here
-        // const match = await bcrypt.compare(req.body.password, user.password); //await is explained in #8
+        const match = await bcrypt.compare(req.body.password, user.password); //await is explained in #8
 
-        var query = "SELECT password FROM users WHERE username = $1 LIMIT 1;"
+        var query = "SELECT password FROM User WHERE username = $1 LIMIT 1;"
 
         db.any(query, [ 
         req.body.username
@@ -124,8 +115,8 @@ const dbConfig = {
 
       });
     app.get('/home', (req, res) => {
-        res.render('pages/home'); //{<JSON data required to render the page, if applicable>}
-      });
+      res.render('pages/home'); //{<JSON data required to render the page, if applicable>}
+    });
         // Authentication Middleware.
     // const auth = (req, res, next) => {
     //     if (!req.session.user) {
@@ -138,13 +129,15 @@ const dbConfig = {
     // Authentication Required
     app.use(auth);
       
-      app.get('/search', (req, res) => {
-            var query = `SELECT ItemName, CategoryName, Description, url
+    app.get('/search', (req, res) => {
+            var query = `SELECT ItemName, Category.CategoryName, Subcategory.CategoryName, Category.Description, URL
             FROM Items 
             INNER JOIN Categories ON Item.ItemID = Categories.ItemID 
-            LEFT OUTER JOIN Images ON ____
-              WHERE ____ LIKE *$1*
-              OR _____ LIKE *$1*;`
+            INNER JOIN Categories Subcategory ON Categories.SubcategoryID = SubCategory.CategoryID 
+            LEFT OUTER JOIN Images ON 
+              WHERE ItemName LIKE %$1%
+              Categories.CategoryName LIKE %$1%
+              OR Subcategory.CategoryName LIKE %$1%;`
 
             db.any(query, [ 
               req.body.search
@@ -161,15 +154,13 @@ const dbConfig = {
             res.render('pages/home', {results: []});
             })
       });
-      app.post()
-      app.get("/logout", (req, res) => {
+      app.get('/logout', (req, res) => {
         req.session.destroy();
-        res.render("pages/login", {message: 'Logged out Successfully'});
+        res.render('pages/login', {message: 'Logged out Successfully'});
       });
       app.post('/checkout', async (req, res) => {
-        
+
       });
 
 
-      app.listen(3000);
-console.log('Server is listening on port 3000');
+      
