@@ -1,5 +1,73 @@
-DROP TABLE IF EXISTS users CASCADE;
-CREATE TABLE users(
-    username VARCHAR(50) PRIMARY KEY,
-    password CHAR(60) NOT NULL
-);
+CREATE TABLE IF NOT EXISTS User (
+  userID INT NOT NULL,
+  username VARCHAR(45) NULL,
+  password CHAR(60) NULL,
+  email VARCHAR(45) NULL,
+  phone BIGINT(10) NULL,
+  PRIMARY KEY (userID));
+
+CREATE TABLE IF NOT EXISTS Item (
+  ItemId INT NOT NULL,
+  ItemName VARCHAR(45) NULL,
+  ItemDescription VARCHAR(200) NULL,
+  Condition VARCHAR(200) NULL,
+  CategoryID INT NULL,
+  PRIMARY KEY (ItemId),
+  CONSTRAINT Cat
+    FOREIGN KEY (CategoryID)
+    REFERENCES Category (CategoryID)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS Image (
+  ImageID INT NOT NULL,
+  URL VARCHAR(45) NULL,
+  CategoryID INT NULL,
+  PRIMARY KEY (ImageID),
+  CONSTRAINT Category
+    FOREIGN KEY (CategoryID)
+    REFERENCES Category (CategoryID)
+    ON DELETE SET NULL
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS ItemHistory (
+  HistoricalOrderID INT NOT NULL,
+  ItemID INT NOT NULL,
+  userID INT NOT NULL,
+  timeBorrowed DATETIME NULL,
+  timeReturned DATETIME NULL,
+  INDEX Item_idx (ItemID ASC) VISIBLE,
+  PRIMARY KEY (HistoricalOrderID),
+  CONSTRAINT userID
+    FOREIGN KEY (userID)
+    REFERENCES User (userID)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT Item
+    FOREIGN KEY (ItemID)
+    REFERENCES Item (ItemId)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS Fee (
+  userID INT NOT NULL,
+  HistoricalOrderID INT NOT NULL,
+  amount DECIMAL(7,2) NULL,
+  paid TINYINT NULL DEFAULT 0,
+  payby DATE NULL,
+  PRIMARY KEY (userID, HistoricalOrderID),
+  INDEX ItemHistory_idx (HistoricalOrderID ASC) VISIBLE,
+  CONSTRAINT User
+    FOREIGN KEY (userID)
+    REFERENCES User (userID)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT ItemHistory
+    FOREIGN KEY (HistoricalOrderID)
+    REFERENCES ItemHistory (HistoricalOrderID)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+
+
