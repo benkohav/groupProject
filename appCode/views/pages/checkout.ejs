@@ -15,13 +15,23 @@
 
       <tbody>
           <tr>
-            <th scope="row"> Macbook </td></th>
-            <th scope="row"> 10 hours </td></th>
-            <th scope="row"> Nov 10 at 11 am </td></th>
-            <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Checkout Item</button></td></th>
+            <!-- <%users.forEach(function(user){ %>
+            <td scope="row"> <%=user.item%> </td>
+            <td scope="row"> <%=user.timeRent%> </td>
+            <td scope="row"> <%=user.timeReturn%> </td>
+            <td scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Checkout Item</button></td>
+            <% }); %> -->
+            <%checkout.forEach(function(course){ %>
+              <tr>
+                <td scope="row"><%=checkout.item%></td>
+                <td scope="row"><%=checkout.timeRent%></td>
+                <td scope="row"><%=checkout.timeReturn%></td>
+                <td>
+            <% }); %>
           </tr>
       </tbody>
   </div> 
 </main>
 
 <%- include ('../partials/footer') %>
+

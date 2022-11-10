@@ -8,7 +8,7 @@
 --   PRIMARY KEY (userID)
 -- );
 
-CREATE TABLE users(
+CREATE TABLE checkout(
   username VARCHAR(50) PRIMARY KEY,   /* the primary key for each entry */
   password CHAR(60) NOT NULL,
   item CHAR(60),
