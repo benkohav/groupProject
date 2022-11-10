@@ -16,6 +16,16 @@ CREATE TABLE users(
   timeReturn CHAR(60)
 );
 
+-- table for the profile page !! --
+CREATE TABLE profile(
+    user_fname CHAR(50) PRIMARY KEY,
+    user_lname CHAR(50) NOT NULL,
+    username VARCHAR(15),
+    university_year INTEGER, 
+    email VARCHAR(60),
+    item CHAR(60)
+);
+
 -- CREATE TABLE users(
 --   userID PRIMARY KEY,
 --   username VARCHAR(45) NOT NULL,

@@ -8,3 +8,6 @@
 
 INSERT INTO users (username, password, item, timeRent, timeReturn) VALUES
 ('Roxy', '1', 'Macbook', '10 hours', 'Nov 10 at 11 am');
+
+INSERT INTO profile(user_fname, user_lname, username, email, item) VALUES 
+('Anna', 'Smith', 'annasmith01', 'anna.smith@colorado.edu', 'Macbook');
