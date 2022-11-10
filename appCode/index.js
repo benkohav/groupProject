@@ -46,23 +46,32 @@ const dbConfig = {
         })
       );
 
+    //Rendering login
     app.get('/', (req, res) =>{
       res.redirect('/login'); //this will call the /anotherRoute route in the API
     });
 
+    //Rendering register
     app.get('/register', (req, res) => {
         res.render('pages/register'); //{<JSON data required to render the page, if applicable>}
       });
 
+    //Rendering register
+    app.get('/profile', (req, res) => {
+      res.render('pages/profile'); //{<JSON data required to render the page, if applicable>}
+    });
+
+    //Rendering home
     app.get('/home', (req, res) => {
       res.render('pages/home'); //{<JSON data required to render the page, if applicable>}
     });
 
+    //Rendering checkout
     app.get('/checkout', (req, res) => {
       res.render('pages/checkout'); //{<JSON data required to render the page, if applicable>}
     });
 
-
+    //Register logic 
     app.post('/register', async (req, res) => {
         const hash = await bcrypt.hash(req.body.password, 10);
         var query = "INSERT INTO users (username,password) values ($1, $2);";
@@ -80,14 +89,13 @@ const dbConfig = {
 
       });
 
-    //A, Part 7
-
+    //Render of Login from pages 
     app.get('/login', (req, res) => {
         res.render('pages/login'); //{<JSON data required to render the page, if applicable>}
       });
 
-    //A, Part 8
-
+    
+    //Login logic
     app.post('/login', async (req, res) => {
         //the logic goes here
         // const match = await bcrypt.compare(req.body.password, user.password); //await is explained in #8
@@ -125,7 +133,24 @@ const dbConfig = {
 
       });
 
-        // Authentication Middleware.
+    //Rendering home again when you checkout 
+
+    app.get("/logout", (req, res) => {
+      req.session.destroy();
+      res.render("pages/login", {message: 'Logged out Successfully'});
+    });
+
+
+
+      app.listen(3000);
+console.log('Server is listening on port 3000');
+
+
+
+
+
+
+     // Authentication Middleware.
     // const auth = (req, res, next) => {
     //     if (!req.session.user) {
     //     // Default to register page.
@@ -160,14 +185,3 @@ const dbConfig = {
     //         res.render('pages/discover', {results: []});
     //         })
     //   });
-
-
-      app.get("/logout", (req, res) => {
-        req.session.destroy();
-        res.render("pages/login", {message: 'Logged out Successfully'});
-      });
-
-
-
-      app.listen(3000);
-console.log('Server is listening on port 3000');
