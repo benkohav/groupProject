@@ -2,7 +2,30 @@
 <%- include ('../partials/menu') %>
 
 <main>
-  <div>
+  <div class="col"><%- include ('../partials/message') %></div>
+  <div class = "container">
+    <h1>Home</h1>
+    <form action="/search" method="GET">
+      <label for="search" class="form-label"  >Search</label>
+      <input type="text" class="form-control" id="search" name ="search">
+      <button id="submit_button" class="btn btn-secondary" type="submit">Search</button>
+    </form>
+            <!-- <% 
+            if (results.data._embedded.events) {
+                var tab = '';
+                tab += '<table> <thead> <tr> <th>Name of Item</th> <th width = 300></th> <th></th> </tr> <br> </thead> <tbody>'
+                results.data.forEach(function(item){
+                  tab+= '<tr>';
+                  tab+= '<td>'+ item.name + '</td>';
+                  console.log(item.images)
+                  tab+= '<td>'+ '<img src = "' + item.images.url + '" alt = "No Image" height = 100 width = 220>' + '</td>';
+                  tab += '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#event-modal">Borrow</button>''
+                  tab+= '</tr>';
+                }); 
+                tab += '</tbody></table>'
+                %>
+               <%- tab %>
+              <% } %> -->
   </div>
 </main>
 
