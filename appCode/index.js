@@ -19,6 +19,14 @@ const dbConfig = {
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
   };
+
+  const user = {
+    username: undefined,
+    password: undefined,
+    item: undefined,
+    timeRent: undefined,
+    timeReturn: undefined,
+  };
   
   const db = pgp(dbConfig);
   

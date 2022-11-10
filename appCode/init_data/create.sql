@@ -11,7 +11,9 @@
 CREATE TABLE users(
   username VARCHAR(50) PRIMARY KEY,   /* the primary key for each entry */
   password CHAR(60) NOT NULL,
-  item CHAR(60)
+  item CHAR(60),
+  timeRent CHAR(60),
+  timeReturn CHAR(60)
 );
 
 -- CREATE TABLE users(
