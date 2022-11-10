@@ -141,7 +141,9 @@ const dbConfig = {
 
       });
 
+
     //Rendering home again when you checkout 
+
 
     app.get("/logout", (req, res) => {
       req.session.destroy();
