@@ -45,26 +45,21 @@ const dbConfig = {
           extended: true,
         })
       );
-
-    //A, Part 4
+      app.listen(3000);
+      console.log('Server is listening on port 3000');
 
       app.get('/', (req, res) =>{
         res.redirect('/login'); //this will call the /anotherRoute route in the API
       });
 
-
-    //A, Part 5
-
     app.get('/register', (req, res) => {
         res.render('pages/register'); //{<JSON data required to render the page, if applicable>}
       });
 
-    //A, Part 6
-
     app.post('/register', async (req, res) => {
         //the logic goes here
         const hash = await bcrypt.hash(req.body.password, 10);
-        var query = "INSERT INTO users (username,password) values ($1, $2);";
+        var query = "INSERT INTO User (username,password) values ($1, $2);";
 
         db.any(query, [ 
         req.body.username,
@@ -79,19 +74,15 @@ const dbConfig = {
 
       });
 
-    //A, Part 7
-
     app.get('/login', (req, res) => {
         res.render('pages/login'); //{<JSON data required to render the page, if applicable>}
       });
 
-    //A, Part 8
-
     app.post('/login', async (req, res) => {
         //the logic goes here
-        // const match = await bcrypt.compare(req.body.password, user.password); //await is explained in #8
+        const match = await bcrypt.compare(req.body.password, user.password); //await is explained in #8
 
-        var query = "SELECT password FROM users WHERE username = $1 LIMIT 1;"
+        var query = "SELECT password FROM User WHERE username = $1 LIMIT 1;"
 
         db.any(query, [ 
         req.body.username
@@ -106,7 +97,7 @@ const dbConfig = {
                     api_key: process.env.API_KEY,
                   };
                   req.session.save();
-                res.redirect('/discover');
+                res.redirect('/home');
             }
             else{
               //{message: 'Password incorrect. Please try again.'}
@@ -123,7 +114,9 @@ const dbConfig = {
         })
 
       });
-
+    app.get('/home', (req, res) => {
+      res.render('pages/home'); //{<JSON data required to render the page, if applicable>}
+    });
         // Authentication Middleware.
     // const auth = (req, res, next) => {
     //     if (!req.session.user) {
@@ -134,39 +127,40 @@ const dbConfig = {
     // };
     
     // Authentication Required
-    // app.use(auth);
+    app.use(auth);
+      
+    app.get('/search', (req, res) => {
+            var query = `SELECT ItemName, Category.CategoryName, Subcategory.CategoryName, Category.Description, URL
+            FROM Items 
+            INNER JOIN Categories ON Item.ItemID = Categories.ItemID 
+            INNER JOIN Categories Subcategory ON Categories.SubcategoryID = SubCategory.CategoryID 
+            LEFT OUTER JOIN Images ON 
+              WHERE ItemName LIKE %$1%
+              Categories.CategoryName LIKE %$1%
+              OR Subcategory.CategoryName LIKE %$1%;`
 
+            db.any(query, [ 
+              req.body.search
+            ])
 
-    app.get('/discover', (req, res) => {
-        axios({
-            url: `https://app.ticketmaster.com/discovery/v2/events.json`,
-                method: 'GET',
-                dataType:'json',
-                params: {
-                    "apikey": req.session.user.api_key,
-                    "keyword": "Coldplay", //you can choose any artist/event here
-                    "size": 11,
-                }
-            })
             .then(results => {
                 console.log(results.data); // the results will be displayed on the terminal if the docker containers are running
              // Send some parameters
-             res.render('pages/discover', {results: results.data});
+             res.render('pages/home', {results: results.data});
              //print out/present the results etc
             })
             .catch(error => {
             // Handle errors
-            res.render('pages/discover', {results: []});
+            res.render('pages/home', {results: []});
             })
       });
-
-
-      app.get("/logout", (req, res) => {
+      app.get('/logout', (req, res) => {
         req.session.destroy();
-        res.render("pages/login", {message: 'Logged out Successfully'});
+        res.render('pages/login', {message: 'Logged out Successfully'});
+      });
+      app.post('/checkout', async (req, res) => {
+
       });
 
 
-
-      app.listen(3000);
-console.log('Server is listening on port 3000');
+      
