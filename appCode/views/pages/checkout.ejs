@@ -4,7 +4,7 @@
 <main>
   <div>
     <table class="table table-striped">
-      <h1 class="title" ><centre>Your Checkout Page </centre></h1>
+      <h1 class="title" ><centre>Your Checkout page </centre></h1>
       <thead>
           <tr>
               <th scope="col">Cart</th>
@@ -15,23 +15,13 @@
 
       <tbody>
           <tr>
-            <!-- <%users.forEach(function(user){ %>
-            <td scope="row"> <%=user.item%> </td>
-            <td scope="row"> <%=user.timeRent%> </td>
-            <td scope="row"> <%=user.timeReturn%> </td>
-            <td scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Checkout Item</button></td>
-            <% }); %> -->
-            <%checkout.forEach(function(course){ %>
-              <tr>
-                <td scope="row"><%=checkout.item%></td>
-                <td scope="row"><%=checkout.timeRent%></td>
-                <td scope="row"><%=checkout.timeReturn%></td>
-                <td>
-            <% }); %>
+            <th scope="row"> Macbook </td></th>
+            <th scope="row"> 10 hours </td></th>
+            <th scope="row"> Nov 10 at 11 am </td></th>
+            <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Checkout Item</button></td></th>
           </tr>
       </tbody>
   </div> 
 </main>
 
 <%- include ('../partials/footer') %>
-
