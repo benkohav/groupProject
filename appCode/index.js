@@ -46,23 +46,24 @@ const dbConfig = {
         })
       );
 
-    //A, Part 4
-
-      app.get('/', (req, res) =>{
-        res.redirect('/login'); //this will call the /anotherRoute route in the API
-      });
-
-
-    //A, Part 5
+    app.get('/', (req, res) =>{
+      res.redirect('/login'); //this will call the /anotherRoute route in the API
+    });
 
     app.get('/register', (req, res) => {
         res.render('pages/register'); //{<JSON data required to render the page, if applicable>}
       });
 
-    //A, Part 6
+    app.get('/home', (req, res) => {
+      res.render('pages/home'); //{<JSON data required to render the page, if applicable>}
+    });
+
+    app.get('/checkout', (req, res) => {
+      res.render('pages/checkout'); //{<JSON data required to render the page, if applicable>}
+    });
+
 
     app.post('/register', async (req, res) => {
-        //the logic goes here
         const hash = await bcrypt.hash(req.body.password, 10);
         var query = "INSERT INTO users (username,password) values ($1, $2);";
 
@@ -106,7 +107,7 @@ const dbConfig = {
                     api_key: process.env.API_KEY,
                   };
                   req.session.save();
-                res.redirect('/discover');
+                res.redirect('/home');
             }
             else{
               //{message: 'Password incorrect. Please try again.'}
@@ -137,28 +138,28 @@ const dbConfig = {
     // app.use(auth);
 
 
-    app.get('/discover', (req, res) => {
-        axios({
-            url: `https://app.ticketmaster.com/discovery/v2/events.json`,
-                method: 'GET',
-                dataType:'json',
-                params: {
-                    "apikey": req.session.user.api_key,
-                    "keyword": "Coldplay", //you can choose any artist/event here
-                    "size": 11,
-                }
-            })
-            .then(results => {
-                console.log(results.data); // the results will be displayed on the terminal if the docker containers are running
-             // Send some parameters
-             res.render('pages/discover', {results: results.data});
-             //print out/present the results etc
-            })
-            .catch(error => {
-            // Handle errors
-            res.render('pages/discover', {results: []});
-            })
-      });
+    // app.get('/discover', (req, res) => {
+    //     axios({
+    //         url: `https://app.ticketmaster.com/discovery/v2/events.json`,
+    //             method: 'GET',
+    //             dataType:'json',
+    //             params: {
+    //                 "apikey": req.session.user.api_key,
+    //                 "keyword": "Coldplay", //you can choose any artist/event here
+    //                 "size": 11,
+    //             }
+    //         })
+    //         .then(results => {
+    //             console.log(results.data); // the results will be displayed on the terminal if the docker containers are running
+    //          // Send some parameters
+    //          res.render('pages/discover', {results: results.data});
+    //          //print out/present the results etc
+    //         })
+    //         .catch(error => {
+    //         // Handle errors
+    //         res.render('pages/discover', {results: []});
+    //         })
+    //   });
 
 
       app.get("/logout", (req, res) => {
