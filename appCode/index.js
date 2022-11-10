@@ -19,6 +19,14 @@ const dbConfig = {
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
   };
+
+  const user = {
+    username: undefined,
+    password: undefined,
+    item: undefined,
+    timeRent: undefined,
+    timeReturn: undefined,
+  };
   
   const db = pgp(dbConfig);
   
@@ -46,23 +54,33 @@ const dbConfig = {
         })
       );
 
-    //A, Part 4
+    //Rendering login
+    app.get('/', (req, res) =>{
+      res.redirect('/login'); //this will call the /anotherRoute route in the API
+    });
 
-      app.get('/', (req, res) =>{
-        res.redirect('/login'); //this will call the /anotherRoute route in the API
-      });
-
-
-    //A, Part 5
-
+    //Rendering register
     app.get('/register', (req, res) => {
         res.render('pages/register'); //{<JSON data required to render the page, if applicable>}
       });
 
-    //A, Part 6
+    //Rendering register
+    app.get('/profile', (req, res) => {
+      res.render('pages/profile'); //{<JSON data required to render the page, if applicable>}
+    });
 
+    //Rendering home
+    app.get('/home', (req, res) => {
+      res.render('pages/home'); //{<JSON data required to render the page, if applicable>}
+    });
+
+    //Rendering checkout
+    app.get('/checkout', (req, res) => {
+      res.render('pages/checkout'); //{<JSON data required to render the page, if applicable>}
+    });
+
+    //Register logic 
     app.post('/register', async (req, res) => {
-        //the logic goes here
         const hash = await bcrypt.hash(req.body.password, 10);
         var query = "INSERT INTO users (username,password) values ($1, $2);";
 
@@ -79,14 +97,13 @@ const dbConfig = {
 
       });
 
-    //A, Part 7
-
+    //Render of Login from pages 
     app.get('/login', (req, res) => {
         res.render('pages/login'); //{<JSON data required to render the page, if applicable>}
       });
 
-    //A, Part 8
-
+    
+    //Login logic
     app.post('/login', async (req, res) => {
         //the logic goes here
         // const match = await bcrypt.compare(req.body.password, user.password); //await is explained in #8
@@ -123,10 +140,25 @@ const dbConfig = {
         })
 
       });
-    app.get('/home', (req, res) => {
-        res.render('pages/home'); //{<JSON data required to render the page, if applicable>}
-      });
-        // Authentication Middleware.
+
+    //Rendering home again when you checkout 
+
+    app.get("/logout", (req, res) => {
+      req.session.destroy();
+      res.render("pages/login", {message: 'Logged out Successfully'});
+    });
+
+
+
+      app.listen(3000);
+console.log('Server is listening on port 3000');
+
+
+
+
+
+
+     // Authentication Middleware.
     // const auth = (req, res, next) => {
     //     if (!req.session.user) {
     //     // Default to register page.
@@ -136,40 +168,28 @@ const dbConfig = {
     // };
     
     // Authentication Required
-    app.use(auth);
-      
-      app.get('/search', (req, res) => {
-            var query = `SELECT ItemName, CategoryName, Description, url
-            FROM Items 
-            INNER JOIN Categories ON Item.ItemID = Categories.ItemID 
-            LEFT OUTER JOIN Images ON ____
-              WHERE ____ LIKE *$1*
-              OR _____ LIKE *$1*;`
-
-            db.any(query, [ 
-              req.body.search
-            ])
-
-            .then(results => {
-                console.log(results.data); // the results will be displayed on the terminal if the docker containers are running
-             // Send some parameters
-             res.render('pages/home', {results: results.data});
-             //print out/present the results etc
-            })
-            .catch(error => {
-            // Handle errors
-            res.render('pages/home', {results: []});
-            })
-      });
-      app.post()
-      app.get("/logout", (req, res) => {
-        req.session.destroy();
-        res.render("pages/login", {message: 'Logged out Successfully'});
-      });
-      app.post('/checkout', async (req, res) => {
-        
-      });
+    // app.use(auth);
 
 
-      app.listen(3000);
-console.log('Server is listening on port 3000');
+    // app.get('/discover', (req, res) => {
+    //     axios({
+    //         url: `https://app.ticketmaster.com/discovery/v2/events.json`,
+    //             method: 'GET',
+    //             dataType:'json',
+    //             params: {
+    //                 "apikey": req.session.user.api_key,
+    //                 "keyword": "Coldplay", //you can choose any artist/event here
+    //                 "size": 11,
+    //             }
+    //         })
+    //         .then(results => {
+    //             console.log(results.data); // the results will be displayed on the terminal if the docker containers are running
+    //          // Send some parameters
+    //          res.render('pages/discover', {results: results.data});
+    //          //print out/present the results etc
+    //         })
+    //         .catch(error => {
+    //         // Handle errors
+    //         res.render('pages/discover', {results: []});
+    //         })
+    //   });
