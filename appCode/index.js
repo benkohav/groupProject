@@ -127,33 +127,33 @@ const dbConfig = {
     // };
     
     // Authentication Required
-    app.use(auth);
+    // app.use(auth);
       
-    app.get('/search', (req, res) => {
-            var query = `SELECT ItemName, Category.CategoryName, Subcategory.CategoryName, Category.Description, URL
-            FROM Items 
-            INNER JOIN Categories ON Item.ItemID = Categories.ItemID 
-            INNER JOIN Categories Subcategory ON Categories.SubcategoryID = SubCategory.CategoryID 
-            LEFT OUTER JOIN Images ON 
-              WHERE ItemName LIKE %$1%
-              Categories.CategoryName LIKE %$1%
-              OR Subcategory.CategoryName LIKE %$1%;`
+    // app.get('/search', (req, res) => {
+    //         var query = `SELECT ItemName, Category.CategoryName, Subcategory.CategoryName, Category.Description, URL
+    //         FROM Items 
+    //         INNER JOIN Categories ON Item.ItemID = Categories.ItemID 
+    //         INNER JOIN Categories Subcategory ON Categories.SubcategoryID = SubCategory.CategoryID 
+    //         LEFT OUTER JOIN Images ON 
+    //           WHERE ItemName LIKE %$1%
+    //           Categories.CategoryName LIKE %$1%
+    //           OR Subcategory.CategoryName LIKE %$1%;`
 
-            db.any(query, [ 
-              req.body.search
-            ])
+    //         db.any(query, [ 
+    //           req.body.search
+    //         ])
 
-            .then(results => {
-                console.log(results.data); // the results will be displayed on the terminal if the docker containers are running
-             // Send some parameters
-             res.render('pages/home', {results: results.data});
-             //print out/present the results etc
-            })
-            .catch(error => {
-            // Handle errors
-            res.render('pages/home', {results: []});
-            })
-      });
+    //         .then(results => {
+    //             console.log(results.data); // the results will be displayed on the terminal if the docker containers are running
+    //          // Send some parameters
+    //          res.render('pages/home', {results: results.data});
+    //          //print out/present the results etc
+    //         })
+    //         .catch(error => {
+    //         // Handle errors
+    //         res.render('pages/home', {results: []});
+    //         })
+    //   });
       app.get('/logout', (req, res) => {
         req.session.destroy();
         res.render('pages/login', {message: 'Logged out Successfully'});
