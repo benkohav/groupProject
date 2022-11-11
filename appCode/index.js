@@ -82,7 +82,7 @@ const dbConfig = {
     //Register logic 
     app.post('/register', async (req, res) => {
         const hash = await bcrypt.hash(req.body.password, 10);
-        var query = "INSERT INTO users (username,password) values ($1, $2);";
+        var query = "INSERT INTO userTable (username,password) values ($1, $2);";
 
         db.any(query, [ 
         req.body.username,
@@ -108,7 +108,7 @@ const dbConfig = {
         //the logic goes here
         // const match = await bcrypt.compare(req.body.password, user.password); //await is explained in #8
 
-        var query = "SELECT password FROM users WHERE username = $1 LIMIT 1;"
+        var query = "SELECT password FROM userTable WHERE userName = $1 LIMIT 1;"
 
         db.any(query, [ 
         req.body.username
