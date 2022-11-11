@@ -19,6 +19,14 @@ const dbConfig = {
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
   };
+
+  const user = {
+    username: undefined,
+    password: undefined,
+    item: undefined,
+    timeRent: undefined,
+    timeReturn: undefined,
+  };
   
   const db = pgp(dbConfig);
   
@@ -45,19 +53,34 @@ const dbConfig = {
           extended: true,
         })
       );
-      app.listen(3000);
-      console.log('Server is listening on port 3000');
 
-      app.get('/', (req, res) =>{
-        res.redirect('/login'); //this will call the /anotherRoute route in the API
-      });
+    //Rendering login
+    app.get('/', (req, res) =>{
+      res.redirect('/login'); //this will call the /anotherRoute route in the API
+    });
 
+    //Rendering register
     app.get('/register', (req, res) => {
         res.render('pages/register'); //{<JSON data required to render the page, if applicable>}
       });
 
+    //Rendering register
+    app.get('/profile', (req, res) => {
+      res.render('pages/profile'); //{<JSON data required to render the page, if applicable>}
+    });
+
+    //Rendering home
+    app.get('/home', (req, res) => {
+      res.render('pages/home'); //{<JSON data required to render the page, if applicable>}
+    });
+
+    //Rendering checkout
+    app.get('/checkout', (req, res) => {
+      res.render('pages/checkout'); //{<JSON data required to render the page, if applicable>}
+    });
+
+    //Register logic 
     app.post('/register', async (req, res) => {
-        //the logic goes here
         const hash = await bcrypt.hash(req.body.password, 10);
         var query = "INSERT INTO userTable (username,password) values ($1, $2);";
 
@@ -74,15 +97,18 @@ const dbConfig = {
 
       });
 
+    //Render of Login from pages 
     app.get('/login', (req, res) => {
         res.render('pages/login'); //{<JSON data required to render the page, if applicable>}
       });
 
+    
+    //Login logic
     app.post('/login', async (req, res) => {
         //the logic goes here
-        const match = await bcrypt.compare(req.body.password, user.password); //await is explained in #8
+        // const match = await bcrypt.compare(req.body.password, user.password); //await is explained in #8
 
-        var query = "SELECT password FROM User WHERE username = $1 LIMIT 1;"
+        var query = "SELECT password FROM userTable WHERE userName = $1 LIMIT 1;"
 
         db.any(query, [ 
         req.body.username
@@ -165,4 +191,25 @@ const dbConfig = {
       });
 
 
-      
+    // app.get('/discover', (req, res) => {
+    //     axios({
+    //         url: `https://app.ticketmaster.com/discovery/v2/events.json`,
+    //             method: 'GET',
+    //             dataType:'json',
+    //             params: {
+    //                 "apikey": req.session.user.api_key,
+    //                 "keyword": "Coldplay", //you can choose any artist/event here
+    //                 "size": 11,
+    //             }
+    //         })
+    //         .then(results => {
+    //             console.log(results.data); // the results will be displayed on the terminal if the docker containers are running
+    //          // Send some parameters
+    //          res.render('pages/discover', {results: results.data});
+    //          //print out/present the results etc
+    //         })
+    //         .catch(error => {
+    //         // Handle errors
+    //         res.render('pages/discover', {results: []});
+    //         })
+    //   });

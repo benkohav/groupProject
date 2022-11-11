@@ -1,3 +1,24 @@
+INSERT INTO userTable (userID, userName, password, email)
+VALUES ('0', 'Tom B. Erichsen', 'password1', 'email1');
+INSERT INTO userTable (userID, userName, password, email)
+VALUES ('1', '111111111111', 'password2', 'email2');
+INSERT INTO userTable (userID, userName, password, email)
+VALUES ('2', '22222222222', 'password3', 'email3');
+INSERT INTO userTable (userID, userName, password, email)
+VALUES ('3', '333333333', 'password4', 'email4');
+INSERT INTO userTable (userID, userName, password, email)
+VALUES ('4', '4444444444', 'password5', 'email5');
+INSERT INTO userTable (userID, userName, password, email)
+VALUES ('5', '555555555555', 'password6', 'email6');
+INSERT INTO userTable (userID, userName, password, email)
+VALUES ('6', '6666666666', 'password7', 'email7');
+INSERT INTO userTable (userID, userName, password, email)
+VALUES ('7', '77777777777', 'password8', 'email8');
+INSERT INTO userTable (userID, userName, password, email)
+VALUES ('8', '88888888', 'password9', 'email9');
+INSERT INTO userTable (userID, userName, password, email)
+VALUES ('9', '9999999999', 'password10', 'email10');
+
 INSERT INTO Category (CategoryID, CategoryName, CategoryDescription, Brand)
 VALUES ('70', 'Laptop', 'description1', 'what brand2222');
 INSERT INTO Category (CategoryID, CategoryName, CategoryDescription, Brand)
