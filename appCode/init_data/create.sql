@@ -11,6 +11,7 @@
 CREATE TABLE users(
   username VARCHAR(50) PRIMARY KEY,   /* the primary key for each entry */
   password CHAR(60) NOT NULL,
+  fullName CHAR(60),
   email CHAR(60),
   phone CHAR(60),
   schoolYear CHAR(60)

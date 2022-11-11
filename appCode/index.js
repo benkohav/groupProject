@@ -74,6 +74,11 @@ const dbConfig = {
       res.render('pages/home'); //{<JSON data required to render the page, if applicable>}
     });
 
+    //Rendering help page
+    app.get('/help', (req, res) => {
+      res.render('pages/help'); //{<JSON data required to render the page, if applicable>}
+    });
+
     //Rendering checkout
     app.get('/checkout', (req, res) => {
       res.render('pages/checkout'); //{<JSON data required to render the page, if applicable>}
