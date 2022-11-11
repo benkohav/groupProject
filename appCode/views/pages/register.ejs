@@ -8,6 +8,24 @@
     <form action="/register" method="POST">
         <p> Username: <input id = "username" name = "username"></p>
         <p>Password: <input id = "password" name = "password"></p>
+        <p>First Name: <input id = "firstName" name = "firstName"></p>
+        <p>Last Name: <input id = "lastName" name = "lastName"></p>
+        <p>Email Address: <input id = "email" name = "email"></p>
+
+        <div class="mb-3">
+          <label for="disabledSelect" class="form-label">School Year?</label>
+          <select id="schoolYear" class="form-select">
+            <option selected disabled>Please Select</option>
+            <option value="Undergraduate, Freshman">Undergraduate, Freshman</option>
+            <option value="Undergraduate, Sophomore">Undergraduate, Sophomore</option>
+            <option value="Undergraduate, Junior">Undergraduate, Junior</option>
+            <option value="Undergraduate, Senior">Undergraduate, Senior</option>
+            <option value = "Graduate Student">Graduate Student</option>
+            <option value="Postgraduate">Postgraduate</option>
+            <option value="Faculty">Faculty</option>
+          </select>
+      </div>
+
      <button type="submit" id="submitButton" class="btn btn-primary">Register</button>
      </form>
   </div>

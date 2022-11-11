@@ -87,11 +87,15 @@ const dbConfig = {
     //Register logic 
     app.post('/register', async (req, res) => {
         const hash = await bcrypt.hash(req.body.password, 10);
-        var query = "INSERT INTO userTable (username, password) values ($1, $2);";
+        var query = "INSERT INTO userTable (username, password, firstName, lastName, email, schoolYear) values ($1, $2, $3, $4, $5, $6);";
 
         db.any(query, [ 
         req.body.username,
-        hash
+        hash,
+        req.body.firstName,
+        req.body.lastName,
+        req.body.email,
+        req.body.schoolYear
       ])
         .then(function (data) {
             res.redirect('/login');
