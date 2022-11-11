@@ -1,7 +1,3 @@
--- INSERT INTO Category (CategoryName, CategoryDescription, Brand, SubcategoryID) VALUES
--- ('iPad', 'A tablet manufactured by Apple', 'Apple', 2),
--- ('Tablet', 'A flat screen', NULL, NULL);
-
 INSERT INTO userTable (userID, userName, password, email)
 VALUES ('0', 'Tom B. Erichsen', 'password1', 'email1');
 INSERT INTO userTable (userID, userName, password, email)
@@ -87,7 +83,6 @@ INSERT INTO Image (ImageID, URL, CategoryID)
 VALUES ('2100', 'https://www.google.com/imgres?imgurl=https%3A%2F%2Fm.media-amazon.com%2Fimages%2FI%2F31OJZyIDWML._AC_.jpg&imgrefurl=https%3A%2F%2Fwww.amazon.com%2FMoKo-Tablet-Foldable-Multi-Angle-Holder%2Fdp%2FB017TU5KMQ&tbnid=rRJTbEdI4NFY5M&vet=12ahUKEwjv38LahqP7AhWrnWoFHdQ9CLIQMygOegUIARCGAw..i&docid=8QvOSHHhkErf6M&w=494&h=308&q=phone%20tablet&ved=2ahUKEwjv38LahqP7AhWrnWoFHdQ9CLIQMygOegUIARCGAw', '160');
 
 
-
 INSERT INTO History (userID, ItemID, timeReturned, payBy)
 VALUES ('0', '6000', '20:10:30', '2022-12-01');
 INSERT INTO History (userID, ItemID, timeReturned, payBy)
@@ -108,4 +103,3 @@ INSERT INTO History (userID, ItemID, timeReturned, payBy)
 VALUES ('8', '14000', '20:02:30', '2022-12-09');
 INSERT INTO History (userID, ItemID, timeReturned, payBy)
 VALUES ('9', '15000', '10:22:30', '2022-12-10');
-
