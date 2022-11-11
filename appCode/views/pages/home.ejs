@@ -1,8 +1,8 @@
 <%- include ('../partials/header') %>
 <%- include ('../partials/menu') %>
 
-<main>
 
+<body>
   <div class="container">
     
     <h1>Home</h1>
@@ -10,43 +10,49 @@
     <p> &nbsp&nbsp&nbsp&nbsp&nbsp The Tech Libray is a place where you can rent technology that we have in stock. Its very easy to use just sign in and then search for an item in the search bar above.</p>
     <p>When you have added all of your items just click checkout at the top and it will walk you through the rest. Down below we have a list of the most commonly rented items.</p>
 
-    <table>
-   <form>
+   <table class = "table"><center>
+   
+   <thead>
     <tr>
+        
         <th> Item Name </th>
-        <th> &nbsp &nbsp URL  </th>
-        <th> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Brand </th>
+        <th> Picture  </th>
+        <th> Brand </th>
+        <th></th>
     </tr>
-  </form> 
-    
-    
+    </thead>
 
+    
+    
+    <tbody>
     <% Item.forEach(function(Item){ %>
         
-         <tr>
-        <td> <%= Item.name %> <td>
-        <td> <%= Item.URL %></td>
-        <td> <%= Item.Brand %></td>
+        <tr>
+            <td> <%= Item.name %> </td>
+            <td> <img src=<%= Item.url %> alt= <%= Item.name %> height=100 width=100></img> </td>
+            <td> <%= Item.brand %></td>
         
-        
-        <form id ="form3" action = '/add' method = 'POST'>
-        <td> <button type="submit" name = 'item_id' value = '<%= Item.name %>'> ADD </button> </td>
-        </form> 
-        
+            <td>
+                <form id ="form3" action = '/add' method = 'POST'>
+                 <button type="submit" name = 'item_id' value = '<%= Item.itemid %>'> ADD </button> 
+                </form> 
+            </td>
         
         </tr>
-        
-        
+      
 
      <% }) %> 
-    
+    </tbody>
   
-    
+    </center>
   </table>
   
   </div>
- 
-  
-</main>
+  <script>
+  //Turn into function
+  let cart = JSON.parse(localStorage.setItem("cart") || "[]");
+  cart.push("newitem");
+  localStorage.setItem("cart", JSON.stringify(cart));
+  </script>
 
 <%- include ('../partials/footer') %>

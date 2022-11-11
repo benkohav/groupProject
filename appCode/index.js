@@ -77,10 +77,12 @@ app.get('/home', (req, res) => {
     //const ITEMS = 'SELECT Item.name, Item.URL, Item.Brand, Item.ItemID FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID WHERE Item.ItemID IN (SELECT ItemID FROM Item GROUP BY ItemID HAVING COUNT(*) > 1)';
     //const ITEMS = 'SELECT Item.name, Item.URL, Item.Brand, Item.ItemID FROM( SELECT Item.name, Item.URL, Item.Brand, Item.ItemID,COUNT(*) OVER(PARTITION BY ) AS cnt FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID) AS t WHERE t.cnt > 1;';
     //const ITEMS = 'SELECT Item.name, Item.URL, Item.Brand, Item.ItemID, counter.count FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID LEFT JOIN (SELECT Item.ItemID, count(Item.ItemID) as count FROM Item GROUP BY Item.ItemID) counter ON counter.ItemID = Item.ItemID ORDER BY counter.count DESC;';
-    const ITEMS = 'SELECT Item.name, COUNT(Item.ItemID) FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID Group By Item.name ORDER BY COUNT(Item.ItemID) DESC LIMIT 10;';
+    //const ITEMS = 'SELECT Item.name, COUNT(Item.ItemID) FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID Group By Item.name ORDER BY COUNT(Item.ItemID) DESC LIMIT 10;';
     //const ITEMS = 'SELECT * From Item;';
+    const ITEMS = 'SELECT Item.name, Item.Brand, Item.URL,Item.ItemID FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID Group By Item.name, Item.Brand, Item.URl,Item.ItemID ORDER BY COUNT(UsersToItem.userID) DESC LIMIT 10;';
     db.query(ITEMS)
         .then((Item) => {
+            console.log(Item);
             res.render("pages/home", { Item });
         })
         .catch((err) => {
@@ -94,7 +96,60 @@ app.get('/home', (req, res) => {
         //res.render('pages/home');
     });
     app.post("/add", (req, res) => {
-        
+        const course_id = parseInt(req.body.course_id);
+        db.tx(async (t) => {
+            // This transaction will continue iff the student has satisfied all the
+            // required prerequisites.
+            const { num_prerequisites } = await t.one(
+                `SELECT
+        num_prerequisites
+       FROM
+        course_prerequisite_count
+       WHERE
+        course_id = $1`,
+                [course_id]
+            );
+
+            if (num_prerequisites > 0) {
+                // This returns [] if the student has not taken any prerequisites for
+                // the course.
+                const [row] = await t.any(
+                    `SELECT
+              num_prerequisites_satisfied
+            FROM
+              student_prerequisite_count
+            WHERE
+              course_id = $1
+              AND student_id = $2`,
+                    [course_id, req.session.user.student_id]
+                );
+
+                if (!row || row.num_prerequisites_satisfied < num_prerequisites) {
+                    throw new Error(`Prerequisites not satisfied for course ${course_id}`);
+                }
+            }
+
+            // There are either no prerequisites, or all have been taken.
+            await t.none(
+                "INSERT INTO student_courses(course_id, student_id) VALUES ($1, $2);",
+                [course_id, req.session.user.student_id]
+            );
+            return t.any(all_courses, [req.session.user.student_id]);
+        })
+            .then((courses) => {
+                //console.info(courses);
+                res.render("pages/courses", {
+                    courses,
+                    message: `Successfully added course ${req.body.course_id}`,
+                });
+            })
+            .catch((err) => {
+                res.render("pages/courses", {
+                    courses: [],
+                    error: true,
+                    message: err.message,
+                });
+            });
     });
     //Rendering checkout
     app.get('/checkout', (req, res) => {
@@ -144,6 +199,7 @@ app.get('/home', (req, res) => {
             {
                 req.session.user = {
                     api_key: process.env.API_KEY,
+                    username: req.body.username
                   };
                   req.session.save();
                 res.redirect('/home');
