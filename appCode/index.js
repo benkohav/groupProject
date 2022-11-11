@@ -74,6 +74,11 @@ const dbConfig = {
       res.render('pages/home'); //{<JSON data required to render the page, if applicable>}
     });
 
+    //Rendering help page
+    app.get('/help', (req, res) => {
+      res.render('pages/help'); //{<JSON data required to render the page, if applicable>}
+    });
+
     //Rendering checkout
     app.get('/checkout', (req, res) => {
       res.render('pages/checkout'); //{<JSON data required to render the page, if applicable>}
@@ -82,17 +87,21 @@ const dbConfig = {
     //Register logic 
     app.post('/register', async (req, res) => {
         const hash = await bcrypt.hash(req.body.password, 10);
-        var query = "INSERT INTO users (username,password) values ($1, $2);";
+        var query = "INSERT INTO users (username, password, firstName, lastName, email, schoolYear) values ($1, $2, $3, $4, $5, $6);";
 
         db.any(query, [ 
         req.body.username,
-        hash
+        hash,
+        req.body.firstName,
+        req.body.lastName,
+        req.body.email,
+        req.body.schoolYear
       ])
         .then(function (data) {
             res.redirect('/login');
         })
         .catch(function (err) {
-            res.redirect('/register');
+          res.render('pages/register',{message: 'Error. Please try registering again.'} );
         })
 
       });
@@ -108,7 +117,7 @@ const dbConfig = {
         //the logic goes here
         // const match = await bcrypt.compare(req.body.password, user.password); //await is explained in #8
 
-        var query = "SELECT password FROM users WHERE username = $1 LIMIT 1;"
+        var query = "SELECT password FROM userTable WHERE userName = $1 LIMIT 1;"
 
         db.any(query, [ 
         req.body.username
