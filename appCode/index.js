@@ -82,17 +82,20 @@ const dbConfig = {
     //Register logic 
     app.post('/register', async (req, res) => {
         const hash = await bcrypt.hash(req.body.password, 10);
-        var query = "INSERT INTO users (username,password) values ($1, $2);";
+        var query = "INSERT INTO users (username, password, email, phone, schoolYear) values ($1, $2, $3, $4, $5);";
 
         db.any(query, [ 
         req.body.username,
-        hash
+        hash,
+        req.body.email,
+        req.body.phone,
+        req.body.schoolYear
       ])
         .then(function (data) {
             res.redirect('/login');
         })
         .catch(function (err) {
-            res.redirect('/register');
+          res.render('pages/register',{message: 'Error. Please try registering again.'} );
         })
 
       });
