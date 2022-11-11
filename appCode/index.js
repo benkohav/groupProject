@@ -70,10 +70,32 @@ const dbConfig = {
     });
 
     //Rendering home
-    app.get('/home', (req, res) => {
-      res.render('pages/home'); //{<JSON data required to render the page, if applicable>}
+app.get('/home', (req, res) => {
+    //GROUP BY (Item.ItemID)
+    //DISTINCT
+    //SELECT Item.name, Item.URL, Item.Brand FROM users JOIN UsersToItem ON users.userID = UsersToItem.userID JOIN Item ON UsersToItem.ItemID = Item.ItemID ORDER BY COUNT UsersToItem.ItemID ASC LIMIT 2;
+    const ITEMS = 'SELECT Item.name, Item.URL, Item.Brand, Item.ItemID FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID WHERE Item.ItemID IN (SELECT ItemID FROM Item GROUP BY ItemID HAVING COUNT(*) > 1)';
+    //const ITEMS = 'SELECT Item.name, Item.URL, Item.Brand, Item.ItemID FROM( SELECT Item.name, Item.URL, Item.Brand, Item.ItemID,COUNT(*) OVER(PARTITION BY ) AS cnt FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID) AS t WHERE t.cnt > 1;';
+    //const ITEMS = 'SELECT Item.name, Item.URL, Item.Brand, Item.ItemID, counter.count FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID LEFT JOIN (SELECT Item.ItemID, count(Item.ItemID) as count FROM Item GROUP BY Item.ItemID) counter ON counter.ItemID = Item.ItemID ORDER BY counter.count DESC;';
+    
+    //const ITEMS = 'SELECT * From Item;';
+    db.query(ITEMS)
+        .then((Item) => {
+            res.render("pages/home", { Item });
+        })
+        .catch((err) => {
+            res.render("pages/home", {
+                Item: [],
+                error: true,
+                message: err.message,
+            });
+        });
+      
+        //res.render('pages/home');
     });
-
+    app.post("/add", (req, res) => {
+        
+    });
     //Rendering checkout
     app.get('/checkout', (req, res) => {
       res.render('pages/checkout'); //{<JSON data required to render the page, if applicable>}

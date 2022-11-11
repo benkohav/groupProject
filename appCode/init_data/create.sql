@@ -9,12 +9,27 @@
 -- );
 
 CREATE TABLE users(
+  userID SERIAL UNIQUE,
   username VARCHAR(50) PRIMARY KEY,   /* the primary key for each entry */
   password CHAR(60) NOT NULL,
   item CHAR(60),
   timeRent CHAR(60),
   timeReturn CHAR(60)
 );
+
+CREATE TABLE Item(
+  ItemID SERIAL UNIQUE,
+  name VARCHAR(45),
+  URL VARCHAR(100),
+  Brand VARCHAR(45)
+);
+
+CREATE TABLE UsersToItem(
+  ItemID INT REFERENCES Item (ItemID),
+  userID INT REFERENCES users (userID)
+);
+
+
 
 -- CREATE TABLE users(
 --   userID PRIMARY KEY,

@@ -2,12 +2,51 @@
 <%- include ('../partials/menu') %>
 
 <main>
+
   <div class="container">
+    
     <h1>Home</h1>
     <p><center>Rules and How to Use</center> </p>
     <p> &nbsp&nbsp&nbsp&nbsp&nbsp The Tech Libray is a place where you can rent technology that we have in stock. Its very easy to use just sign in and then search for an item in the search bar above.</p>
     <p>When you have added all of your items just click checkout at the top and it will walk you through the rest. Down below we have a list of the most commonly rented items.</p>
+
+    <table>
+   <form>
+    <tr>
+        <th> Item Name </th>
+        <th> &nbsp &nbsp URL  </th>
+        <th> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Brand </th>
+    </tr>
+  </form> 
+    
+    
+
+    <% Item.forEach(function(Item){ %>
+        
+         <tr>
+        <td> <%= Item.name %> <td>
+        <td> <%= Item.URL %></td>
+        <td> <%= Item.Brand %></td>
+        
+        
+        <form id ="form3" action = '/add' method = 'POST'>
+        <td> <button type="submit" name = 'item_id' value = '<%= Item.name %>'> ADD </button> </td>
+        </form> 
+        
+        
+        </tr>
+        
+        
+
+     <% }) %> 
+    
+  
+    
+  </table>
+  
   </div>
+ 
+  
 </main>
 
 <%- include ('../partials/footer') %>
