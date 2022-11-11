@@ -1,14 +1,12 @@
-DROP TABLE IF EXISTS User ;
-CREATE TABLE IF NOT EXISTS User (
+CREATE TABLE userTable (
   userID SERIAL PRIMARY KEY,
   username VARCHAR(45) NOT NULL,
   password CHAR(60) NOT NULL,
-  email VARCHAR(45),
-  phone BIGINT(10)
+  email VARCHAR(45)
 );
 
-DROP TABLE IF EXISTS Category ;
-CREATE TABLE IF NOT EXISTS Category (
+
+CREATE TABLE Category (
   CategoryID SERIAL PRIMARY KEY,
   CategoryName VARCHAR(45),
   CategoryDescription VARCHAR(200),
@@ -17,26 +15,23 @@ CREATE TABLE IF NOT EXISTS Category (
 );
 
 
-DROP TABLE IF EXISTS Item ;
 CREATE TABLE IF NOT EXISTS Item (
   ItemId SERIAL PRIMARY KEY,
   ItemName VARCHAR(45),
   ItemDescription VARCHAR(200),
   Condition VARCHAR(200),
   CategoryID INT NOT NULL REFERENCES Category (CategoryID),
-  userID INT NOT NULL REFERENCES User (userID),
+  userID INT NOT NULL REFERENCES userTable (userID),
   timeBorrowed DATETIME,
   timeReturned DATETIME
 );
 
-DROP TABLE IF EXISTS Image ;
 CREATE TABLE IF NOT EXISTS Image (
   ImageID SERIAL PRIMARY KEY,
   URL VARCHAR(45),
   CategoryID INT NOT NULL REFERENCES Category (CategoryID)
 );
 
-DROP TABLE IF EXISTS History ;
 CREATE TABLE IF NOT EXISTS History (
   userID INT NOT NULL REFERENCES User (userID),
   ItemID INT NOT NULL REFERENCES Item (ItemId),

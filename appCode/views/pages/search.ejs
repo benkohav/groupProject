@@ -10,6 +10,19 @@
       <input type="text" class="form-control" id="search" name ="search">
       <button id="submit_button" class="btn btn-secondary" type="submit">Search</button>
     </form>
+            <% 
+            if (results) {
+                var tab = '';
+                tab += '<table> <thead> <tr> <th>Name of Item</th> <th width = 300></th> <th></th> </tr> <br> </thead> <tbody>'
+                results.forEach(function(item){
+                  tab+= '<tr>';
+
+                  tab+= '</tr>';
+                }); 
+                tab += '</tbody></table>';
+                %>
+               <%- tab %>
+              <% } %>
   </div>
 </main>
 

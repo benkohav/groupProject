@@ -59,7 +59,7 @@ const dbConfig = {
     app.post('/register', async (req, res) => {
         //the logic goes here
         const hash = await bcrypt.hash(req.body.password, 10);
-        var query = "INSERT INTO User (username,password) values ($1, $2);";
+        var query = "INSERT INTO userTable (username,password) values ($1, $2);";
 
         db.any(query, [ 
         req.body.username,
@@ -114,22 +114,24 @@ const dbConfig = {
         })
 
       });
+
     app.get('/home', (req, res) => {
-      res.render('pages/home'); //{<JSON data required to render the page, if applicable>}
+      res.render('pages/home', {results:0}); //{<JSON data required to render the page, if applicable>}
     });
         // Authentication Middleware.
-    // const auth = (req, res, next) => {
-    //     if (!req.session.user) {
-    //     // Default to register page.
-    //     return res.redirect('/register');
-    //     }
-    //     next();
-    // };
+    const auth = (req, res, next) => {
+        if (!req.session.user) {
+        // Default to register page.
+        return res.redirect('/register');
+        }
+        next();
+    };
     
     // Authentication Required
     app.use(auth);
       
     app.get('/search', (req, res) => {
+            console.log('Searching ...');
             var query = `SELECT ItemName, Category.CategoryName, Subcategory.CategoryName, Category.Description, URL
             FROM Items 
             INNER JOIN Categories ON Item.ItemID = Categories.ItemID 
@@ -146,7 +148,7 @@ const dbConfig = {
             .then(results => {
                 console.log(results.data); // the results will be displayed on the terminal if the docker containers are running
              // Send some parameters
-             res.render('pages/home', {results: results.data});
+             res.render('pages/search', {results: results.data});
              //print out/present the results etc
             })
             .catch(error => {
