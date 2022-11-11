@@ -3,7 +3,10 @@ CREATE TABLE userTable (
     userID SERIAL PRIMARY KEY,
     userName varchar(45) NOT NULL,
     password CHAR(60) NOT NULL,
-    email varchar(45)
+    firstName CHAR(60),
+    lastName CHAR(60),
+    email CHAR(60),
+    schoolYear CHAR(60)
 );
 -- INSERT INTO userTable (userID, userName, password, email)
 -- VALUES ('0', 'Tom B. Erichsen', 'password', 'email');

@@ -1,5 +1,5 @@
--- INSERT INTO userTable (userID, userName, password, email)
--- VALUES ('0', 'Tom B. Erichsen', 'password1', 'email1');
+INSERT INTO userTable (userID, userName, password, firstName, lastName, email, schoolYear)
+VALUES ('0', 'annasmith01', 'password1', 'Anna', 'Smith', 'anna.smith@colorado.edu', 'Undergraduate, Sophomore');
 -- INSERT INTO userTable (userID, userName, password, email)
 -- VALUES ('1', '111111111111', 'password2', 'email2');
 -- INSERT INTO userTable (userID, userName, password, email)
