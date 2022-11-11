@@ -74,10 +74,10 @@ app.get('/home', (req, res) => {
     //GROUP BY (Item.ItemID)
     //DISTINCT
     //SELECT Item.name, Item.URL, Item.Brand FROM users JOIN UsersToItem ON users.userID = UsersToItem.userID JOIN Item ON UsersToItem.ItemID = Item.ItemID ORDER BY COUNT UsersToItem.ItemID ASC LIMIT 2;
-    const ITEMS = 'SELECT Item.name, Item.URL, Item.Brand, Item.ItemID FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID WHERE Item.ItemID IN (SELECT ItemID FROM Item GROUP BY ItemID HAVING COUNT(*) > 1)';
+    //const ITEMS = 'SELECT Item.name, Item.URL, Item.Brand, Item.ItemID FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID WHERE Item.ItemID IN (SELECT ItemID FROM Item GROUP BY ItemID HAVING COUNT(*) > 1)';
     //const ITEMS = 'SELECT Item.name, Item.URL, Item.Brand, Item.ItemID FROM( SELECT Item.name, Item.URL, Item.Brand, Item.ItemID,COUNT(*) OVER(PARTITION BY ) AS cnt FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID) AS t WHERE t.cnt > 1;';
     //const ITEMS = 'SELECT Item.name, Item.URL, Item.Brand, Item.ItemID, counter.count FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID LEFT JOIN (SELECT Item.ItemID, count(Item.ItemID) as count FROM Item GROUP BY Item.ItemID) counter ON counter.ItemID = Item.ItemID ORDER BY counter.count DESC;';
-    
+    const ITEMS = 'SELECT Item.name, COUNT(Item.ItemID) FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID Group By Item.name ORDER BY COUNT(Item.ItemID) DESC LIMIT 10;';
     //const ITEMS = 'SELECT * From Item;';
     db.query(ITEMS)
         .then((Item) => {
