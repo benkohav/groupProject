@@ -1,32 +1,71 @@
 <%- include ('../partials/header') %>
 <%- include ('../partials/menu') %>
 
-<main>
-  <div class="col"><%- include ('../partials/message') %></div>
-  <div class = "container">
+var table = document.getElementById("mytab1");
+for (var i = 0, row; row = table.rows[i]; i++) {
+  //iterate through rows
+  //rows would be accessed using the "row" variable assigned in the for loop
+  for (var j = 0, col; col = row.cells[j]; j++) {
+    //iterate through columns
+    //columns would be accessed using the "col" variable assigned in the for loop
+  }  
+}
+
+
+
+
+<!-- <body>
+  <div class="container">
+    
     <h1>Home</h1>
-    <form action="/search" method="GET">
-      <label for="search" class="form-label"  >Search</label>
-      <input type="text" class="form-control" id="search" name ="search">
-      <button id="submit_button" class="btn btn-secondary" type="submit">Search</button>
-    </form>
-            <!-- <% 
-            if (results.data._embedded.events) {
-                var tab = '';
-                tab += '<table> <thead> <tr> <th>Name of Item</th> <th width = 300></th> <th></th> </tr> <br> </thead> <tbody>'
-                results.data.forEach(function(item){
-                  tab+= '<tr>';
-                  tab+= '<td>'+ item.name + '</td>';
-                  console.log(item.images)
-                  tab+= '<td>'+ '<img src = "' + item.images.url + '" alt = "No Image" height = 100 width = 220>' + '</td>';
-                  tab += '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#event-modal">Borrow</button>''
-                  tab+= '</tr>';
-                }); 
-                tab += '</tbody></table>'
-                %>
-               <%- tab %>
-              <% } %> -->
+    <p><center>Rules and How to Use</center> </p>
+    <p> &nbsp&nbsp&nbsp&nbsp&nbsp The Tech Libray is a place where you can rent technology that we have in stock. Its very easy to use just sign in and then search for an item in the search bar above.</p>
+    <p>When you have added all of your items just click checkout at the top and it will walk you through the rest. Down below we have a list of the most commonly rented items.</p>
+
+   <table class = "table"><center>
+   
+   <thead>
+    <tr>
+        
+        <th> Item Name </th>
+        <th> Picture  </th>
+        <th> Brand </th>
+        <th></th>
+    </tr>
+    </thead>
+
+    
+    
+    <tbody>
+    <% Item.forEach(function(Item){ %>
+        
+        <tr>
+            <td> <%= Item.name %> </td>
+            <td> <img src=<%= Item.url %> alt= <%= Item.name %> height=100 width=100></img> </td>
+            <td> <%= Item.brand %></td>
+        
+            <td>
+                <form id ="form3" action = '/add' method = 'POST'>
+                 <button type="submit" name = 'item_id' value = '<%= Item.itemid %>'> ADD </button> 
+                </form> 
+            </td>
+        
+        </tr>
+      
+     <% }) %> 
+    </tbody>
+  
+    </center>
+  </table>
+  
   </div>
-</main>
+  <script>
+  //Turn into function
+  let cart = JSON.parse(localStorage.setItem("cart") || "[]");
+  cart.push("newitem");
+  localStorage.setItem("cart", JSON.stringify(cart));
+  </script> -->
+
+<%- include ('../partials/footer') %>
 
 <%- include ('../partials/footer') %>

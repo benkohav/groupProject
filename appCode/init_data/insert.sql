@@ -1,23 +1,23 @@
-INSERT INTO userTable (userID, userName, password, email)
-VALUES ('0', 'Tom B. Erichsen', 'password1', 'email1');
-INSERT INTO userTable (userID, userName, password, email)
-VALUES ('1', '111111111111', 'password2', 'email2');
-INSERT INTO userTable (userID, userName, password, email)
-VALUES ('2', '22222222222', 'password3', 'email3');
-INSERT INTO userTable (userID, userName, password, email)
-VALUES ('3', '333333333', 'password4', 'email4');
-INSERT INTO userTable (userID, userName, password, email)
-VALUES ('4', '4444444444', 'password5', 'email5');
-INSERT INTO userTable (userID, userName, password, email)
-VALUES ('5', '555555555555', 'password6', 'email6');
-INSERT INTO userTable (userID, userName, password, email)
-VALUES ('6', '6666666666', 'password7', 'email7');
-INSERT INTO userTable (userID, userName, password, email)
-VALUES ('7', '77777777777', 'password8', 'email8');
-INSERT INTO userTable (userID, userName, password, email)
-VALUES ('8', '88888888', 'password9', 'email9');
-INSERT INTO userTable (userID, userName, password, email)
-VALUES ('9', '9999999999', 'password10', 'email10');
+-- INSERT INTO userTable (userID, userName, password, email)
+-- VALUES ('0', 'Tom B. Erichsen', 'password1', 'email1');
+-- INSERT INTO userTable (userID, userName, password, email)
+-- VALUES ('1', '111111111111', 'password2', 'email2');
+-- INSERT INTO userTable (userID, userName, password, email)
+-- VALUES ('2', '22222222222', 'password3', 'email3');
+-- INSERT INTO userTable (userID, userName, password, email)
+-- VALUES ('3', '333333333', 'password4', 'email4');
+-- INSERT INTO userTable (userID, userName, password, email)
+-- VALUES ('4', '4444444444', 'password5', 'email5');
+-- INSERT INTO userTable (userID, userName, password, email)
+-- VALUES ('5', '555555555555', 'password6', 'email6');
+-- INSERT INTO userTable (userID, userName, password, email)
+-- VALUES ('6', '6666666666', 'password7', 'email7');
+-- INSERT INTO userTable (userID, userName, password, email)
+-- VALUES ('7', '77777777777', 'password8', 'email8');
+-- INSERT INTO userTable (userID, userName, password, email)
+-- VALUES ('8', '88888888', 'password9', 'email9');
+-- INSERT INTO userTable (userID, userName, password, email)
+-- VALUES ('9', '9999999999', 'password10', 'email10');
 
 INSERT INTO Category (CategoryID, CategoryName, CategoryDescription, Brand)
 VALUES ('70', 'Laptop', 'description1', 'what brand2222');
@@ -40,26 +40,26 @@ VALUES ('150', 'Laptop8', 'description9', 'what brand1111111111');
 INSERT INTO Category (CategoryID, CategoryName, CategoryDescription, Brand)
 VALUES ('160', 'Laptop9', 'description10', 'what brand121212112');
 
-INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
-VALUES ('6000', 'ItemName1' ,'ItemDescription1', 'Condition1', '110' , '0', '10.00' , '1234', '5678');
-INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
-VALUES ('7000', 'ItemName2' ,'ItemDescription2', 'Condition2', '80' , '1', '12.00' ,'4321', '3421');
-INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
-VALUES ('8000', 'ItemName3' ,'ItemDescription3', 'Condition3', '90' , '2', '13.00' ,'1111', '2222');
-INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
-VALUES ('9000', 'ItemName4' ,'ItemDescription4', 'Condition4', '100' , '3', '16.00' ,'3434', '4545');
-INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
-VALUES ('10000', 'ItemName5' ,'ItemDescription5', 'Condition5', '90' , '4', '15.00' ,'7777', '1212');
-INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
-VALUES ('11000', 'ItemName6' ,'ItemDescription6', 'Condition6', '110' , '5', '9.00' , '1234', '5678');
-INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
-VALUES ('12000', 'ItemName7' ,'ItemDescription7', 'Condition7', '120' , '6', '2.00' ,'4321', '3421');
-INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
-VALUES ('13000', 'ItemName8' ,'ItemDescription8', 'Condition8', '130' , '7', '83.00' ,'1111', '2222');
-INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
-VALUES ('14000', 'ItemName9' ,'ItemDescription8', 'Condition9', '140' , '8', '14.00' ,'3434', '4545');
-INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
-VALUES ('15000', 'ItemName10' ,'ItemDescription10', 'Condition10', '150' , '9','15.00' , '7777', '1212');
+INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, rentPerDay, timeBorrowed, timeReturned)
+VALUES ('6000', 'ItemName1' ,'ItemDescription1', 'Condition1', '110' , '10.00' , '1234', '5678');
+INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, rentPerDay, timeBorrowed, timeReturned)
+VALUES ('7000', 'ItemName2' ,'ItemDescription2', 'Condition2', '80' , '12.00' ,'4321', '3421');
+INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, rentPerDay, timeBorrowed, timeReturned)
+VALUES ('8000', 'ItemName3' ,'ItemDescription3', 'Condition3', '90' , '13.00' ,'1111', '2222');
+INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, rentPerDay, timeBorrowed, timeReturned)
+VALUES ('9000', 'ItemName4' ,'ItemDescription4', 'Condition4', '100' , '16.00' ,'3434', '4545');
+INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, rentPerDay, timeBorrowed, timeReturned)
+VALUES ('10000', 'ItemName5' ,'ItemDescription5', 'Condition5', '90' , '15.00' ,'7777', '1212');
+INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, rentPerDay, timeBorrowed, timeReturned)
+VALUES ('11000', 'ItemName6' ,'ItemDescription6', 'Condition6', '110' , '9.00' , '1234', '5678');
+INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, rentPerDay, timeBorrowed, timeReturned)
+VALUES ('12000', 'ItemName7' ,'ItemDescription7', 'Condition7', '120' , '2.00' ,'4321', '3421');
+INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, rentPerDay, timeBorrowed, timeReturned)
+VALUES ('13000', 'ItemName8' ,'ItemDescription8', 'Condition8', '130' , '83.00' ,'1111', '2222');
+INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, rentPerDay, timeBorrowed, timeReturned)
+VALUES ('14000', 'ItemName9' ,'ItemDescription8', 'Condition9', '140', '14.00' ,'3434', '4545');
+INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, rentPerDay, timeBorrowed, timeReturned)
+VALUES ('15000', 'ItemName10' ,'ItemDescription10', 'Condition10', '150','15.00' , '7777', '1212');
 
 INSERT INTO Image (ImageID, URL, CategoryID)
 VALUES ('1200', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.science.org%2Fcontent%2Farticle%2Fthese-adorable-puppies-may-help-explain-why-dogs-understand-our-body-language&psig=AOvVaw24OXFHBDcLqoDqDU5bIuIN&ust=1668149428389000&source=images&cd=vfe&ved=0CBAQjhxqFwoTCIjpsIODo_sCFQAAAAAdAAAAABAE', '70');
@@ -83,23 +83,23 @@ INSERT INTO Image (ImageID, URL, CategoryID)
 VALUES ('2100', 'https://www.google.com/imgres?imgurl=https%3A%2F%2Fm.media-amazon.com%2Fimages%2FI%2F31OJZyIDWML._AC_.jpg&imgrefurl=https%3A%2F%2Fwww.amazon.com%2FMoKo-Tablet-Foldable-Multi-Angle-Holder%2Fdp%2FB017TU5KMQ&tbnid=rRJTbEdI4NFY5M&vet=12ahUKEwjv38LahqP7AhWrnWoFHdQ9CLIQMygOegUIARCGAw..i&docid=8QvOSHHhkErf6M&w=494&h=308&q=phone%20tablet&ved=2ahUKEwjv38LahqP7AhWrnWoFHdQ9CLIQMygOegUIARCGAw', '160');
 
 
-INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES ('0', '6000', '20:10:30', '2022-12-01');
-INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES ('1', '7000', '20:12:30', '2022-12-02');
-INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES ('2', '8000', '10:12:30', '2022-12-03');
-INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES ('3', '9000', '10:42:30', '2022-12-04');
-INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES ('4', '10000', '20:12:30', '2022-12-05');
-INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES ('5', '11000', '10:52:30', '2022-12-06');
-INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES ('6', '12000', '20:32:30', '2022-12-07');
-INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES ('7', '13000', '10:12:30', '2022-12-08');
-INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES ('8', '14000', '20:02:30', '2022-12-09');
-INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES ('9', '15000', '10:22:30', '2022-12-10');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('0', '6000', '20:10:30', '2022-12-01');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('1', '7000', '20:12:30', '2022-12-02');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('2', '8000', '10:12:30', '2022-12-03');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('3', '9000', '10:42:30', '2022-12-04');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('4', '10000', '20:12:30', '2022-12-05');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('5', '11000', '10:52:30', '2022-12-06');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('6', '12000', '20:32:30', '2022-12-07');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('7', '13000', '10:12:30', '2022-12-08');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('8', '14000', '20:02:30', '2022-12-09');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('9', '15000', '10:22:30', '2022-12-10');

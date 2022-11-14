@@ -119,11 +119,12 @@ const dbConfig = {
 
             if(match)
             {
+                // console.log('hello')
                 req.session.user = {
                     api_key: process.env.API_KEY,
                   };
                   req.session.save();
-                res.redirect('/home');
+                res.redirect('pages/home');
             }
             else{
               //{message: 'Password incorrect. Please try again.'}
