@@ -64,9 +64,24 @@ const dbConfig = {
         res.render('pages/register'); //{<JSON data required to render the page, if applicable>}
       });
 
-    //Rendering register
-    app.get('/profile', (req, res) => {
-      res.render('pages/profile'); //{<JSON data required to render the page, if applicable>}
+    //Rendering profile page
+    app.get("/profile", (req, res) => {
+      var profileQuery = "SELECT * FROM userTable WHERE userTable.userName = $1";
+      console.log(req.session.user.username);
+      db.any(profileQuery, [
+        req.session.user.username
+      ])
+      .then(data => 
+        {
+          console.log(data);
+        res.render("pages/profile", {
+          username: data[0].userName,
+          firstName: data[0].firstName,
+          lastName: data[0].lastName,
+          email: data[0].email,
+          schoolYear: data[0].schoolYear,
+        });
+      })
     });
 
     //Rendering home
@@ -120,7 +135,7 @@ const dbConfig = {
             if(match)
             {
                 req.session.user = {
-                    api_key: process.env.API_KEY,
+                    username: req.body.username,
                   };
                   req.session.save();
                 res.redirect('/home');
@@ -128,8 +143,6 @@ const dbConfig = {
             else{
               //{message: 'Password incorrect. Please try again.'}
               res.render('pages/login',{message: 'Password incorrect. Please try again.'} );
-              
-
             }
 
         })
@@ -144,16 +157,13 @@ const dbConfig = {
 
     //Rendering home again when you checkout 
 
-
     app.get("/logout", (req, res) => {
       req.session.destroy();
       res.render("pages/login", {message: 'Logged out Successfully'});
     });
 
-
-
       app.listen(3000);
-console.log('Server is listening on port 3000');
+      console.log('Server is listening on port 3000');
 
 
 

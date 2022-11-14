@@ -1,4 +1,4 @@
--- DROP TABLE userTable
+-- DROP TABLE IF EXISTS userTable
 CREATE TABLE userTable (
     userID SERIAL PRIMARY KEY,
     userName varchar(45) NOT NULL,
