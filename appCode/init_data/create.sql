@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS Item (
   ItemDescription VARCHAR(200),
   Condition VARCHAR(200),
   CategoryID INT NOT NULL REFERENCES Category (CategoryID),
-  userID INT NOT NULL REFERENCES userTable (userID),
+  userID INT REFERENCES userTable (userID),
   rentPerDay DECIMAL(10,2),
   timeBorrowed INT,
   timeReturned INT
