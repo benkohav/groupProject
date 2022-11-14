@@ -2,11 +2,7 @@
 CREATE TABLE userTable (
     userID SERIAL PRIMARY KEY,
     userName varchar(45) NOT NULL,
-    password CHAR(60) NOT NULL,
-    firstName CHAR(60),
-    lastName CHAR(60),
-    email CHAR(60),
-    schoolYear CHAR(60)
+    password CHAR(60) NOT NULL
 );
 -- INSERT INTO userTable (userID, userName, password, email)
 -- VALUES ('0', 'Tom B. Erichsen', 'password', 'email');
@@ -16,6 +12,7 @@ CREATE TABLE Category (
   CategoryID SERIAL PRIMARY KEY,
   CategoryName VARCHAR(45),
   CategoryDescription VARCHAR(200),
+  SubcategoryID INT REFERENCES Category (CategoryID),
   Brand VARCHAR(45)
 );
 -- INSERT INTO Category (CategoryID, CategoryName, CategoryDescription, Brand)
