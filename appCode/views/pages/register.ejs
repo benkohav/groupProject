@@ -1,19 +1,45 @@
 <%- include ('../partials/header') %>
-
+<!-- <head>
+  <link rel="stylesheet" href="../../resources/css/style.css">
+</head> -->
 <main>
     <div class="col"><%- include ('../partials/message') %></div>
-  <div class="container">
-    <!-- THE REST OF YOUR HTML CODE GOES HERE -->
-    <h1>Register</h1>
-    <form action="/register" method="POST">
-        <p> Username: <input id = "username" name = "username"></p>
-        <p>Password: <input id = "password" name = "password"></p>
-        <p>First Name: <input id = "firstName" name = "firstName"></p>
-        <p>Last Name: <input id = "lastName" name = "lastName"></p>
-        <p>Email Address: <input id = "email" name = "email"></p>
+    <div class="container">
+      <!-- THE REST OF YOUR HTML CODE GOES HERE -->
+      <div class="col">
+      </div>
+    <div class="col-md-6 mx-auto justify-content-center">
+      <h1>Register</h1>
+
+      <form action="/register" method="POST">
+
+        <div class="form-group">
+          <label for="username">Username: </label>
+          <input type="text" class="form-control" name="username" id="username" placeholder="Enter Username">
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="text" class="form-control" name="password" id="password" placeholder="Enter Password">
+        </div>
+
+        <div class="form-group">
+          <label for="firstName">First Name: </label>
+          <input type="text" class="form-control" name="firstName" id="firstName" placeholder="First Name">
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Last Name: </label>
+          <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Last Name">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email: </label>
+          <input type="text" class="form-control" name="email" id="email" placeholder="Enter Email Address">
+        </div>
 
         <div class="mb-3">
-          <label for="disabledSelect" class="form-label">School Year?</label>
+          <label for="disabledSelect" class="form-label">School Year:</label>
           <select id="schoolYear" class="form-select">
             <option selected disabled>Please Select</option>
             <option value="Undergraduate, Freshman">Undergraduate, Freshman</option>
@@ -26,11 +52,12 @@
           </select>
       </div>
 
+      <div class="d-flex align-items-center">
+        <div>Already have an account? <a href="/login">Login</a></div>
+      </div>
+      <hr>
      <button type="submit" id="submitButton" class="btn btn-primary">Register</button>
      </form>
-    <p>Already have an account?
-      <a href="/login" style="color: black;">Login Here </a>
-    </p>
   </div>
 </main>
 
