@@ -84,6 +84,11 @@ const dbConfig = {
       res.render('pages/checkout'); //{<JSON data required to render the page, if applicable>}
     });
 
+    //Rendering search
+    app.get('/search', (req, res) => {
+      res.render('pages/search', {results:undefined});
+    });
+
     //Register logic 
     app.post('/register', async (req, res) => {
         const hash = await bcrypt.hash(req.body.password, 10);
@@ -145,55 +150,62 @@ const dbConfig = {
         })
 
       });
+      app.post('/search', async (req, res) => {
+          console.log('Searching ...');
+          var query = `SELECT ItemName, Category.CategoryName, Subcategory.CategoryName, Category.Description, URL
+          FROM Items 
+          INNER JOIN Category ON Item.ItemID = Category.ItemID 
+          INNER JOIN Category Subcategory ON Category.SubcategoryID = SubCategory.CategoryID 
+          LEFT OUTER JOIN Images ON Category.CategoryID = Images.CategoryID
+            WHERE ItemName LIKE '%$1%'
+            Category.CategoryName LIKE '%$1%'
+            OR Subcategory.CategoryName LIKE '%$1%';`
 
-    app.get('/home', (req, res) => {
-      res.render('pages/home', {results:0}); //{<JSON data required to render the page, if applicable>}
+          db.any(query, [ 
+            req.body.search
+          ])
+
+          .then(results => {
+              console.log(results.data); // the results will be displayed on the terminal if the docker containers are running
+            // Send some parameters
+            res.render('pages/search', {results: results.data});
+            //print out/present the results etc
+          })
+          .catch(error => {
+          // Handle errors
+      res.render('pages/search', {results: [], message: 'Error'}); //{<JSON data required to render the page, if applicable>}
+      });
     });
-        // Authentication Middleware.
-    const auth = (req, res, next) => {
-        if (!req.session.user) {
-        // Default to register page.
-        return res.redirect('/register');
-        }
-        next();
-    };
+
+    //Rendering home again when you checkout 
+
+
+    app.get("/logout", (req, res) => {
+      req.session.destroy();
+      res.render("pages/login", {message: 'Logged out Successfully'});
+    });
+
+
+
+      app.listen(3000);
+console.log('Server is listening on port 3000');
+
+
+
+
+
+
+     // Authentication Middleware.
+    // const auth = (req, res, next) => {
+    //     if (!req.session.user) {
+    //     // Default to register page.
+    //     return res.redirect('/register');
+    //     }
+    //     next();
+    // };
     
     // Authentication Required
-    app.use(auth);
-      
-    app.get('/search', (req, res) => {
-            console.log('Searching ...');
-            var query = `SELECT ItemName, Category.CategoryName, Subcategory.CategoryName, Category.Description, URL
-            FROM Items 
-            INNER JOIN Categories ON Item.ItemID = Categories.ItemID 
-            INNER JOIN Categories Subcategory ON Categories.SubcategoryID = SubCategory.CategoryID 
-            LEFT OUTER JOIN Images ON 
-              WHERE ItemName LIKE %$1%
-              Categories.CategoryName LIKE %$1%
-              OR Subcategory.CategoryName LIKE %$1%;`
-
-            db.any(query, [ 
-              req.body.search
-            ])
-
-            .then(results => {
-                console.log(results.data); // the results will be displayed on the terminal if the docker containers are running
-             // Send some parameters
-             res.render('pages/search', {results: results.data});
-             //print out/present the results etc
-            })
-            .catch(error => {
-            // Handle errors
-            res.render('pages/home', {results: []});
-            })
-      });
-      app.get('/logout', (req, res) => {
-        req.session.destroy();
-        res.render('pages/login', {message: 'Logged out Successfully'});
-      });
-      app.post('/checkout', async (req, res) => {
-
-      });
+    // app.use(auth);
 
 
     // app.get('/discover', (req, res) => {
@@ -217,4 +229,4 @@ const dbConfig = {
     //         // Handle errors
     //         res.render('pages/discover', {results: []});
     //         })
-    //   });
+    //   })
