@@ -3,10 +3,10 @@ CREATE TABLE userTable (
     userID SERIAL PRIMARY KEY,
     userName varchar(45) NOT NULL,
     password CHAR(60) NOT NULL,
-    firstName CHAR(60),
-    lastName CHAR(60),
-    email CHAR(60),
-    schoolYear CHAR(60)
+    firstName VARCHAR(60),
+    lastName VARCHAR(60),
+    email VARCHAR(60),
+    schoolYear VARCHAR(60)
 );
 
 DROP TABLE IF EXISTS Category ;
@@ -14,6 +14,7 @@ CREATE TABLE Category (
   CategoryID SERIAL PRIMARY KEY,
   CategoryName VARCHAR(45),
   CategoryDescription VARCHAR(200),
+  SuperCategoryID INT REFERENCES Category (CategoryID),
   Brand VARCHAR(45)
 );
 -- INSERT INTO Category (CategoryID, CategoryName, CategoryDescription, Brand)
@@ -26,7 +27,7 @@ CREATE TABLE IF NOT EXISTS Item (
   ItemDescription VARCHAR(200),
   Condition VARCHAR(200),
   CategoryID INT NOT NULL REFERENCES Category (CategoryID),
-  userID INT NOT NULL REFERENCES userTable (userID),
+  userID INT REFERENCES userTable (userID),
   rentPerDay DECIMAL(10,2),
   timeBorrowed INT,
   timeReturned INT
@@ -47,6 +48,7 @@ CREATE TABLE IF NOT EXISTS History (
   ItemID INT NOT NULL REFERENCES Item (ItemId),
   timeReturned TIME,
   payBy DATE
+
 );
 
 -- INSERT INTO Image (userID, ItemID, timeReturned, payBy, histPK)
