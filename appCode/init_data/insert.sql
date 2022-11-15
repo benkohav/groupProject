@@ -18,8 +18,7 @@ VALUES ('annasmith01', 'password1', 'Anna', 'Smith', 'anna.smith@colorado.edu', 
 -- VALUES ('8', '88888888', 'password9', 'email9');
 -- INSERT INTO userTable (userID, userName, password, email)
 -- VALUES ('9', '9999999999', 'password10', 'email10');
-<<<<<<< HEAD
-=======
+
 
 -- INSERT INTO Category (CategoryID, CategoryName, CategoryDescription, Brand)
 -- VALUES ('70', 'Laptop', 'description1', 'what brand2222');
@@ -127,7 +126,6 @@ VALUES ('annasmith01', 'password1', 'Anna', 'Smith', 'anna.smith@colorado.edu', 
 -- -- INSERT INTO Category (CategoryName, CategoryDescription, Brand, SubcategoryID) VALUES
 -- -- ('iPad', 'A tablet manufactured by Apple', 'Apple', 2),
 -- -- ('Tablet', 'A flat screen', NULL, NULL);
->>>>>>> charlotte
 
 -- INSERT INTO Category (CategoryID, CategoryName, CategoryDescription, Brand)
 -- VALUES ('70', 'Laptop', 'description1', 'what brand2222');
@@ -171,7 +169,7 @@ VALUES ('annasmith01', 'password1', 'Anna', 'Smith', 'anna.smith@colorado.edu', 
 -- INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
 -- VALUES ('15000', 'ItemName10' ,'ItemDescription10', 'Condition10', '150' , '9','15.00' , '7777', '1212');
 
-<<<<<<< HEAD
+
 -- INSERT INTO Image (ImageID, URL, CategoryID)
 -- VALUES ('1200', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.science.org%2Fcontent%2Farticle%2Fthese-adorable-puppies-may-help-explain-why-dogs-understand-our-body-language&psig=AOvVaw24OXFHBDcLqoDqDU5bIuIN&ust=1668149428389000&source=images&cd=vfe&ved=0CBAQjhxqFwoTCIjpsIODo_sCFQAAAAAdAAAAABAE', '70');
 -- INSERT INTO Image (ImageID, URL, CategoryID)
@@ -214,7 +212,6 @@ VALUES ('annasmith01', 'password1', 'Anna', 'Smith', 'anna.smith@colorado.edu', 
 -- VALUES ('8', '14000', '20:02:30', '2022-12-09');
 -- INSERT INTO History (userID, ItemID, timeReturned, payBy)
 -- VALUES ('9', '15000', '10:22:30', '2022-12-10');
-=======
 
 
 
@@ -228,4 +225,3 @@ VALUES ('annasmith01', 'password1', 'Anna', 'Smith', 'anna.smith@colorado.edu', 
 -- ('Anna', 'Smith', 'annasmith01', 'anna.smith@colorado.edu', 'Macbook');
 
 -- INFO END
->>>>>>> charlotte

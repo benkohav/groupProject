@@ -9,7 +9,7 @@
             <div class="col">
                 <div class="card bg-secondary text-white" style="width: 25rem;">
                     <div class="card-body">
-                    <h5 class="card-title">ANNA<%= firstName %></h5>
+                    <h5 class="card-title"><%= firstName %> <%= lastName %></h5>
                     <p class="card-text">Account Holder</p>
                     </div>
                 </div>
@@ -19,13 +19,13 @@
                 <div class="card-body">
                 <h5 class="card-title">Contact Details</h5>
                 <p class="card-text">Edit your contact info here.</p>
-                <p>First Name:</p>
+                <p>First Name: <%= firstName %></p>
                 <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit First Name</button></td></th>
-                <p>Last Name:</p>
+                <p>Last Name: <%= lastName %></p>
                 <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit Last Name</button></td></th>
-                <p>Email:</p>
+                <p>Email: <%= email %></p>
                 <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit Email</button></td></th>
-                <p>University Year:</p>
+                <p>University Year: <%= schoolYear %></p>
                 <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit University Year</button></td></th>
             </div>
             </div>
@@ -36,7 +36,7 @@
                 <h5 class="card-title">Settings</h5>
                 <p class="card-text">Modify your username/password and shopping settings here. </p>
                 <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                <p>Username:</p>
+                <p>Username: <%= username %></p>
                 <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit Username</button></td></th>
                 <p>Password:</p>
                 <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit Password</button></td></th>
