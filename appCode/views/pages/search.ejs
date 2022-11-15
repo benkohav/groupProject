@@ -11,6 +11,12 @@
       <button id="submit_button" class="btn btn-secondary" type="submit">Search</button>
     </form>
             <% 
+            if (query){
+              var question = '<p>Showing Results For: ' + query + '</p>';
+            %>
+            <%- question %>
+              <% } %>
+            <%
             if (results) {
                 var tab = '';
                 tab += '<table> <thead> <tr> <th width = 100> ItemID </th> <th width = 100> Category </th> <th width = 100> SubCategory </th> <th width = 200> Image </th> <th> Add to Cart </th> </tr> <br> </thead> <tbody>'
@@ -30,4 +36,4 @@
   </div>
 </main>
 
-<%- include ('../partials/footer') %>
+<%- include ('../partials/footer') %>/
