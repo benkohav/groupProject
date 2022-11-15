@@ -152,23 +152,23 @@ const dbConfig = {
       });
       app.post('/search', async (req, res) => {
           console.log('Searching ...');
-          var query = `SELECT ItemName, Category.CategoryName, Subcategory.CategoryName, Category.Description, URL
-          FROM Items 
-          INNER JOIN Category ON Item.ItemID = Category.ItemID 
-          INNER JOIN Category Subcategory ON Category.SubcategoryID = SubCategory.CategoryID 
-          LEFT OUTER JOIN Images ON Category.CategoryID = Images.CategoryID
-            WHERE ItemName LIKE '%$1%'
-            Category.CategoryName LIKE '%$1%'
-            OR Subcategory.CategoryName LIKE '%$1%';`
+          var query = `SELECT ItemID, SubCategory.CategoryName as subcatname, SuperCategory.CategoryName as catname, SuperCategory.CategoryDescription, URL
+          FROM Item 
+          INNER JOIN Category SubCategory ON Item.CategoryID = SubCategory.CategoryID 
+          INNER JOIN Category SuperCategory ON SubCategory.SuperCategoryID = SuperCategory.CategoryID 
+          LEFT OUTER JOIN Image ON SubCategory.CategoryID = Image.CategoryID
+            WHERE ItemName LIKE $1
+            OR SubCategory.CategoryName LIKE $1
+            OR SuperCategory.CategoryName LIKE $1;`
 
           db.any(query, [ 
-            req.body.search
+            '%' + req.body.search.toLowerCase() + '%'
           ])
 
           .then(results => {
-              console.log(results.data); // the results will be displayed on the terminal if the docker containers are running
+              console.log(results); // the results will be displayed on the terminal if the docker containers are running
             // Send some parameters
-            res.render('pages/search', {results: results.data});
+            res.render('pages/search', {results: results});
             //print out/present the results etc
           })
           .catch(error => {

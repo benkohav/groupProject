@@ -13,7 +13,7 @@ CREATE TABLE Category (
   CategoryID SERIAL PRIMARY KEY,
   CategoryName VARCHAR(45),
   CategoryDescription VARCHAR(200),
-  SubcategoryID INT REFERENCES Category (CategoryID),
+  SuperCategoryID INT REFERENCES Category (CategoryID),
   Brand VARCHAR(45)
 );
 -- INSERT INTO Category (CategoryID, CategoryName, CategoryDescription, Brand)

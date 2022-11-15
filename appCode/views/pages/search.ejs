@@ -4,7 +4,7 @@
 <main>
   <div class="col"><%- include ('../partials/message') %></div>
   <div class = "container">
-    <h1>Home</h1>
+    <h1>Search</h1>
     <form action="/search" method="POST">
       <label for="search" class="form-label"  >Search</label>
       <input type="text" class="form-control" id="search" name ="search">
@@ -13,10 +13,14 @@
             <% 
             if (results) {
                 var tab = '';
-                tab += '<table> <thead> <tr> <th>Name of Item</th> <th width = 300></th> <th></th> </tr> <br> </thead> <tbody>'
+                tab += '<table> <thead> <tr> <th>ItemID</th> <th>Category</th> <th>SubCategory</th> <th>Image</th> <th>Add to Cart</th> </tr> <br> </thead> <tbody>'
                 results.forEach(function(item){
                   tab+= '<tr>';
-
+                  tab+= '<td>' + item.itemid + '</td>';
+                  tab+= '<td>' + item.catname + '</td>';
+                  tab+= '<td>' + item.subcatname + '</td>';
+                  tab+= '<td>' + '<img src = "' + item.url + '" alt = "No Image" height = 100 width = 220>' + '</td>';
+                  tab+= '<td><a href = "' + item.url + '">Book Now</a></td>';
                   tab+= '</tr>';
                 }); 
                 tab += '</tbody></table>';
