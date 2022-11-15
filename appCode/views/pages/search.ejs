@@ -13,13 +13,13 @@
             <% 
             if (results) {
                 var tab = '';
-                tab += '<table> <thead> <tr> <th>ItemID</th> <th>Category</th> <th>SubCategory</th> <th>Image</th> <th>Add to Cart</th> </tr> <br> </thead> <tbody>'
+                tab += '<table> <thead> <tr> <th width = 100> ItemID </th> <th width = 100> Category </th> <th width = 100> SubCategory </th> <th width = 200> Image </th> <th> Add to Cart </th> </tr> <br> </thead> <tbody>'
                 results.forEach(function(item){
                   tab+= '<tr>';
                   tab+= '<td>' + item.itemid + '</td>';
                   tab+= '<td>' + item.catname + '</td>';
                   tab+= '<td>' + item.subcatname + '</td>';
-                  tab+= '<td>' + '<img src = "' + item.url + '" alt = "No Image" height = 100 width = 220>' + '</td>';
+                  tab+= '<td>' + '<img src = "' + item.url + '" alt = "No Image" height = 150 width = 200>' + '</td>';
                   tab+= '<td><a href = "' + item.url + '">Book Now</a></td>';
                   tab+= '</tr>';
                 }); 
