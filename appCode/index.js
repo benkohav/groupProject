@@ -64,36 +64,81 @@ const dbConfig = {
         res.render('pages/register'); //{<JSON data required to render the page, if applicable>}
       });
 
-    //Rendering register
-    app.get('/profile', (req, res) => {
-      res.render('pages/profile'); //{<JSON data required to render the page, if applicable>}
+    //Rendering profile page
+    app.get("/profile", (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
+      var profileQuery = "SELECT * FROM userTable WHERE userTable.userName = $1";
+      console.log(req.session.user.username);
+      console.log('Testing');
+      db.any(profileQuery, [
+        req.session.user.username
+      ])
+      .then(data => 
+        {
+          // console.log(data.firstname);
+          username = data[0].username;
+          firstName = data[0].firstname;
+          lastName = data[0].lastname;
+          email = data[0].email;
+          schoolYear =  data[0].schoolyear;
+        res.render("pages/profile", {
+          username,
+          firstName,
+          lastName,
+          email,
+          schoolYear,
+        });
+      })
+      .catch(function (err) {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      })
     });
 
     //Rendering home
     app.get('/home', (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
       res.render('pages/home'); //{<JSON data required to render the page, if applicable>}
     });
 
     //Rendering help page
-    app.get('/help', (req, res) => {
-      res.render('pages/help'); //{<JSON data required to render the page, if applicable>}
+    app.get('/items', (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
+      res.render('pages/items'); //{<JSON data required to render the page, if applicable>}
     });
 
     //Rendering checkout
     app.get('/checkout', (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
       res.render('pages/checkout'); //{<JSON data required to render the page, if applicable>}
     });
 
     //Register logic 
     app.post('/register', async (req, res) => {
         const hash = await bcrypt.hash(req.body.password, 10);
-        var query = "INSERT INTO userTable (username, password) values ($1, $2);";
+        var query = "INSERT INTO userTable (username, password, firstName, lastName, email, schoolYear) values ($1, $2, $3, $4, $5, $6);";
 
         db.any(query, [ 
         req.body.username,
-        hash
+        hash,
+        req.body.firstName,
+        req.body.lastName,
+        req.body.email,
+        req.body.schoolYear
       ])
         .then(function (data) {
+            console.log(req.body.schoolYear);
             res.redirect('/login');
         })
         .catch(function (err) {
@@ -121,11 +166,11 @@ const dbConfig = {
         .then(async function (user) {
             // res.redirect('/login');
             const match = await bcrypt.compare(req.body.password, user[0].password);
-
+            var u_name = req.body.username;
             if(match)
             {
                 req.session.user = {
-                    api_key: process.env.API_KEY,
+                    username: u_name,
                   };
                   req.session.save();
                 res.redirect('/home');
@@ -133,8 +178,6 @@ const dbConfig = {
             else{
               //{message: 'Password incorrect. Please try again.'}
               res.render('pages/login',{message: 'Password incorrect. Please try again.'} );
-              
-
             }
 
         })
@@ -149,16 +192,13 @@ const dbConfig = {
 
     //Rendering home again when you checkout 
 
-
     app.get("/logout", (req, res) => {
       req.session.destroy();
       res.render("pages/login", {message: 'Logged out Successfully'});
     });
 
-
-
       app.listen(3000);
-console.log('Server is listening on port 3000');
+      console.log('Server is listening on port 3000');
 
 
 
