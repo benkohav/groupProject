@@ -4,8 +4,8 @@
 INSERT INTO userTable (userName, password, email)
 VALUES ( 'username', '$2b$10$xhjOIbZoN0z/P4hKl8kwyOsGio8RbixVcOgyAnIiXbMZLhaRVSjua', 'username@dummydata.com');
 -- password: password1
-INSERT INTO userTable (userName, password, email, firstName, lastName, email, schoolYear)
-VALUES ('annasmith01'', '$2b$10$IA06IGcYbT9QjJNAlILaMeAEVAmJUIuvsiZK/xAhUDKhu4QYSsnrm', 'Anna', 'Smith', 'anna.smith@colorado.edu', 'Undergraduate, Sophomore');
+INSERT INTO userTable (userName, password, firstName, lastName, email, schoolYear)
+VALUES ('annasmith01', '$2b$10$IA06IGcYbT9QjJNAlILaMeAEVAmJUIuvsiZK/xAhUDKhu4QYSsnrm', 'Anna', 'Smith', 'anna.smith@colorado.edu', 'Undergraduate, Sophomore');
 
 -- INSERT INTO userTable (userID, userName, password, email)
 -- VALUES ('1', '111111111111', 'password2', 'email2');
@@ -138,7 +138,7 @@ INSERT INTO Category (CategoryName, CategoryDescription, Brand)
 VALUES ('laptop8', 'description9', 'what brand1111111111');
 INSERT INTO Category (CategoryName, CategoryDescription, Brand)
 VALUES ('laptop9', 'description10', 'what brand121212112');
-INSERT INTO Category (CategoryName, CategoryDescription, Brand, SubcategoryID) VALUES
+-- INSERT INTO Category (CategoryName, CategoryDescription, Brand, SubcategoryID) VALUES
 -- -- ('iPad', 'A tablet manufactured by Apple', 'Apple', 2),
 -- -- ('Tablet', 'A flat screen', NULL, NULL);
 
