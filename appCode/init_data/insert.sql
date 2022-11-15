@@ -175,7 +175,7 @@ VALUES (4),
 (9),
 (10);
 INSERT INTO Item (CategoryId, userID)
-VALUES (4, 1, );
+VALUES (4, 1);
 INSERT INTO Item (CategoryId)
 VALUES (4);
 
