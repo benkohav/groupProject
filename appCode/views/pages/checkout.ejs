@@ -4,20 +4,31 @@
 <main>
   <div>
     <table class="table table-striped">
-      <h1 class="title" ><centre>Your Checkout Page </centre></h1>
+      <h1 class="title" ><centre>Your Checkout page </centre></h1>
       <thead>
           <tr>
               <th scope="col">Cart</th>
-              <th scope="col">Rent Duration</th>
               <th scope="col">Return Time</th>
             </tr>
       </thead>
 
       <tbody>
+        <form action="/register" method="POST">
+          <div class="mb-3">
+            <label for="disabledSelect" class="form-label">Select Rent Duration:</label>
+            <select id="schoolYear" class="form-select" name= "schoolYear">
+              <option selected disabled>Please Select</option>
+              <option value="Undergraduate, Freshman">12 hours</option>
+              <option value="Undergraduate, Sophomore">6 hours</option>
+              <option value="Undergraduate, Junior">3 hours</option>
+              <option value="Undergraduate, Senior">1 hour</option>
+              <option value = "Graduate Student">Custom</option>
+            </select>
+        </div>
+       </form>
           <tr>
             <th scope="row"> Macbook </td></th>
-            <th scope="row"> 10 hours </td></th>
-            <th scope="row"> Nov 10 at 11 am </td></th>
+            <th scope="row"> Time - To be implemented </td></th>
             <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Checkout Item</button></td></th>
           </tr>
       </tbody>
@@ -25,3 +36,4 @@
 </main>
 
 <%- include ('../partials/footer') %>
+
