@@ -42,7 +42,7 @@
     <% Item.forEach(function(Item){ %>
         
         <tr>
-            <td> <%= Item.name %> </td>
+            <td> <%= Item.categoryname %> </td>
             <td> <img src=<%= Item.url %> alt= <%= Item.name %> height=100 width=100></img> </td>
             <td> <%= Item.brand %></td>
             
@@ -87,19 +87,7 @@
    }
   
   console.table(cart);
-}  
-function RemoveCheckoutList(itemID) {
-  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-  const index = cart.indexOf(itemID);
-
-  cart.splice(index, 1); 
-  localStorage.setItem("cart", JSON.stringify(cart));
-  document.getElementById(itemID).innerHTML = "Add To Cart";
-  document.getElementById(itemID).setAttribute("onClick", "CheckoutList(<%= Item.itemid %>);");
-
-  console.table(cart);
-  
-}  
+}
 
   </script>
 
