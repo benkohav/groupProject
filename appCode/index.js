@@ -126,6 +126,10 @@ const dbConfig = {
 
     //Rendering search
     app.get('/search', (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
       res.render('pages/search', {results:undefined, query:undefined});
     });
 
