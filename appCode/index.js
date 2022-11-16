@@ -64,26 +64,48 @@ const dbConfig = {
         res.render('pages/register'); //{<JSON data required to render the page, if applicable>}
       });
 
-    //Rendering register
-    app.get('/profile', (req, res) => {
-      res.render('pages/profile'); //{<JSON data required to render the page, if applicable>}
+
+    //Rendering profile page
+    app.get("/profile", (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
+      var profileQuery = "SELECT * FROM userTable WHERE userTable.userName = $1";
+      console.log(req.session.user.username);
+      console.log('Testing');
+      db.any(profileQuery, [
+        req.session.user.username
+      ])
+      .then(data => 
+        {
+          // console.log(data.firstname);
+          username = data[0].username;
+          firstName = data[0].firstname;
+          lastName = data[0].lastname;
+          email = data[0].email;
+          schoolYear =  data[0].schoolyear;
+        res.render("pages/profile", {
+          username,
+          firstName,
+          lastName,
+          email,
+          schoolYear,
+        });
+      })
+      .catch(function (err) {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      })
     });
 
     //Rendering home
-app.get('/home', (req, res) => {
-    
-    //GROUP BY (Item.ItemID)
-    //DISTINCT
-    //SELECT Item.name, Item.URL, Item.Brand FROM users JOIN UsersToItem ON users.userID = UsersToItem.userID JOIN Item ON UsersToItem.ItemID = Item.ItemID ORDER BY COUNT UsersToItem.ItemID ASC LIMIT 2;
-    //const ITEMS = 'SELECT Item.name, Item.URL, Item.Brand, Item.ItemID FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID WHERE Item.ItemID IN (SELECT ItemID FROM Item GROUP BY ItemID HAVING COUNT(*) > 1)';
-    //const ITEMS = 'SELECT Item.name, Item.URL, Item.Brand, Item.ItemID FROM( SELECT Item.name, Item.URL, Item.Brand, Item.ItemID,COUNT(*) OVER(PARTITION BY ) AS cnt FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID) AS t WHERE t.cnt > 1;';
-    //const ITEMS = 'SELECT Item.name, Item.URL, Item.Brand, Item.ItemID, counter.count FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID LEFT JOIN (SELECT Item.ItemID, count(Item.ItemID) as count FROM Item GROUP BY Item.ItemID) counter ON counter.ItemID = Item.ItemID ORDER BY counter.count DESC;';
-    //const ITEMS = 'SELECT Item.name, COUNT(Item.ItemID) FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID Group By Item.name ORDER BY COUNT(Item.ItemID) DESC LIMIT 10;';
-    //const ITEMS = 'SELECT * From Item;';
-    //Works
-    //const ITEMS = 'SELECT Item.name, Item.Brand, Item.URL,Item.ItemID FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID Group By Item.name, Item.Brand, Item.URl,Item.ItemID ORDER BY COUNT(UsersToItem.userID) DESC LIMIT 10;';
-    const ITEMS = 'SELECT Category.CategoryName, Category.Brand, Image.URL, Item.ItemID FROM Item JOIN Category ON Item.CategoryID = Category.CategoryID JOIN Image ON Category.CategoryID = Image.CategoryID Group By Category.CategoryName, Item.ItemDescription, Category.Brand, Image.URL, Item.ItemID ORDER BY COUNT(Item.userID) DESC LIMIT 10;';
-    db.query(ITEMS)
+    app.get('/home', (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
+      const ITEMS = 'SELECT Category.CategoryName, Category.Brand, Image.URL, Item.ItemID FROM Item JOIN Category ON Item.CategoryID = Category.CategoryID JOIN Image ON Category.CategoryID = Image.CategoryID Group By Category.CategoryName, Item.ItemDescription, Category.Brand, Image.URL, Item.ItemID ORDER BY COUNT(Item.userID) DESC LIMIT 10;';
+      db.query(ITEMS)
         .then((Item) => {
             res.render("pages/home", { Item });
         })
@@ -94,20 +116,40 @@ app.get('/home', (req, res) => {
                 message: err.message,
             });
         });
-      
-        //res.render('pages/home');
     });
-    
+
+    //Rendering help page
+    app.get('/items', (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
+      res.render('pages/items'); //{<JSON data required to render the page, if applicable>}
+    });
+
     //Rendering checkout
     app.get('/checkout', (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
       res.render('pages/checkout'); //{<JSON data required to render the page, if applicable>}
     });
 
-    //Register logic 
-app.post('/register', async (req, res) => {
-    const hash = await bcrypt.hash(req.body.password, 10);
+    //Rendering search
+    app.get('/search', (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
+      res.render('pages/search', {results:undefined, query:undefined});
+    });
 
-    var query = "INSERT INTO userTable (username, password, firstName, lastName, email, schoolYear) values ($1, $2, $3, $4, $5, $6);";
+    //Register logic 
+    app.post('/register', async (req, res) => {
+        const hash = await bcrypt.hash(req.body.password, 10);
+
+        var query = "INSERT INTO userTable (username, password, firstName, lastName, email, schoolYear) values ($1, $2, $3, $4, $5, $6);";
 
 
     db.any(query, [
@@ -117,21 +159,20 @@ app.post('/register', async (req, res) => {
         req.body.lastName,
         req.body.email,
         req.body.schoolYear
-    ])
+      ])
         .then(function (data) {
             console.log(req.body.schoolYear);
             res.redirect('/login');
         })
         .catch(function (err) {
-            res.render('pages/register', { message: 'Error. Please try registering again.' });
+          res.render('pages/register',{message: 'Error. Please try registering again.'} );
         })
 
-});
+      });
 
     //Render of Login from pages 
     app.get('/login', (req, res) => {
         res.render('pages/login'); //{<JSON data required to render the page, if applicable>}
-
       });
 
     
@@ -149,16 +190,18 @@ app.post('/login', async (req, res) => {
             // res.redirect('/login');
             const match = await bcrypt.compare(req.body.password, user[0].password);
             var u_name = req.body.username;
-            if (match) {
+
+            if(match)
+            {
                 req.session.user = {
                     username: u_name,
-                };
-                req.session.save();
+                  };
+                  req.session.save();
                 res.redirect('/home');
             }
-            else {
-                //{message: 'Password incorrect. Please try again.'}
-                res.render('pages/login', { message: 'Password incorrect. Please try again.' });
+            else{
+              //{message: 'Password incorrect. Please try again.'}
+              res.render('pages/login',{message: 'Password incorrect. Please try again.'} );
             }
 
         })
@@ -168,20 +211,44 @@ app.post('/login', async (req, res) => {
             res.render('pages/register', { message: 'This username does not exist. Please register.' });
         })
 
-});
+
+      });
+      app.post('/search', async (req, res) => {
+          console.log('Searching for ' + req.body.search.toLowerCase() + ' ... ');
+          var query = `SELECT userID, ItemID, SubCategory.CategoryName as subcatname, SuperCategory.CategoryName as catname, SuperCategory.CategoryDescription, URL
+          FROM Item 
+          INNER JOIN Category SubCategory ON Item.CategoryID = SubCategory.CategoryID 
+          LEFT OUTER JOIN Category SuperCategory ON SubCategory.SuperCategoryID = SuperCategory.CategoryID 
+          LEFT OUTER JOIN Image ON SubCategory.CategoryID = Image.CategoryID
+            WHERE ItemName LIKE $1
+            OR SubCategory.CategoryName LIKE $1
+            OR SuperCategory.CategoryName LIKE $1;`
+
+          db.any(query, [ 
+            '%' + req.body.search.toLowerCase() + '%'
+          ])
+
+          .then(results => {
+              // console.log(results); // the results will be displayed on the terminal if the docker containers are running
+            // Send some parameters
+            res.render('pages/search', {query: req.body.search.toLowerCase(), results: results});
+            //print out/present the results etc
+          })
+          .catch(error => {
+          // Handle errors
+      res.render('pages/search', {query: req.body.search.toLowerCase(), results: [], message: 'Error'}); //{<JSON data required to render the page, if applicable>}
+      });
+    });
 
     //Rendering home again when you checkout 
 
-app.get("/logout", (req, res) => {
+    app.get("/logout", (req, res) => {
       req.session.destroy();
       res.render("pages/login", {message: 'Logged out Successfully'});
     });
 
-
-
       app.listen(3000);
-console.log('Server is listening on port 3000');
-
+      console.log('Server is listening on port 3000');
 
 
 
@@ -221,5 +288,4 @@ console.log('Server is listening on port 3000');
     //         // Handle errors
     //         res.render('pages/discover', {results: []});
     //         })
-    //   });
-//<form id ="form3" action = '/add' method = 'POST'> <button type="submit" name='item_id' value='<%= Item.itemid %>'> ADD </button> </form >
+
