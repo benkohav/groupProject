@@ -81,11 +81,10 @@ app.get('/home', (req, res) => {
     //const ITEMS = 'SELECT Item.name, COUNT(Item.ItemID) FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID Group By Item.name ORDER BY COUNT(Item.ItemID) DESC LIMIT 10;';
     //const ITEMS = 'SELECT * From Item;';
     //Works
-    const ITEMS = 'SELECT Item.name, Item.Brand, Item.URL,Item.ItemID FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID Group By Item.name, Item.Brand, Item.URl,Item.ItemID ORDER BY COUNT(UsersToItem.userID) DESC LIMIT 10;';
-    //const ITEMS = 'SELECT Item.ItemName, Category.Brand, Image.URL, Item.ItemID FROM Item JOIN Category ON Item.CategoryID = Category.CategoryID JOIN Image ON Category.CategoryID = Image.CategoryID Group By Item.ItemName, Item.ItemDescription, Category.Brand, Image.URL, Item.ItemID ORDER BY COUNT(Item.userID) DESC LIMIT 10;';
+    //const ITEMS = 'SELECT Item.name, Item.Brand, Item.URL,Item.ItemID FROM Item JOIN UsersToItem ON UsersToItem.ItemID = Item.ItemID JOIN users ON users.userID = UsersToItem.userID Group By Item.name, Item.Brand, Item.URl,Item.ItemID ORDER BY COUNT(UsersToItem.userID) DESC LIMIT 10;';
+    const ITEMS = 'SELECT Category.CategoryName, Category.Brand, Image.URL, Item.ItemID FROM Item JOIN Category ON Item.CategoryID = Category.CategoryID JOIN Image ON Category.CategoryID = Image.CategoryID Group By Category.CategoryName, Item.ItemDescription, Category.Brand, Image.URL, Item.ItemID ORDER BY COUNT(Item.userID) DESC LIMIT 10;';
     db.query(ITEMS)
         .then((Item) => {
-            console.log(Item);
             res.render("pages/home", { Item });
         })
         .catch((err) => {
@@ -105,23 +104,29 @@ app.get('/home', (req, res) => {
     });
 
     //Register logic 
-    app.post('/register', async (req, res) => {
-        const hash = await bcrypt.hash(req.body.password, 10);
-        var query = "INSERT INTO users (username,password) values ($1, $2);";
+app.post('/register', async (req, res) => {
+    const hash = await bcrypt.hash(req.body.password, 10);
 
-        db.any(query, [ 
+    var query = "INSERT INTO userTable (username, password, firstName, lastName, email, schoolYear) values ($1, $2, $3, $4, $5, $6);";
+
+
+    db.any(query, [
         req.body.username,
-        hash
-      ])
+        hash,
+        req.body.firstName,
+        req.body.lastName,
+        req.body.email,
+        req.body.schoolYear
+    ])
         .then(function (data) {
+            console.log(req.body.schoolYear);
             res.redirect('/login');
         })
         .catch(function (err) {
-            console.log(err);
-            res.redirect('/register');
+            res.render('pages/register', { message: 'Error. Please try registering again.' });
         })
 
-      });
+});
 
     //Render of Login from pages 
     app.get('/login', (req, res) => {
@@ -131,43 +136,39 @@ app.get('/home', (req, res) => {
 
     
     //Login logic
-    app.post('/login', async (req, res) => {
-        //the logic goes here
-        // const match = await bcrypt.compare(req.body.password, user.password); //await is explained in #8
+app.post('/login', async (req, res) => {
+    //the logic goes here
+    // const match = await bcrypt.compare(req.body.password, user.password); //await is explained in #8
 
-        var query = "SELECT password FROM users WHERE username = $1 LIMIT 1;"
+    var query = "SELECT password FROM userTable WHERE userName = $1 LIMIT 1;"
 
-        db.any(query, [ 
+    db.any(query, [
         req.body.username
-      ])
+    ])
         .then(async function (user) {
             // res.redirect('/login');
             const match = await bcrypt.compare(req.body.password, user[0].password);
-
-            if(match)
-            {
+            var u_name = req.body.username;
+            if (match) {
                 req.session.user = {
-                    api_key: process.env.API_KEY,
-                    username: req.body.username
-                  };
-                  req.session.save();
+                    username: u_name,
+                };
+                req.session.save();
                 res.redirect('/home');
             }
-            else{
-              //{message: 'Password incorrect. Please try again.'}
-              res.render('pages/login',{message: 'Password incorrect. Please try again.'} );
-              
-
+            else {
+                //{message: 'Password incorrect. Please try again.'}
+                res.render('pages/login', { message: 'Password incorrect. Please try again.' });
             }
 
         })
         .catch(function (err) {
-          //{message: 'This username does not exist. Please register.'}
+            //{message: 'This username does not exist. Please register.'}
             // res.redirect('/register');
-            res.render('pages/register',{message: 'This username does not exist. Please register.'} );
+            res.render('pages/register', { message: 'This username does not exist. Please register.' });
         })
 
-      });
+});
 
     //Rendering home again when you checkout 
 
