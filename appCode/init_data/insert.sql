@@ -4,7 +4,7 @@
 INSERT INTO userTable (userName, password, email)
 VALUES ( 'username', '$2b$10$xhjOIbZoN0z/P4hKl8kwyOsGio8RbixVcOgyAnIiXbMZLhaRVSjua', 'username@dummydata.com');
 
--- -- password: password1
+-- password: password1
 
 INSERT INTO userTable (userName, password, firstName, lastName, email, schoolYear)
 VALUES ('annasmith01', '$2b$10$IA06IGcYbT9QjJNAlILaMeAEVAmJUIuvsiZK/xAhUDKhu4QYSsnrm', 'Anna', 'Smith', 'anna.smith@colorado.edu', 'Undergraduate, Sophomore');
