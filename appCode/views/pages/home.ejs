@@ -1,26 +1,14 @@
 <%- include ('../partials/header') %>
 <%- include ('../partials/menu') %>
 
-  <div class="container">
+<body onload="javascript:InCheckout()">
+  <div class="container" >
     
     <h1>Home</h1>
     <p><center>Rules and How to Use</center> </p>
     <p> &nbsp&nbsp&nbsp&nbsp&nbsp The Tech Libray is a place where you can rent technology that we have in stock. Its very easy to use just sign in and then search for an item in the search bar above.</p>
     <p>When you have added all of your items just click checkout at the top and it will walk you through the rest. Down below we have a list of the most commonly rented items.</p>
-    <script>
-    function InCheckout(itemID) {
-  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-  let bool = 0;
-  cart.forEach(function (ITEM, index) {
-        console.log(ITEM, index);
-        if(itemID == ITEM){
-            bool = 1;
-        }
-   });
-   return bool;
-  
-  console.table(cart);
-}</script>
+    
 
    <table class = "table"><center>
    
@@ -85,7 +73,18 @@
        
    }
   
-  console.table(cart);
+  
+}
+function InCheckout() {
+        let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        console.table(cart);
+        cart.forEach(function (ITEM, index) {
+            console.log(ITEM, index);
+            document.getElementById(ITEM).innerHTML = "Remove From Cart";
+    });
+   
+  
+  
 }
 
   </script>
