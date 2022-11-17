@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS userTable;
 CREATE TABLE userTable (
     userID SERIAL PRIMARY KEY,
-    userName varchar(45) NOT NULL,
+    userName varchar(45) UNIQUE NOT NULL,
     password CHAR(60) NOT NULL,
     firstName VARCHAR(60),
     lastName VARCHAR(60),

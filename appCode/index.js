@@ -126,6 +126,10 @@ const dbConfig = {
 
     //Rendering search
     app.get('/search', (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
       res.render('pages/search', {results:undefined, query:undefined});
     });
 
@@ -223,6 +227,21 @@ const dbConfig = {
     });
 
     //Rendering home again when you checkout 
+    app.post('/checkout', async (req, res) => {
+      //the logic goes here
+      var query = ""
+      req.body.items.forEach(function(item){
+        query += "Update Item SET UserID = $1, timeBorrowed = CURDATE(), timeReturned = DATE_ADD(CURDATE(),INTERVAL " + item.length + " DAY) WHERE ItemID = " + item.itemid;
+      });
+      db.any(query, [req.session.userid
+    ])
+      .then(async function (user) {
+        res.render('pages/home',{message: 'Checkout Successful'} );
+      })
+      .catch(function (err) {
+          res.render('pages/home',{message: 'Checkout failed'} );
+      })
+    });
 
     app.get("/logout", (req, res) => {
       req.session.destroy();

@@ -180,26 +180,26 @@ INSERT INTO Item (CategoryId)
 VALUES (4);
 
 -- Note for inserting future images: please link to image directly not google page, I had to change all of these
-INSERT INTO Image (ImageID, URL, CategoryID)
-VALUES ('1200', 'https://www.science.org/do/10.1126/science.abi5787/full/main_puppies_1280p.jpg', 1);
-INSERT INTO Image (ImageID, URL, CategoryID)
-VALUES ('1300', 'https://static.frame.work/x58rdni5eh0cjy7mg7dparafb3g8', 4);
-INSERT INTO Image (ImageID, URL, CategoryID)
-VALUES ('1400', 'https://m.media-amazon.com/images/I/41jSuUHT8eL._AC_.jpg', 5);
-INSERT INTO Image (ImageID, URL, CategoryID)
-VALUES ('1500', 'https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/PCA21_MSBluetoothErgonomicMouse_Feature_MatteBlack_RGB_740x417?wid=515&hei=293&fit=crop', 6);
-INSERT INTO Image (ImageID, URL, CategoryID)
-VALUES ('1600', 'https://i.dell.com/is/image/DellContent//content/dam/ss2/product-images/dell-client-products/desktops/optiplex-desktops/optiplex-3280/media-gallery/aio_optiplex_3280_gallery_4.psd?fmt=pjpg&pscan=auto&scl=1&wid=3345&hei=3067&qlt=100,1&resMode=sharp2&size=3345,3067&chrss=full&imwidth=5000', 7);
-INSERT INTO Image (ImageID, URL, CategoryID)
-VALUES ('1700', 'https://m.media-amazon.com/images/I/61Qy0zzUtaS._AC_SX466_.jpg', 8);
-INSERT INTO Image (ImageID, URL, CategoryID)
-VALUES ('1800', 'https://m.media-amazon.com/images/I/71jLUk5lNAL.jpg', 9);
-INSERT INTO Image (ImageID, URL, CategoryID)
-VALUES ('1900', 'https://www.howtogeek.com/wp-content/uploads/2016/07/is-static-electricity-damage-still-a-huge-problem-with-electronics-now-00.jpg?height=200p&trim=2,2,2,2', 10);
-INSERT INTO Image (ImageID, URL, CategoryID)
-VALUES ('2000', 'https://m.media-amazon.com/images/I/41dw1g4jtnS.jpg', 11);
-INSERT INTO Image (ImageID, URL, CategoryID)
-VALUES ('2100', 'https://m.media-amazon.com/images/I/31OJZyIDWML._AC_.jpg', 12);
+INSERT INTO Image (URL, CategoryID)
+VALUES ('https://www.science.org/do/10.1126/science.abi5787/full/main_puppies_1280p.jpg', 1);
+INSERT INTO Image (URL, CategoryID)
+VALUES ('https://static.frame.work/x58rdni5eh0cjy7mg7dparafb3g8', 4);
+INSERT INTO Image (URL, CategoryID)
+VALUES ('https://m.media-amazon.com/images/I/41jSuUHT8eL._AC_.jpg', 5);
+INSERT INTO Image (URL, CategoryID)
+VALUES ('https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/PCA21_MSBluetoothErgonomicMouse_Feature_MatteBlack_RGB_740x417?wid=515&hei=293&fit=crop', 6);
+INSERT INTO Image (URL, CategoryID)
+VALUES ('https://i.dell.com/is/image/DellContent//content/dam/ss2/product-images/dell-client-products/desktops/optiplex-desktops/optiplex-3280/media-gallery/aio_optiplex_3280_gallery_4.psd?fmt=pjpg&pscan=auto&scl=1&wid=3345&hei=3067&qlt=100,1&resMode=sharp2&size=3345,3067&chrss=full&imwidth=5000', 7);
+INSERT INTO Image (URL, CategoryID)
+VALUES ('https://m.media-amazon.com/images/I/61Qy0zzUtaS._AC_SX466_.jpg', 8);
+INSERT INTO Image (URL, CategoryID)
+VALUES ('https://m.media-amazon.com/images/I/71jLUk5lNAL.jpg', 9);
+INSERT INTO Image (URL, CategoryID)
+VALUES ('https://www.howtogeek.com/wp-content/uploads/2016/07/is-static-electricity-damage-still-a-huge-problem-with-electronics-now-00.jpg?height=200p&trim=2,2,2,2', 10);
+INSERT INTO Image (URL, CategoryID)
+VALUES ('https://m.media-amazon.com/images/I/41dw1g4jtnS.jpg', 11);
+INSERT INTO Image (URL, CategoryID)
+VALUES ('https://m.media-amazon.com/images/I/31OJZyIDWML._AC_.jpg', 12);
 
 
 -- INSERT INTO History (userID, ItemID, timeReturned, payBy)
