@@ -1,11 +1,93 @@
 <%- include ('../partials/header') %>
 <%- include ('../partials/menu') %>
 
-<main>
-  <div>
+  <div class="container">
+    
     <h1>Home</h1>
+    <p><center>Rules and How to Use</center> </p>
+    <p> &nbsp&nbsp&nbsp&nbsp&nbsp The Tech Libray is a place where you can rent technology that we have in stock. Its very easy to use just sign in and then search for an item in the search bar above.</p>
+    <p>When you have added all of your items just click checkout at the top and it will walk you through the rest. Down below we have a list of the most commonly rented items.</p>
+    <script>
+    function InCheckout(itemID) {
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  let bool = 0;
+  cart.forEach(function (ITEM, index) {
+        console.log(ITEM, index);
+        if(itemID == ITEM){
+            bool = 1;
+        }
+   });
+   return bool;
+  
+  console.table(cart);
+}</script>
+
+   <table class = "table"><center>
+   
+   <thead>
+    <tr>
+        
+        <th> Item Name </th>
+        <th> Picture  </th>
+        <th> Brand </th>
+        <th></th>
+    </tr>
+    </thead>
+    
+    
+    
+    <tbody>
+    <% Item.forEach(function(Item){ %>
+        
+        <tr>
+            <td> <%= Item.categoryname %> </td>
+            <td> <img src=<%= Item.url %> alt= <%= Item.name %> height=100 width=100></img> </td>
+            <td> <%= Item.brand %></td>
+            
+            <td>
+                <form id ="form3" >
+                 <button type="button" id = <%= Item.itemid %> name = 'item_id' onClick = "CheckoutList(<%= Item.itemid %>);" > Add To Cart </button> 
+                </form> 
+            </td>
+            
+           
+        </tr>
+      
+
+     <% }) %> 
+    </tbody>
+  
+    </center>
+  </table>
+  
 
   </div>
-</main>
+  
+  <script>
+  //Turn into function
+  function CheckoutList(itemID) {
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  let bool = 0;
+  cart.forEach(function (ITEM, index) {
+        console.log(ITEM, index);
+        if(itemID == ITEM){
+            bool = 1;
+            cart.splice(index, 1); 
+            localStorage.setItem("cart", JSON.stringify(cart));
+            document.getElementById(itemID).innerHTML = "Add To Cart";
+            
+        }
+   });
+   if(bool == 0){
+        cart.push(itemID);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        document.getElementById(itemID).innerHTML = "Remove From Cart";
+       
+   }
+  
+  console.table(cart);
+}
+
+  </script>
 
 <%- include ('../partials/footer') %>
