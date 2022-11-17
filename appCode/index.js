@@ -64,6 +64,7 @@ const dbConfig = {
         res.render('pages/register'); //{<JSON data required to render the page, if applicable>}
       });
 
+
     //Rendering profile page
     app.get("/profile", (req, res) => {
       if(!req.session.user)
@@ -103,7 +104,18 @@ const dbConfig = {
       {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
       }
-      res.render('pages/home'); //{<JSON data required to render the page, if applicable>}
+      const ITEMS = 'SELECT Category.CategoryName, Category.Brand, Image.URL, Item.ItemID FROM Item JOIN Category ON Item.CategoryID = Category.CategoryID JOIN Image ON Category.CategoryID = Image.CategoryID Group By Category.CategoryName, Item.ItemDescription, Category.Brand, Image.URL, Item.ItemID ORDER BY COUNT(Item.userID) DESC LIMIT 10;';
+      db.query(ITEMS)
+        .then((Item) => {
+            res.render("pages/home", { Item });
+        })
+        .catch((err) => {
+            res.render("pages/home", {
+                Item: [],
+                error: true,
+                message: err.message,
+            });
+        });
     });
 
     //Rendering help page
@@ -140,7 +152,7 @@ const dbConfig = {
         var query = "INSERT INTO userTable (username, password, firstName, lastName, email, schoolYear) values ($1, $2, $3, $4, $5, $6);";
 
 
-        db.any(query, [ 
+    db.any(query, [
         req.body.username,
         hash,
         req.body.firstName,
@@ -165,19 +177,20 @@ const dbConfig = {
 
     
     //Login logic
-    app.post('/login', async (req, res) => {
-        //the logic goes here
-        // const match = await bcrypt.compare(req.body.password, user.password); //await is explained in #8
+app.post('/login', async (req, res) => {
+    //the logic goes here
+    // const match = await bcrypt.compare(req.body.password, user.password); //await is explained in #8
 
-        var query = "SELECT password FROM userTable WHERE userName = $1 LIMIT 1;"
+    var query = "SELECT password FROM userTable WHERE userName = $1 LIMIT 1;"
 
-        db.any(query, [ 
+    db.any(query, [
         req.body.username
-      ])
+    ])
         .then(async function (user) {
             // res.redirect('/login');
             const match = await bcrypt.compare(req.body.password, user[0].password);
             var u_name = req.body.username;
+
             if(match)
             {
                 req.session.user = {
@@ -193,10 +206,11 @@ const dbConfig = {
 
         })
         .catch(function (err) {
-          //{message: 'This username does not exist. Please register.'}
+            //{message: 'This username does not exist. Please register.'}
             // res.redirect('/register');
-            res.render('pages/register',{message: 'This username does not exist. Please register.'} );
+            res.render('pages/register', { message: 'This username does not exist. Please register.' });
         })
+
 
       });
       app.post('/search', async (req, res) => {
@@ -240,7 +254,6 @@ const dbConfig = {
 
 
 
-
      // Authentication Middleware.
     // const auth = (req, res, next) => {
     //     if (!req.session.user) {
@@ -275,4 +288,4 @@ const dbConfig = {
     //         // Handle errors
     //         res.render('pages/discover', {results: []});
     //         })
-    //   })
+
