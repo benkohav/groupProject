@@ -66,48 +66,114 @@ const dbConfig = {
 
     //Rendering profile page
     app.get("/profile", (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
       var profileQuery = "SELECT * FROM userTable WHERE userTable.userName = $1";
       console.log(req.session.user.username);
+      console.log('Testing');
       db.any(profileQuery, [
         req.session.user.username
       ])
       .then(data => 
         {
-          console.log(data);
+          // console.log(data.firstname);
+          username = data[0].username;
+          firstName = data[0].firstname;
+          lastName = data[0].lastname;
+          email = data[0].email;
+          schoolYear =  data[0].schoolyear;
         res.render("pages/profile", {
-          username: data[0].userName,
-          firstName: data[0].firstName,
-          lastName: data[0].lastName,
-          email: data[0].email,
-          schoolYear: data[0].schoolYear,
+          username,
+          firstName,
+          lastName,
+          email,
+          schoolYear,
         });
       })
+      .catch(function (err) {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      })
+    });
+
+    // updates the database after fields in profile page have been edited
+    app.post('/profile', async (req, res) => {
+      const hash = await bcrypt.hash(req.body.password, 10);
+
+      var query1 = "INSERT INTO userTable (username, password, firstName, lastName, email, schoolYear) values ($1, $2, $3, $4, $5, $6);";
+
+      db.any(query, [ 
+      req.body.username,
+      hash,
+      req.body.firstName,
+      req.body.lastName,
+      req.body.email,
+      req.body.schoolYear
+    ])
+      .then(function (data) {
+          console.log(req.body.schoolYear);
+          res.redirect('/profile');
+      })
+      .catch(function (err) {
+        res.render('pages/profile',{message: 'Error. Please try registering again.'} );
+      })
+
     });
 
     //Rendering home
     app.get('/home', (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
       res.render('pages/home'); //{<JSON data required to render the page, if applicable>}
+    });
+
+    //Rendering help page
+    app.get('/items', (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
+      res.render('pages/items'); //{<JSON data required to render the page, if applicable>}
     });
 
     //Rendering checkout
     app.get('/checkout', (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
       res.render('pages/checkout'); //{<JSON data required to render the page, if applicable>}
+    });
+
+    //Rendering search
+    app.get('/search', (req, res) => {
+      res.render('pages/search', {results:undefined, query:undefined});
     });
 
     //Register logic 
     app.post('/register', async (req, res) => {
         const hash = await bcrypt.hash(req.body.password, 10);
-        var query = "INSERT INTO userTable (username,password) values ($1, $2);";
+
+        var query = "INSERT INTO userTable (username, password, firstName, lastName, email, schoolYear) values ($1, $2, $3, $4, $5, $6);";
+
 
         db.any(query, [ 
         req.body.username,
-        hash
+        hash,
+        req.body.firstName,
+        req.body.lastName,
+        req.body.email,
+        req.body.schoolYear
       ])
         .then(function (data) {
+            console.log(req.body.schoolYear);
             res.redirect('/login');
         })
         .catch(function (err) {
-            res.redirect('/register');
+          res.render('pages/register',{message: 'Error. Please try registering again.'} );
         })
 
       });
@@ -123,7 +189,7 @@ const dbConfig = {
         //the logic goes here
         // const match = await bcrypt.compare(req.body.password, user.password); //await is explained in #8
 
-        var query = "SELECT password FROM userTable WHERE username = $1 LIMIT 1;"
+        var query = "SELECT password FROM userTable WHERE userName = $1 LIMIT 1;"
 
         db.any(query, [ 
         req.body.username
@@ -131,11 +197,11 @@ const dbConfig = {
         .then(async function (user) {
             // res.redirect('/login');
             const match = await bcrypt.compare(req.body.password, user[0].password);
-
+            var u_name = req.body.username;
             if(match)
             {
                 req.session.user = {
-                    username: req.body.username,
+                    username: u_name,
                   };
                   req.session.save();
                 res.redirect('/home');
@@ -153,7 +219,32 @@ const dbConfig = {
         })
 
       });
+      app.post('/search', async (req, res) => {
+          console.log('Searching for ' + req.body.search.toLowerCase() + ' ... ');
+          var query = `SELECT userID, ItemID, SubCategory.CategoryName as subcatname, SuperCategory.CategoryName as catname, SuperCategory.CategoryDescription, URL
+          FROM Item 
+          INNER JOIN Category SubCategory ON Item.CategoryID = SubCategory.CategoryID 
+          LEFT OUTER JOIN Category SuperCategory ON SubCategory.SuperCategoryID = SuperCategory.CategoryID 
+          LEFT OUTER JOIN Image ON SubCategory.CategoryID = Image.CategoryID
+            WHERE ItemName LIKE $1
+            OR SubCategory.CategoryName LIKE $1
+            OR SuperCategory.CategoryName LIKE $1;`
 
+          db.any(query, [ 
+            '%' + req.body.search.toLowerCase() + '%'
+          ])
+
+          .then(results => {
+              // console.log(results); // the results will be displayed on the terminal if the docker containers are running
+            // Send some parameters
+            res.render('pages/search', {query: req.body.search.toLowerCase(), results: results});
+            //print out/present the results etc
+          })
+          .catch(error => {
+          // Handle errors
+      res.render('pages/search', {query: req.body.search.toLowerCase(), results: [], message: 'Error'}); //{<JSON data required to render the page, if applicable>}
+      });
+    });
 
     //Rendering home again when you checkout 
 
@@ -204,4 +295,4 @@ const dbConfig = {
     //         // Handle errors
     //         res.render('pages/discover', {results: []});
     //         })
-    //   });
+    //   })
