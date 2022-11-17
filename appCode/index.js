@@ -101,15 +101,16 @@ const dbConfig = {
     app.post('/profile', async (req, res) => {
       const hash = await bcrypt.hash(req.body.password, 10);
 
-      var query1 = "INSERT INTO userTable (username, password, firstName, lastName, email, schoolYear) values ($1, $2, $3, $4, $5, $6);";
+      var query1 = "UPDATE userTable SET username = $1, password = $2, firstName = $3, lastName = $4, email = $5, schoolYear = $6 where username =$7;";
 
-      db.any(query, [ 
+      db.any(query1, [ 
       req.body.username,
       hash,
       req.body.firstName,
       req.body.lastName,
       req.body.email,
-      req.body.schoolYear
+      req.body.schoolYear,
+      req.session.user.username,
     ])
       .then(function (data) {
           console.log(req.body.schoolYear);

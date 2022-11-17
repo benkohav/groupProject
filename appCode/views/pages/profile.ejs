@@ -20,12 +20,21 @@
                 <h5 class="card-title">Contact Details</h5>
                 <p class="card-text">Edit your contact info here.</p>
                 <p>First Name: <%= firstName %></p>
-                <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Edit First Name</button></td></th>
-
+                <p>Last Name: <%= lastName %></p>
+                <!-- <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit Last Name</button></td></th> -->
+                <p>Email: <%= email %></p>
+                <!-- <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit Email</button></td></th> -->
+                <p>University Year: <%= schoolYear %></p>
+                <p>Username: <%= username %></p>
+                <!-- <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit Username</button></td></th> -->
+                <p>Password: </p>
+                <!-- <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit Password</button></td></th> -->
+                <!-- <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit University Year</button></td></th> -->
                 <!-- <div class="container"> -->
                     <!-- Trigger the modal with a button -->
                     <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Test Edit</button> -->
                     <!-- Modal -->
+                    <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Edit Information</button></td></th>
                     <div class="modal fade" id="myModal" role="dialog">
                       <div class="modal-dialog">
                       
@@ -36,8 +45,14 @@
                             <h4 class="modal-title">Modal Header</h4>
                           </div>
                           <div class="modal-body">
-                              <form>
-                                <p> FirstName: <input id = "firstname" name = "firstname"></p>
+                              <form method="POST" action = "/profile">
+                                <p> First Name: <input id = "firstname" name = "firstname"></p>
+                                <p> Last Name: <input id = "lastname" name = "lastname"></p>
+                                <p> Email: <input id = "email" name = "email"></p>
+                                <p> University Year: <input id = "universityyear" name = "universityyear"></p>
+                                <p> Username: <input id = "username" name = "username"></p>
+                                <p> Password: <input id = "password" name = "password"></p>
+                                <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Update</button></td></th>
                               </form>
                             
                           </div>
@@ -48,31 +63,26 @@
                         
                       </div>
                     <!-- </div> -->
-                <p>Last Name: <%= lastName %></p>
-                <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit Last Name</button></td></th>
-                <p>Email: <%= email %></p>
-                <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit Email</button></td></th>
-                <p>University Year: <%= schoolYear %></p>
-                <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit University Year</button></td></th>
+               
             </div>
             </div>
         </div>
-        <div class="col">
+        <!-- <div class="col">
             <div class="card" style="width: 25rem;">
                 <div class="card-body">
                 <h5 class="card-title">Settings</h5>
                 <p class="card-text">Modify your username/password and shopping settings here. </p>
-                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                <a href="#" class="btn btn-primary">Go somewhere</a>
                 <p>Username: <%= username %></p>
                 <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit Username</button></td></th>
                 <p>Password:</p>
                 <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit Password</button></td></th>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
     <!-- note: modal code should be placed here -->
-    <div class="modal" id="event-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- <div class="modal" id="event-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -100,7 +110,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- adding in the modal code here !! -->
     </div>
 </div>
