@@ -3,7 +3,9 @@
 -- password: password
 INSERT INTO userTable (userName, password, email)
 VALUES ( 'username', '$2b$10$xhjOIbZoN0z/P4hKl8kwyOsGio8RbixVcOgyAnIiXbMZLhaRVSjua', 'username@dummydata.com');
--- -- password: password1
+
+-- password: password1
+
 INSERT INTO userTable (userName, password, firstName, lastName, email, schoolYear)
 VALUES ('annasmith01', '$2b$10$IA06IGcYbT9QjJNAlILaMeAEVAmJUIuvsiZK/xAhUDKhu4QYSsnrm', 'Anna', 'Smith', 'anna.smith@colorado.edu', 'Undergraduate, Sophomore');
 
@@ -26,8 +28,10 @@ VALUES ('annasmith01', '$2b$10$IA06IGcYbT9QjJNAlILaMeAEVAmJUIuvsiZK/xAhUDKhu4QYS
 -- INSERT INTO userTable (userID, userName, password, email)
 -- VALUES ('9', '9999999999', 'password10', 'email10');
 
+
 -- INSERT INTO checkout (username, password, item, timeRent, timeReturn) VALUES
 -- ('Roxy', '1', 'Macbook', '10 hours', 'Nov 10 at 11 am');
+
 
 -- INSERT INTO Category (CategoryID, CategoryName, CategoryDescription, Brand)
 -- VALUES ('70', 'Laptop', 'description1', 'what brand2222');
