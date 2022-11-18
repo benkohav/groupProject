@@ -41,7 +41,7 @@
         
         <tr>
             <td> <%= Item.categoryname %> </td>
-            <td> <img src=<%= Item.url %> alt= <%= Item.name %> height=100 width=100></img> </td>
+            <td> <img src=<%= Item.url %> alt= <%= Item.categoryname %> height=100 width=100></img> </td>
             <td> <%= Item.brand %></td>
             
             <td>
@@ -67,6 +67,7 @@
   //Turn into function
   function CheckoutList(itemID) {
   let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  console.log(cart)
   let bool = 0;
   cart.forEach(function (ITEM, index) {
         console.log(ITEM, index);
