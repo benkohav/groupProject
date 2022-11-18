@@ -63,8 +63,32 @@ const dbConfig = {
     app.get('/register', (req, res) => {
         res.render('pages/register'); //{<JSON data required to render the page, if applicable>}
       });
-
-
+    
+    //Rendering checkout
+    app.get("/checkout", (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
+      var profileQuery = "SELECT username FROM userTable WHERE userTable.userName = $1";
+      console.log(req.session.user.username);
+      console.log('Testing');
+      db.any(profileQuery, [
+        req.session.user.username
+      ])
+      .then(data => 
+        {
+          // console.log(data.firstname);
+          username = data[0].username;
+        res.render("pages/checkout", {
+          username,
+        });
+      })
+      .catch(function (err) {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      })
+    });
+    
     //Rendering profile page
     app.get("/profile", (req, res) => {
       if(!req.session.user)
@@ -98,6 +122,30 @@ const dbConfig = {
       })
     });
 
+    // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    app.post('/profile', async (req, res) => {
+      const hash = await bcrypt.hash(req.body.password, 10);
+
+      var query1 = "UPDATE userTable SET username = $1, password = $2, firstName = $3, lastName = $4, email = $5, schoolYear = $6 where username =$7;";
+
+      db.any(query1, [ 
+      req.body.username,
+      hash,
+      req.body.firstName,
+      req.body.lastName,
+      req.body.email,
+      req.body.schoolYear,
+      req.session.user.username,
+    ])
+      .then(function (data) {
+          console.log(req.body.schoolYear);
+          res.redirect('/profile');
+      })
+      .catch(function (err) {
+        res.render('pages/profile',{message: 'Error. Please try registering again.'} );
+      })
+    });
+
     //Rendering home
     app.get('/home', (req, res) => {
       if(!req.session.user)
@@ -124,31 +172,26 @@ const dbConfig = {
         });
     });
 
-    //Rendering checkout
-    app.get('/checkout', (req, res) => {
+    //Rendering Cart
+    app.get('/cart', (req, res) => {
       if(!req.session.user)
       {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
       }
-      else{
-        var query = `SELECT ItemID, CategoryName, CategoryDescription, URL
-          FROM Item 
-          INNER JOIN Category ON Item.CategoryID = Category.CategoryID 
-            WHERE ItemID IN $1;`
-
-          db.any(query, [ 
-            req.body.cart
-          ])
-          .then(results => {
-            res.render('pages/checkout', {results:results});
-            //print out/present the results etc
-          })
-          .catch(error => {
-          // Handle errors
-            res.render('pages/checkout', {message:error})
-      });
-      }
+      const ITEMS = 'SELECT Category.CategoryName, Category.Brand, Image.URL, Item.ItemID FROM Item JOIN Category ON Item.CategoryID = Category.CategoryID JOIN Image ON Category.CategoryID = Image.CategoryID Group By Category.CategoryName, Item.ItemDescription, Category.Brand, Image.URL, Item.ItemID ORDER BY COUNT(Item.userID) DESC LIMIT 10;';
+      db.query(ITEMS)
+        .then((Item) => {
+            res.render("pages/cart", { Item });
+        })
+        .catch((err) => {
+            res.render("pages/cart", {
+                Item: [],
+                error: true,
+                message: err.message,
+            });
+        });
     });
+    
 
     //Rendering search
     app.get('/search', (req, res) => {
@@ -223,11 +266,10 @@ const dbConfig = {
 
     
     //Login logic
-app.post('/login', async (req, res) => {
+  app.post('/login', async (req, res) => {
     //the logic goes here
     // const match = await bcrypt.compare(req.body.password, user.password); //await is explained in #8
-
-    var query = "SELECT password FROM userTable WHERE userName = $1 LIMIT 1;"
+        var query = "SELECT password FROM userTable WHERE userName = $1 LIMIT 1;"
 
     db.any(query, [
         req.body.username
@@ -256,64 +298,43 @@ app.post('/login', async (req, res) => {
             // res.redirect('/register');
             res.render('pages/register', { message: 'This username does not exist. Please register.' });
         })
+  });
 
+  app.post('/search', async (req, res) => {
+      console.log('Searching for ' + req.body.search.toLowerCase() + ' ... ');
+      var query = `SELECT userID, ItemID, SubCategory.CategoryName as subcatname, SuperCategory.CategoryName as catname, SuperCategory.CategoryDescription, URL
+      FROM Item 
+      INNER JOIN Category SubCategory ON Item.CategoryID = SubCategory.CategoryID 
+      LEFT OUTER JOIN Category SuperCategory ON SubCategory.SuperCategoryID = SuperCategory.CategoryID 
+      LEFT OUTER JOIN Image ON SubCategory.CategoryID = Image.CategoryID
+        WHERE ItemName LIKE $1
+        OR SubCategory.CategoryName LIKE $1
+        OR SuperCategory.CategoryName LIKE $1;`
 
-      });
+      db.any(query, [ 
+        '%' + req.body.search.toLowerCase() + '%'
+      ])
 
-    //Rendering home again when you checkout 
-    app.post('/checkout', async (req, res) => {
-      //the logic goes here
-// check if items are available
-
-
-
-
-
-
-
-      var query = ""
-      req.body.items.forEach(function(item){
-        query += "Update Item SET UserID = $1, timeBorrowed = CURDATE(), timeReturned = DATE_ADD(CURDATE(),INTERVAL " + item.length + " DAY) WHERE ItemID = " + item.itemid;
-      });
-      db.any(query, [req.session.userid
-    ])
-      .then(async function (user) {
-        res.render('pages/home',{message: 'Checkout Successful'} );
+      .then(results => {
+          // console.log(results); // the results will be displayed on the terminal if the docker containers are running
+        // Send some parameters
+        res.render('pages/search', {query: req.body.search.toLowerCase(), results: results});
+        //print out/present the results etc
       })
-      .catch(function (err) {
-          res.render('pages/home',{message: 'Checkout failed'} );
-      })
-    });
-    app.post('/return', async (req, res) => {
-      //the logic goes here
-      // check if items are available
+      .catch(error => {
+      // Handle errors
+  res.render('pages/search', {query: req.body.search.toLowerCase(), results: [], message: 'Error'}); //{<JSON data required to render the page, if applicable>}
+  });
+});
 
 
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.render("pages/login", {message: 'Logged out Successfully'});
+});
 
-
-
-
-
-      var query = ""
-      req.body.items.forEach(function(item){
-        query += "Update Item SET UserID = $1, timeBorrowed = CURDATE(), timeReturned = DATE_ADD(CURDATE(),INTERVAL " + item.length + " DAY) WHERE ItemID = " + item.itemid;
-      });
-      db.any(query, [req.session.userid
-    ])
-      .then(async function (user) {
-        res.render('pages/home',{message: 'Checkout Successful'} );
-      })
-      .catch(function (err) {
-          res.render('pages/home',{message: 'Checkout failed'} );
-      })
-    });
-    app.get("/logout", (req, res) => {
-      req.session.destroy();
-      res.render("pages/login", {message: 'Logged out Successfully'});
-    });
-
-      app.listen(3000);
-      console.log('Server is listening on port 3000');
+  app.listen(3000);
+  console.log('Server is listening on port 3000');
 
 
 
