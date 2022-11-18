@@ -142,6 +142,26 @@ const dbConfig = {
         });
     });
 
+    //Rendering Checkout
+    app.get('/checkout', (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
+      const ITEMS = 'SELECT Category.CategoryName, Category.Brand, Image.URL, Item.ItemID FROM Item JOIN Category ON Item.CategoryID = Category.CategoryID JOIN Image ON Category.CategoryID = Image.CategoryID Group By Category.CategoryName, Item.ItemDescription, Category.Brand, Image.URL, Item.ItemID ORDER BY COUNT(Item.userID) DESC LIMIT 10;';
+      db.query(ITEMS)
+        .then((Item) => {
+            res.render("pages/checkout", { Item });
+        })
+        .catch((err) => {
+            res.render("pages/checkout", {
+                Item: [],
+                error: true,
+                message: err.message,
+            });
+        });
+    });
+
     //Rendering help page
     app.get('/items', (req, res) => {
       if(!req.session.user)
@@ -242,45 +262,44 @@ app.post('/login', async (req, res) => {
             // res.redirect('/register');
             res.render('pages/register', { message: 'This username does not exist. Please register.' });
         })
+  });
 
+  app.post('/search', async (req, res) => {
+      console.log('Searching for ' + req.body.search.toLowerCase() + ' ... ');
+      var query = `SELECT userID, ItemID, SubCategory.CategoryName as subcatname, SuperCategory.CategoryName as catname, SuperCategory.CategoryDescription, URL
+      FROM Item 
+      INNER JOIN Category SubCategory ON Item.CategoryID = SubCategory.CategoryID 
+      LEFT OUTER JOIN Category SuperCategory ON SubCategory.SuperCategoryID = SuperCategory.CategoryID 
+      LEFT OUTER JOIN Image ON SubCategory.CategoryID = Image.CategoryID
+        WHERE ItemName LIKE $1
+        OR SubCategory.CategoryName LIKE $1
+        OR SuperCategory.CategoryName LIKE $1;`
 
-      });
-      app.post('/search', async (req, res) => {
-          console.log('Searching for ' + req.body.search.toLowerCase() + ' ... ');
-          var query = `SELECT userID, ItemID, SubCategory.CategoryName as subcatname, SuperCategory.CategoryName as catname, SuperCategory.CategoryDescription, URL
-          FROM Item 
-          INNER JOIN Category SubCategory ON Item.CategoryID = SubCategory.CategoryID 
-          LEFT OUTER JOIN Category SuperCategory ON SubCategory.SuperCategoryID = SuperCategory.CategoryID 
-          LEFT OUTER JOIN Image ON SubCategory.CategoryID = Image.CategoryID
-            WHERE ItemName LIKE $1
-            OR SubCategory.CategoryName LIKE $1
-            OR SuperCategory.CategoryName LIKE $1;`
+      db.any(query, [ 
+        '%' + req.body.search.toLowerCase() + '%'
+      ])
 
-          db.any(query, [ 
-            '%' + req.body.search.toLowerCase() + '%'
-          ])
-
-          .then(results => {
-              // console.log(results); // the results will be displayed on the terminal if the docker containers are running
-            // Send some parameters
-            res.render('pages/search', {query: req.body.search.toLowerCase(), results: results});
-            //print out/present the results etc
-          })
-          .catch(error => {
-          // Handle errors
-      res.render('pages/search', {query: req.body.search.toLowerCase(), results: [], message: 'Error'}); //{<JSON data required to render the page, if applicable>}
-      });
-    });
+      .then(results => {
+          // console.log(results); // the results will be displayed on the terminal if the docker containers are running
+        // Send some parameters
+        res.render('pages/search', {query: req.body.search.toLowerCase(), results: results});
+        //print out/present the results etc
+      })
+      .catch(error => {
+      // Handle errors
+  res.render('pages/search', {query: req.body.search.toLowerCase(), results: [], message: 'Error'}); //{<JSON data required to render the page, if applicable>}
+  });
+});
 
     //Rendering home again when you checkout 
 
-    app.get("/logout", (req, res) => {
-      req.session.destroy();
-      res.render("pages/login", {message: 'Logged out Successfully'});
-    });
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.render("pages/login", {message: 'Logged out Successfully'});
+});
 
-      app.listen(3000);
-      console.log('Server is listening on port 3000');
+  app.listen(3000);
+  console.log('Server is listening on port 3000');
 
 
 
