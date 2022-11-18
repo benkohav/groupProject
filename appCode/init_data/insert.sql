@@ -133,17 +133,12 @@ VALUES ('laptop2', 'description3', 'what brand444444', 2);
 INSERT INTO Category (CategoryName, CategoryDescription, Brand, SuperCategoryID)
 VALUES ('laptop3', 'description4', 'what brand555555', 3);
 INSERT INTO Category (CategoryName, CategoryDescription, Brand, SuperCategoryID)
-VALUES ('laptop4', 'description5', 'what brand6666666', 1);
-INSERT INTO Category (CategoryName, CategoryDescription, Brand)
-VALUES ('laptop5', 'description6', 'what brand777777');
-INSERT INTO Category (CategoryName, CategoryDescription, Brand)
-VALUES ('laptop6', 'description7', 'what brand888888');
-INSERT INTO Category (CategoryName, CategoryDescription, Brand)
-VALUES ('laptop7', 'description8', 'what brand99999999');
-INSERT INTO Category (CategoryName, CategoryDescription, Brand)
-VALUES ('laptop8', 'description9', 'what brand1111111111');
-INSERT INTO Category (CategoryName, CategoryDescription, Brand)
-VALUES ('laptop9', 'description10', 'what brand121212112');
+VALUES ('laptop4', 'description5', 'what brand6666666', 1),
+('laptop5', 'description6', 'what brand777777', 2),
+('laptop6', 'description7', 'what brand888888', 3),
+('laptop7', 'description8', 'what brand99999999', 2),
+('laptop8', 'description9', 'what brand1111111111', 1),
+('laptop9', 'description10', 'what brand121212112', 2);
 -- INSERT INTO Category (CategoryName, CategoryDescription, Brand, SubcategoryID) VALUES
 -- -- ('iPad', 'A tablet manufactured by Apple', 'Apple', 2),
 -- -- ('Tablet', 'A flat screen', NULL, NULL);
@@ -168,11 +163,11 @@ VALUES ('laptop9', 'description10', 'what brand121212112');
 -- VALUES ('14000', 'ItemName9' ,'ItemDescription8', 'Condition9', '140' , '8', '14.00' ,'3434', '4545');
 -- INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
 -- VALUES ('15000', 'ItemName10' ,'ItemDescription10', 'Condition10', '150' , '9','15.00' , '7777', '1212');
-
+-- trivial cases
 INSERT INTO Item (CategoryID)
-VALUES (4),
+VALUES
 (11),
-(3),
+(12),
 (4),
 (5),
 (6),
@@ -180,10 +175,13 @@ VALUES (4),
 (8),
 (9),
 (10);
-INSERT INTO Item (CategoryId, userID)
-VALUES (4, 1);
-INSERT INTO Item (CategoryId)
-VALUES (4);
+INSERT INTO Item (CategoryId, userID, Condition)
+VALUES 
+(4,1, 'Broken'),
+(7,1, 'As good as new'),
+(6,2, 'As good as new'),
+(3,1, 'As good as new'),
+(10,2, 'As good as new');
 
 -- Note for inserting future images: please link to image directly not google page, I had to change all of these
 INSERT INTO Image (URL, CategoryID)
@@ -208,27 +206,26 @@ INSERT INTO Image (URL, CategoryID)
 VALUES ('https://m.media-amazon.com/images/I/31OJZyIDWML._AC_.jpg', 12);
 
 
--- INSERT INTO History (userID, ItemID, timeReturned, payBy)
--- VALUES ('0', '6000', '20:10:30', '2022-12-01');
--- INSERT INTO History (userID, ItemID, timeReturned, payBy)
--- VALUES ('1', '7000', '20:12:30', '2022-12-02');
--- INSERT INTO History (userID, ItemID, timeReturned, payBy)
--- VALUES ('2', '8000', '10:12:30', '2022-12-03');
--- INSERT INTO History (userID, ItemID, timeReturned, payBy)
--- VALUES ('3', '9000', '10:42:30', '2022-12-04');
--- INSERT INTO History (userID, ItemID, timeReturned, payBy)
--- VALUES ('4', '10000', '20:12:30', '2022-12-05');
--- INSERT INTO History (userID, ItemID, timeReturned, payBy)
--- VALUES ('5', '11000', '10:52:30', '2022-12-06');
--- INSERT INTO History (userID, ItemID, timeReturned, payBy)
--- VALUES ('6', '12000', '20:32:30', '2022-12-07');
--- INSERT INTO History (userID, ItemID, timeReturned, payBy)
--- VALUES ('7', '13000', '10:12:30', '2022-12-08');
--- INSERT INTO History (userID, ItemID, timeReturned, payBy)
--- VALUES ('8', '14000', '20:02:30', '2022-12-09');
--- INSERT INTO History (userID, ItemID, timeReturned, payBy)
-
--- VALUES ('9', '15000', '10:22:30', '2022-12-10');
+INSERT INTO History (userID, ItemID, timeReturned, payBy)
+VALUES (2, 2, '20:10:30', '2022-12-01');
+INSERT INTO History (userID, ItemID, timeReturned, payBy)
+VALUES (1, 3, '20:12:30', '2022-12-02');
+INSERT INTO History (userID, ItemID, timeReturned, payBy)
+VALUES (1, 5, '10:12:30', '2022-12-03');
+INSERT INTO History (userID, ItemID, timeReturned, payBy)
+VALUES (1, 12, '10:42:30', '2022-12-04');
+INSERT INTO History (userID, ItemID, timeReturned, payBy)
+VALUES (2, 9, '20:12:30', '2022-12-05');
+INSERT INTO History (userID, ItemID, timeReturned, payBy)
+VALUES (1, 8, '10:52:30', '2022-12-06');
+INSERT INTO History (userID, ItemID, timeReturned, payBy)
+VALUES (2, 9, '20:32:30', '2022-12-07');
+INSERT INTO History (userID, ItemID, timeReturned, payBy)
+VALUES (2, 10, '10:12:30', '2022-12-08');
+INSERT INTO History (userID, ItemID, timeReturned, payBy)
+VALUES (1, 6, '20:02:30', '2022-12-09');
+INSERT INTO History (userID, ItemID, timeReturned, payBy)
+VALUES (1, 12, '10:22:30', '2022-12-10');
 
 
 

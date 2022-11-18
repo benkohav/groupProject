@@ -104,7 +104,13 @@ const dbConfig = {
       {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
       }
-      const ITEMS = 'SELECT Category.CategoryName, Category.Brand, Image.URL, Item.ItemID FROM Item JOIN Category ON Item.CategoryID = Category.CategoryID JOIN Image ON Category.CategoryID = Image.CategoryID Group By Category.CategoryName, Item.ItemDescription, Category.Brand, Image.URL, Item.ItemID ORDER BY COUNT(Item.userID) DESC LIMIT 10;';
+      const ITEMS = `SELECT Category.CategoryName, Category.Brand, Image.URL 
+      FROM History
+      JOIN Item ON History.ItemID = Item.ItemID
+      JOIN Category ON Item.CategoryID = Category.CategoryID 
+      JOIN Image ON Category.CategoryID = Image.CategoryID 
+      GROUP By Category.CategoryID, Image.URL
+      ORDER BY COUNT(*) DESC LIMIT 10;`;
       db.query(ITEMS)
         .then((Item) => {
             res.render("pages/home", { Item });
@@ -118,22 +124,14 @@ const dbConfig = {
         });
     });
 
-    //Rendering help page
-    app.get('/items', (req, res) => {
-      if(!req.session.user)
-      {
-        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
-      }
-      res.render('pages/items'); //{<JSON data required to render the page, if applicable>}
-    });
-
     //Rendering checkout
     app.get('/checkout', (req, res) => {
       if(!req.session.user)
       {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
       }
-      var query = `SELECT ItemID, CategoryName, CategoryDescription, URL
+      else{
+        var query = `SELECT ItemID, CategoryName, CategoryDescription, URL
           FROM Item 
           INNER JOIN Category ON Item.CategoryID = Category.CategoryID 
             WHERE ItemID IN $1;`
@@ -141,10 +139,7 @@ const dbConfig = {
           db.any(query, [ 
             req.body.cart
           ])
-
           .then(results => {
-              // console.log(results); // the results will be displayed on the terminal if the docker containers are running
-            // Send some parameters
             res.render('pages/checkout', {results:results});
             //print out/present the results etc
           })
@@ -152,7 +147,7 @@ const dbConfig = {
           // Handle errors
             res.render('pages/checkout', {message:error})
       });
-     //{<JSON data required to render the page, if applicable>}
+      }
     });
 
     //Rendering search
@@ -174,7 +169,7 @@ const dbConfig = {
           INNER JOIN Category SubCategory ON Item.CategoryID = SubCategory.CategoryID 
           LEFT OUTER JOIN Category SuperCategory ON SubCategory.SuperCategoryID = SuperCategory.CategoryID 
           LEFT OUTER JOIN Image ON SubCategory.CategoryID = Image.CategoryID
-            WHERE ItemName LIKE $1
+            WHERE SubCategory.Brand LIKE $1
             OR SubCategory.CategoryName LIKE $1
             OR SuperCategory.CategoryName LIKE $1;`
 
@@ -263,36 +258,18 @@ app.post('/login', async (req, res) => {
 
 
       });
-    //   app.post('/search', async (req, res) => {
-    //       console.log('Searching for ' + req.body.search.toLowerCase() + ' ... ');
-    //       var query = `SELECT userID, ItemID, SubCategory.CategoryName as subcatname, SuperCategory.CategoryName as catname, SuperCategory.CategoryDescription, URL
-    //       FROM Item 
-    //       INNER JOIN Category SubCategory ON Item.CategoryID = SubCategory.CategoryID 
-    //       LEFT OUTER JOIN Category SuperCategory ON SubCategory.SuperCategoryID = SuperCategory.CategoryID 
-    //       LEFT OUTER JOIN Image ON SubCategory.CategoryID = Image.CategoryID
-    //         WHERE ItemName LIKE $1
-    //         OR SubCategory.CategoryName LIKE $1
-    //         OR SuperCategory.CategoryName LIKE $1;`
-
-    //       db.any(query, [ 
-    //         '%' + req.body.search.toLowerCase() + '%'
-    //       ])
-
-    //       .then(results => {
-    //           // console.log(results); // the results will be displayed on the terminal if the docker containers are running
-    //         // Send some parameters
-    //         res.render('pages/search', {query: req.body.search.toLowerCase(), results: results});
-    //         //print out/present the results etc
-    //       })
-    //       .catch(error => {
-    //       // Handle errors
-    //   res.render('pages/search', {query: req.body.search.toLowerCase(), results: [], message: 'Error'}); //{<JSON data required to render the page, if applicable>}
-    //   });
-    // });
 
     //Rendering home again when you checkout 
     app.post('/checkout', async (req, res) => {
       //the logic goes here
+// check if items are available
+
+
+
+
+
+
+
       var query = ""
       req.body.items.forEach(function(item){
         query += "Update Item SET UserID = $1, timeBorrowed = CURDATE(), timeReturned = DATE_ADD(CURDATE(),INTERVAL " + item.length + " DAY) WHERE ItemID = " + item.itemid;
@@ -306,7 +283,29 @@ app.post('/login', async (req, res) => {
           res.render('pages/home',{message: 'Checkout failed'} );
       })
     });
+    app.post('/return', async (req, res) => {
+      //the logic goes here
+      // check if items are available
 
+
+
+
+
+
+
+      var query = ""
+      req.body.items.forEach(function(item){
+        query += "Update Item SET UserID = $1, timeBorrowed = CURDATE(), timeReturned = DATE_ADD(CURDATE(),INTERVAL " + item.length + " DAY) WHERE ItemID = " + item.itemid;
+      });
+      db.any(query, [req.session.userid
+    ])
+      .then(async function (user) {
+        res.render('pages/home',{message: 'Checkout Successful'} );
+      })
+      .catch(function (err) {
+          res.render('pages/home',{message: 'Checkout failed'} );
+      })
+    });
     app.get("/logout", (req, res) => {
       req.session.destroy();
       res.render("pages/login", {message: 'Logged out Successfully'});

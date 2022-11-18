@@ -23,14 +23,12 @@ CREATE TABLE Category (
 DROP TABLE IF EXISTS Item ;
 CREATE TABLE IF NOT EXISTS Item (
   ItemId SERIAL PRIMARY KEY,
-  ItemName VARCHAR(45),
-  ItemDescription VARCHAR(200),
   Condition VARCHAR(200),
   CategoryID INT NOT NULL REFERENCES Category (CategoryID),
   userID INT REFERENCES userTable (userID),
   rentPerDay DECIMAL(10,2),
-  timeBorrowed INT,
-  timeReturned INT
+  timeBorrowed TIMESTAMP,
+  timeReturned TIMESTAMP
 );
 
 DROP TABLE IF EXISTS Image ;
