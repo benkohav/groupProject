@@ -133,16 +133,66 @@ const dbConfig = {
       {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
       }
-      res.render('pages/checkout'); //{<JSON data required to render the page, if applicable>}
+      var query = `SELECT ItemID, CategoryName, CategoryDescription, URL
+          FROM Item 
+          INNER JOIN Category ON Item.CategoryID = Category.CategoryID 
+            WHERE ItemID IN $1;`
+
+          db.any(query, [ 
+            req.body.cart
+          ])
+
+          .then(results => {
+              // console.log(results); // the results will be displayed on the terminal if the docker containers are running
+            // Send some parameters
+            res.render('pages/checkout', {results:results});
+            //print out/present the results etc
+          })
+          .catch(error => {
+          // Handle errors
+            res.render('pages/checkout', {message:error})
+      });
+     //{<JSON data required to render the page, if applicable>}
     });
 
     //Rendering search
     app.get('/search', (req, res) => {
+      
       if(!req.session.user)
       {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
       }
-      res.render('pages/search', {results:undefined, query:undefined});
+      else if(!req.query.search){
+        res.render('pages/search');
+      }
+      else{
+        const search = req.query.search.toLowerCase();
+      console.log(search);
+      console.log('Searching for ' + search + ' ... ');
+          var query = `SELECT userID, ItemID, SubCategory.CategoryName as subcatname, SuperCategory.CategoryName as catname, SuperCategory.CategoryDescription, SubCategory.Brand, URL
+          FROM Item 
+          INNER JOIN Category SubCategory ON Item.CategoryID = SubCategory.CategoryID 
+          LEFT OUTER JOIN Category SuperCategory ON SubCategory.SuperCategoryID = SuperCategory.CategoryID 
+          LEFT OUTER JOIN Image ON SubCategory.CategoryID = Image.CategoryID
+            WHERE ItemName LIKE $1
+            OR SubCategory.CategoryName LIKE $1
+            OR SuperCategory.CategoryName LIKE $1;`
+
+          db.any(query, [ 
+            '%' + search + '%'
+          ])
+
+          .then(results => {
+              // console.log(results); // the results will be displayed on the terminal if the docker containers are running
+            // Send some parameters
+            res.render('pages/search', {query: search, results: results});
+            //print out/present the results etc
+          })
+          .catch(error => {
+          // Handle errors
+      res.render('pages/search', {query: search, results: [], message: 'Error'}); //{<JSON data required to render the page, if applicable>}
+      });
+    }
     });
 
     //Register logic 
@@ -213,32 +263,32 @@ app.post('/login', async (req, res) => {
 
 
       });
-      app.post('/search', async (req, res) => {
-          console.log('Searching for ' + req.body.search.toLowerCase() + ' ... ');
-          var query = `SELECT userID, ItemID, SubCategory.CategoryName as subcatname, SuperCategory.CategoryName as catname, SuperCategory.CategoryDescription, URL
-          FROM Item 
-          INNER JOIN Category SubCategory ON Item.CategoryID = SubCategory.CategoryID 
-          LEFT OUTER JOIN Category SuperCategory ON SubCategory.SuperCategoryID = SuperCategory.CategoryID 
-          LEFT OUTER JOIN Image ON SubCategory.CategoryID = Image.CategoryID
-            WHERE ItemName LIKE $1
-            OR SubCategory.CategoryName LIKE $1
-            OR SuperCategory.CategoryName LIKE $1;`
+    //   app.post('/search', async (req, res) => {
+    //       console.log('Searching for ' + req.body.search.toLowerCase() + ' ... ');
+    //       var query = `SELECT userID, ItemID, SubCategory.CategoryName as subcatname, SuperCategory.CategoryName as catname, SuperCategory.CategoryDescription, URL
+    //       FROM Item 
+    //       INNER JOIN Category SubCategory ON Item.CategoryID = SubCategory.CategoryID 
+    //       LEFT OUTER JOIN Category SuperCategory ON SubCategory.SuperCategoryID = SuperCategory.CategoryID 
+    //       LEFT OUTER JOIN Image ON SubCategory.CategoryID = Image.CategoryID
+    //         WHERE ItemName LIKE $1
+    //         OR SubCategory.CategoryName LIKE $1
+    //         OR SuperCategory.CategoryName LIKE $1;`
 
-          db.any(query, [ 
-            '%' + req.body.search.toLowerCase() + '%'
-          ])
+    //       db.any(query, [ 
+    //         '%' + req.body.search.toLowerCase() + '%'
+    //       ])
 
-          .then(results => {
-              // console.log(results); // the results will be displayed on the terminal if the docker containers are running
-            // Send some parameters
-            res.render('pages/search', {query: req.body.search.toLowerCase(), results: results});
-            //print out/present the results etc
-          })
-          .catch(error => {
-          // Handle errors
-      res.render('pages/search', {query: req.body.search.toLowerCase(), results: [], message: 'Error'}); //{<JSON data required to render the page, if applicable>}
-      });
-    });
+    //       .then(results => {
+    //           // console.log(results); // the results will be displayed on the terminal if the docker containers are running
+    //         // Send some parameters
+    //         res.render('pages/search', {query: req.body.search.toLowerCase(), results: results});
+    //         //print out/present the results etc
+    //       })
+    //       .catch(error => {
+    //       // Handle errors
+    //   res.render('pages/search', {query: req.body.search.toLowerCase(), results: [], message: 'Error'}); //{<JSON data required to render the page, if applicable>}
+    //   });
+    // });
 
     //Rendering home again when you checkout 
     app.post('/checkout', async (req, res) => {

@@ -5,28 +5,49 @@
   <div class="col"><%- include ('../partials/message') %></div>
   <div class = "container">
     <h1>Search</h1>
-    <form action="/search" method="POST">
+    <script>
+      function InCheckout(itemID) {
+    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    let bool = 0;
+    cart.forEach(function (ITEM, index) {
+          console.log(ITEM, index);
+          if(itemID == ITEM){
+              bool = 1;
+          }
+     });
+     return bool;
+    
+    console.table(cart);
+  }</script>
+    <form action="/search" method="GET">
       <label for="search" class="form-label"  >Search</label>
       <input type="text" class="form-control" id="search" name ="search">
       <button id="submit_button" class="btn btn-secondary" type="submit">Search</button>
     </form>
             <% 
-            if (query){
+            if (locals.query){
               var question = '<p>Showing Results For: ' + query + '</p>';
             %>
             <%- question %>
               <% } %>
             <%
-            if (results) {
+            if (locals.results) {
                 var tab = '';
-                tab += '<table> <thead> <tr> <th width = 100> ItemID </th> <th width = 100> Category </th> <th width = 100> SubCategory </th> <th width = 200> Image </th> <th> Add to Cart </th> </tr> <br> </thead> <tbody>'
+                tab += '<table> <thead> <tr> <th width = 100> ItemID </th> <th width = 100> Category </th> <th width = 100> SubCategory </th> <th width = 100>Brand</th> <th width = 100> Image </th><th> Add to Cart </th> </tr> <br> </thead> <tbody>'
                 results.forEach(function(item){
                   tab+= '<tr>';
                   tab+= '<td>' + item.itemid + '</td>';
                   tab+= '<td>' + item.catname + '</td>';
                   tab+= '<td>' + item.subcatname + '</td>';
-                  tab+= '<td>' + '<img src = "' + item.url + '" alt = "No Image" height = 150 width = 200>' + '</td>';
-                  tab+= '<td><a href = "' + item.url + '">Book Now</a></td>';
+                  tab+= '<td>' + item.brand + '</td>'
+                  tab+= '<td>' + '<img src = "' + item.url + '" alt = "No Image" height = 60 width = 80>' + '</td>';
+                  console.log(item.userid);
+                  if(item.userid){
+                    tab+= '<td><form id ="form3"><button type="button" id = "' + item.itemid + '" name = " item_id " onClick = "CheckoutList(' + item.itemid + ');" disabled>Add To Cart</button></form></td>';
+                  }
+                  else{
+                    tab+= '<td><form id ="form3"><button type="button" id = "' + item.itemid + '" name = " item_id " onClick = "CheckoutList(' + item.itemid + ');">Add To Cart</button></form></td>';
+                  }
                   tab+= '</tr>';
                 }); 
                 tab += '</tbody></table>';
@@ -34,6 +55,30 @@
                <%- tab %>
               <% } %>
   </div>
+  <script>
+    //Turn into function
+    function CheckoutList(itemID) {
+    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    let bool = 0;
+    cart.forEach(function (ITEM, index) {
+          console.log(ITEM, index);
+          if(itemID == ITEM){
+              bool = 1;
+              cart.splice(index, 1); 
+              localStorage.setItem("cart", JSON.stringify(cart));
+              document.getElementById(itemID).innerHTML = "Add To Cart";
+          }
+     });
+     if(bool == 0){
+          cart.push(itemID);
+          localStorage.setItem("cart", JSON.stringify(cart));
+          document.getElementById(itemID).innerHTML = "Remove From Cart";
+     }
+    
+    console.table(cart);
+  }
+  
+    </script>
 </main>
 
 <%- include ('../partials/footer') %>/
