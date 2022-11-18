@@ -1,12 +1,12 @@
 -- DROP TABLE IF EXISTS userTable
 CREATE TABLE userTable (
     userID SERIAL PRIMARY KEY,
-    userName varchar(45) NOT NULL,
+    userName VARCHAR(45) NOT NULL,
     password CHAR(60) NOT NULL,
-    firstName CHAR(60),
-    lastName CHAR(60),
-    email CHAR(60),
-    schoolYear CHAR(60)
+    firstName VARCHAR(60),
+    lastName VARCHAR(60),
+    email VARCHAR(60),
+    schoolYear VARCHAR(60)
 );
 -- INSERT INTO userTable (userID, userName, password, email)
 -- VALUES ('0', 'Tom B. Erichsen', 'password', 'email');
