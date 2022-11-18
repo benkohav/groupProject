@@ -152,17 +152,19 @@ const dbConfig = {
 
     //Rendering search
     app.get('/search', (req, res) => {
-      
+      const search = "";
       if(!req.session.user)
       {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
       }
       else if(!req.query.search){
+        // const search = "";
         res.render('pages/search');
       }
       else{
         const search = req.query.search.toLowerCase();
-      console.log(search);
+      }
+        console.log(search);
       console.log('Searching for ' + search + ' ... ');
           var query = `SELECT userID, ItemID, SubCategory.CategoryName as subcatname, SuperCategory.CategoryName as catname, SuperCategory.CategoryDescription, SubCategory.Brand, URL
           FROM Item 
@@ -187,7 +189,6 @@ const dbConfig = {
           // Handle errors
       res.render('pages/search', {query: search, results: [], message: 'Error'}); //{<JSON data required to render the page, if applicable>}
       });
-    }
     });
 
     //Register logic 
