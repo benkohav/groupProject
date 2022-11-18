@@ -98,6 +98,30 @@ const dbConfig = {
       })
     });
 
+    // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    app.post('/profile', async (req, res) => {
+      const hash = await bcrypt.hash(req.body.password, 10);
+
+      var query1 = "UPDATE userTable SET username = $1, password = $2, firstName = $3, lastName = $4, email = $5, schoolYear = $6 where username =$7;";
+
+      db.any(query1, [ 
+      req.body.username,
+      hash,
+      req.body.firstName,
+      req.body.lastName,
+      req.body.email,
+      req.body.schoolYear,
+      req.session.user.username,
+    ])
+      .then(function (data) {
+          console.log(req.body.schoolYear);
+          res.redirect('/profile');
+      })
+      .catch(function (err) {
+        res.render('pages/profile',{message: 'Error. Please try registering again.'} );
+      })
+    });
+
     //Rendering home
     app.get('/home', (req, res) => {
       if(!req.session.user)
@@ -116,6 +140,15 @@ const dbConfig = {
                 message: err.message,
             });
         });
+    });
+
+    //Rendering help page
+    app.get('/items', (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
+      res.render('pages/items'); //{<JSON data required to render the page, if applicable>}
     });
 
     //Rendering help page
@@ -180,8 +213,7 @@ const dbConfig = {
 app.post('/login', async (req, res) => {
     //the logic goes here
     // const match = await bcrypt.compare(req.body.password, user.password); //await is explained in #8
-
-    var query = "SELECT password FROM userTable WHERE userName = $1 LIMIT 1;"
+        var query = "SELECT password FROM userTable WHERE userName = $1 LIMIT 1;"
 
     db.any(query, [
         req.body.username
