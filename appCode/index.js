@@ -97,7 +97,7 @@ const dbConfig = {
       })
     });
 
-    // updates the database after fields in profile page have been edited
+    // updates the database after fields in profile page have been edited --> updating user variable is needed 
     app.post('/profile', async (req, res) => {
       const hash = await bcrypt.hash(req.body.password, 10);
 
