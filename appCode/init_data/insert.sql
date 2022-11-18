@@ -1,5 +1,14 @@
+
+-- passwords should be hashed, run the hash and then paste it in, do not try to add it without hashing
+-- password: password
+INSERT INTO userTable (userName, password, email)
+VALUES ( 'username', '$2b$10$xhjOIbZoN0z/P4hKl8kwyOsGio8RbixVcOgyAnIiXbMZLhaRVSjua', 'username@dummydata.com');
+
+-- password: password1
+
 INSERT INTO userTable (userName, password, firstName, lastName, email, schoolYear)
-VALUES ('annasmith01', 'password1', 'Anna', 'Smith', 'anna.smith@colorado.edu', 'Undergraduate, Sophomore');
+VALUES ('annasmith01', '$2b$10$IA06IGcYbT9QjJNAlILaMeAEVAmJUIuvsiZK/xAhUDKhu4QYSsnrm', 'Anna', 'Smith', 'anna.smith@colorado.edu', 'Undergraduate, Sophomore');
+
 -- INSERT INTO userTable (userID, userName, password, email)
 -- VALUES ('1', '111111111111', 'password2', 'email2');
 -- INSERT INTO userTable (userID, userName, password, email)
@@ -18,6 +27,11 @@ VALUES ('annasmith01', 'password1', 'Anna', 'Smith', 'anna.smith@colorado.edu', 
 -- VALUES ('8', '88888888', 'password9', 'email9');
 -- INSERT INTO userTable (userID, userName, password, email)
 -- VALUES ('9', '9999999999', 'password10', 'email10');
+
+
+-- INSERT INTO checkout (username, password, item, timeRent, timeReturn) VALUES
+-- ('Roxy', '1', 'Macbook', '10 hours', 'Nov 10 at 11 am');
+
 
 -- INSERT INTO Category (CategoryID, CategoryName, CategoryDescription, Brand)
 -- VALUES ('70', 'Laptop', 'description1', 'what brand2222');
@@ -105,31 +119,116 @@ VALUES ('annasmith01', 'password1', 'Anna', 'Smith', 'anna.smith@colorado.edu', 
 -- VALUES ('9', '15000', '10:22:30', '2022-12-10');
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--- -- INSERT INTO Category (CategoryName, CategoryDescription, Brand, SubcategoryID) VALUES
+-- IMPORTANT: search queries only work against lowercase
+INSERT INTO Category (CategoryName, CategoryDescription)
+VALUES ('laptop', 'this is a laptop, what else is there to say?');
+INSERT INTO Category (CategoryName, CategoryDescription)
+VALUES ('Sound devices', 'Headphones and earbuds and speaker oh my');
+INSERT INTO Category (CategoryName, CategoryDescription)
+VALUES ('Chargers', 'chargers');
+INSERT INTO Category (CategoryName, CategoryDescription, Brand, SuperCategoryID)
+VALUES ('laptop1', 'description2', 'what brand33333', 1);
+INSERT INTO Category (CategoryName, CategoryDescription, Brand, SuperCategoryID)
+VALUES ('laptop2', 'description3', 'what brand444444', 2);
+INSERT INTO Category (CategoryName, CategoryDescription, Brand, SuperCategoryID)
+VALUES ('laptop3', 'description4', 'what brand555555', 3);
+INSERT INTO Category (CategoryName, CategoryDescription, Brand, SuperCategoryID)
+VALUES ('laptop4', 'description5', 'what brand6666666', 1);
+INSERT INTO Category (CategoryName, CategoryDescription, Brand)
+VALUES ('laptop5', 'description6', 'what brand777777');
+INSERT INTO Category (CategoryName, CategoryDescription, Brand)
+VALUES ('laptop6', 'description7', 'what brand888888');
+INSERT INTO Category (CategoryName, CategoryDescription, Brand)
+VALUES ('laptop7', 'description8', 'what brand99999999');
+INSERT INTO Category (CategoryName, CategoryDescription, Brand)
+VALUES ('laptop8', 'description9', 'what brand1111111111');
+INSERT INTO Category (CategoryName, CategoryDescription, Brand)
+VALUES ('laptop9', 'description10', 'what brand121212112');
+-- INSERT INTO Category (CategoryName, CategoryDescription, Brand, SubcategoryID) VALUES
 -- -- ('iPad', 'A tablet manufactured by Apple', 'Apple', 2),
 -- -- ('Tablet', 'A flat screen', NULL, NULL);
 
+-- INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
+-- VALUES ('6000', 'ItemName1' ,'ItemDescription1', 'Condition1', '110' , '0', '10.00' , '1234', '5678');
+-- INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
+-- VALUES ('7000', 'ItemName2' ,'ItemDescription2', 'Condition2', '80' , '1', '12.00' ,'4321', '3421');
+-- INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
+-- VALUES ('8000', 'ItemName3' ,'ItemDescription3', 'Condition3', '90' , '2', '13.00' ,'1111', '2222');
+-- INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
+-- VALUES ('9000', 'ItemName4' ,'ItemDescription4', 'Condition4', '100' , '3', '16.00' ,'3434', '4545');
+-- INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
+-- VALUES ('10000', 'ItemName5' ,'ItemDescription5', 'Condition5', '90' , '4', '15.00' ,'7777', '1212');
+-- INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
+-- VALUES ('11000', 'ItemName6' ,'ItemDescription6', 'Condition6', '110' , '5', '9.00' , '1234', '5678');
+-- INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
+-- VALUES ('12000', 'ItemName7' ,'ItemDescription7', 'Condition7', '120' , '6', '2.00' ,'4321', '3421');
+-- INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
+-- VALUES ('13000', 'ItemName8' ,'ItemDescription8', 'Condition8', '130' , '7', '83.00' ,'1111', '2222');
+-- INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
+-- VALUES ('14000', 'ItemName9' ,'ItemDescription8', 'Condition9', '140' , '8', '14.00' ,'3434', '4545');
+-- INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
+-- VALUES ('15000', 'ItemName10' ,'ItemDescription10', 'Condition10', '150' , '9','15.00' , '7777', '1212');
 
--- INSERT INTO users (userID, username, password, email, phone) VALUES
--- ('1100123333', 'Roxy', '1', 'rsmanthy@gmail.com', 303999999);
+INSERT INTO Item (CategoryID)
+VALUES (4),
+(11),
+(3),
+(4),
+(5),
+(6),
+(7),
+(8),
+(9),
+(10);
+INSERT INTO Item (CategoryId, userID)
+VALUES (4, 1);
+INSERT INTO Item (CategoryId)
+VALUES (4);
 
+-- Note for inserting future images: please link to image directly not google page, I had to change all of these
+INSERT INTO Image (ImageID, URL, CategoryID)
+VALUES ('1200', 'https://www.science.org/do/10.1126/science.abi5787/full/main_puppies_1280p.jpg', 1);
+INSERT INTO Image (ImageID, URL, CategoryID)
+VALUES ('1300', 'https://static.frame.work/x58rdni5eh0cjy7mg7dparafb3g8', 4);
+INSERT INTO Image (ImageID, URL, CategoryID)
+VALUES ('1400', 'https://m.media-amazon.com/images/I/41jSuUHT8eL._AC_.jpg', 5);
+INSERT INTO Image (ImageID, URL, CategoryID)
+VALUES ('1500', 'https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/PCA21_MSBluetoothErgonomicMouse_Feature_MatteBlack_RGB_740x417?wid=515&hei=293&fit=crop', 6);
+INSERT INTO Image (ImageID, URL, CategoryID)
+VALUES ('1600', 'https://i.dell.com/is/image/DellContent//content/dam/ss2/product-images/dell-client-products/desktops/optiplex-desktops/optiplex-3280/media-gallery/aio_optiplex_3280_gallery_4.psd?fmt=pjpg&pscan=auto&scl=1&wid=3345&hei=3067&qlt=100,1&resMode=sharp2&size=3345,3067&chrss=full&imwidth=5000', 7);
+INSERT INTO Image (ImageID, URL, CategoryID)
+VALUES ('1700', 'https://m.media-amazon.com/images/I/61Qy0zzUtaS._AC_SX466_.jpg', 8);
+INSERT INTO Image (ImageID, URL, CategoryID)
+VALUES ('1800', 'https://m.media-amazon.com/images/I/71jLUk5lNAL.jpg', 9);
+INSERT INTO Image (ImageID, URL, CategoryID)
+VALUES ('1900', 'https://www.howtogeek.com/wp-content/uploads/2016/07/is-static-electricity-damage-still-a-huge-problem-with-electronics-now-00.jpg?height=200p&trim=2,2,2,2', 10);
+INSERT INTO Image (ImageID, URL, CategoryID)
+VALUES ('2000', 'https://m.media-amazon.com/images/I/41dw1g4jtnS.jpg', 11);
+INSERT INTO Image (ImageID, URL, CategoryID)
+VALUES ('2100', 'https://m.media-amazon.com/images/I/31OJZyIDWML._AC_.jpg', 12);
+
+
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('0', '6000', '20:10:30', '2022-12-01');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('1', '7000', '20:12:30', '2022-12-02');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('2', '8000', '10:12:30', '2022-12-03');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('3', '9000', '10:42:30', '2022-12-04');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('4', '10000', '20:12:30', '2022-12-05');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('5', '11000', '10:52:30', '2022-12-06');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('6', '12000', '20:32:30', '2022-12-07');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('7', '13000', '10:12:30', '2022-12-08');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+-- VALUES ('8', '14000', '20:02:30', '2022-12-09');
+-- INSERT INTO History (userID, ItemID, timeReturned, payBy)
+
+-- VALUES ('9', '15000', '10:22:30', '2022-12-10');
 
 
 
