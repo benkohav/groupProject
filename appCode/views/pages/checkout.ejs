@@ -1,42 +1,78 @@
 <%- include ('../partials/header') %>
 <%- include ('../partials/menu') %>
 
-<main>
-  <div>
-    <table class="table table-striped">
-
-      <h1 class="title" ><centre>Your Checkout page </centre></h1>
-      <thead>
+<div class="container">
+  <h1 class="title" ><centre>Your Checkout page </centre></h1>
+        <script>
+          function InCheckout(itemID) 
+          {
+            let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+            let bool = 0;
+            cart.forEach(function (ITEM, index) 
+            {
+              console.log(ITEM, index);
+              if(itemID == ITEM)
+              {
+                bool = 1;
+              }
+            });
+            return bool;
+            console.table(cart);
+          }
+        </script>
+      <!-- TABLE -->
+      <table class = "table"><center>
+        <thead>
           <tr>
-              <th scope="col">Cart</th>
-              <th scope="col">Return Time</th>
-            </tr>
-      </thead>
-
-      <tbody>
-
-        <form action="/register" method="POST">
-          <div class="mb-3">
-            <label for="disabledSelect" class="form-label">Select Rent Duration:</label>
-            <select id="schoolYear" class="form-select" name= "schoolYear">
-              <option selected disabled>Please Select</option>
-              <option value="Undergraduate, Freshman">12 hours</option>
-              <option value="Undergraduate, Sophomore">6 hours</option>
-              <option value="Undergraduate, Junior">3 hours</option>
-              <option value="Undergraduate, Senior">1 hour</option>
-              <option value = "Graduate Student">Custom</option>
-            </select>
-        </div>
-       </form>
-          <tr>
-            <th scope="row"> Macbook </td></th>
-            <th scope="row"> Time - To be implemented </td></th>
-            <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Checkout Item</button></td></th>
+            <th> Item Name </th>
+            <th> Picture  </th>
+            <th> Brand </th>
+            <th></th>
           </tr>
-      </tbody>
-  </div> 
-</main>
+        </thead>
 
-
+        <tbody>
+          <% Item.forEach(function(Item){ %>
+              <tr>
+                  <td> <%= Item.categoryname %> </td>
+                  <td> <img src=<%= Item.url %> alt= <%= Item.name %> height=100 width=100></img> </td>
+                  <td> <%= Item.brand %></td>
+                  <td>
+                      <form id ="form3" >
+                        <button type="button" id = <%= Item.itemid %> name = 'item_id' onClick = "CheckoutList(<%= Item.itemid %>);" > Add To Cart </button> 
+                      </form> 
+                  </td>
+              </tr>
+            <% }) %> 
+        </tbody>
+      </center>
+    </table>
+</div>
+  
+  <script>
+    //Turn into function
+    function CheckoutList(itemID) 
+    {
+      let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      let bool = 0;
+      cart.forEach(function (ITEM, index) 
+      {
+        console.log(ITEM, index);
+        if(itemID == ITEM)
+        {
+          bool = 1;
+          cart.splice(index, 1); 
+          localStorage.setItem("cart", JSON.stringify(cart));
+          document.getElementById(itemID).innerHTML = "Add To Cart";
+        }
+      });
+      if(bool == 0)
+      {
+        cart.push(itemID);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        document.getElementById(itemID).innerHTML = "Remove From Cart";
+      }
+      console.table(cart);
+    }
+  </script>
 <%- include ('../partials/footer') %>
-
