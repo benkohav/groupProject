@@ -64,8 +64,32 @@ const dbConfig = {
     app.get('/register', (req, res) => {
         res.render('pages/register'); //{<JSON data required to render the page, if applicable>}
       });
-
-
+    
+    //Rendering checkout
+    app.get("/checkout", (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
+      var profileQuery = "SELECT * FROM userTable WHERE userTable.userID = $1";
+      console.log(req.session.user.username);
+      console.log('Testing');
+      db.any(profileQuery, [
+        req.session.user.userID
+      ])
+      .then(data => 
+        {
+          // console.log(data.firstname);
+          username = data[0].username;
+        res.render("pages/checkout", {
+          username,
+        });
+      })
+      .catch(function (err) {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      })
+    });
+    
     //Rendering profile page
     app.get("/profile", (req, res) => {
       if(!req.session.user)
@@ -96,6 +120,30 @@ const dbConfig = {
       })
       .catch(function (err) {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      })
+    });
+
+    // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    app.post('/profile', async (req, res) => {
+      const hash = await bcrypt.hash(req.body.password, 10);
+
+      var query1 = "UPDATE userTable SET username = $1, password = $2, firstName = $3, lastName = $4, email = $5, schoolYear = $6 where username =$7;";
+
+      db.any(query1, [ 
+      req.body.username,
+      hash,
+      req.body.firstName,
+      req.body.lastName,
+      req.body.email,
+      req.body.schoolYear,
+      req.session.user.username,
+    ])
+      .then(function (data) {
+          console.log(req.body.schoolYear);
+          res.redirect('/profile');
+      })
+      .catch(function (err) {
+        res.render('pages/profile',{message: 'Error. Please try registering again.'} );
       })
     });
 
@@ -152,6 +200,7 @@ const dbConfig = {
       });
       }
     });
+    
 
     //Rendering search
     app.get('/search', (req, res) => {
@@ -227,7 +276,7 @@ const dbConfig = {
 
     
     //Login logic
-app.post('/login', async (req, res) => {
+  app.post('/login', async (req, res) => {
     //the logic goes here
     // const match = await bcrypt.compare(req.body.password, user.password); //await is explained in #8
 
@@ -344,8 +393,8 @@ app.post('/login', async (req, res) => {
       res.render("pages/login", {message: 'Logged out Successfully'});
     });
 
-      app.listen(3000);
-      console.log('Server is listening on port 3000');
+  app.listen(3000);
+  console.log('Server is listening on port 3000');
 
 
 
