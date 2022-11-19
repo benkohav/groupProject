@@ -42,13 +42,21 @@ CREATE TABLE IF NOT EXISTS Image (
 
 DROP TABLE IF EXISTS History ;
 CREATE TABLE IF NOT EXISTS History (
+  HistoryKey SERIAL PRIMARY KEY UNIQUE NOT NULL,
   userID INT NOT NULL REFERENCES userTable (userID),
   ItemID INT NOT NULL REFERENCES Item (ItemId),
-  timeReturned TIME,
-  payBy DATE
-
+  timeBorrowed TIMESTAMP,
+  timeReturned TIMESTAMP,
+  payBy TIMESTAMP
 );
 
+DROP TABLE IF EXISTS Cart;
+CREATE TABLE IF NOT EXISTS Cart(
+  userID INT NOT NULL REFERENCES userTable (userID),
+  ItemID INT NOT NULL REFERENCES Item (ItemId),
+  Duration INTERVAL, 
+  CONSTRAINT CartID PRIMARY KEY (userID, ItemID)
+);
 -- INSERT INTO Image (userID, ItemID, timeReturned, payBy, histPK)
 -- VALUES ('1', '6000', '20:12:30', '2022-12-011', '16000');
 

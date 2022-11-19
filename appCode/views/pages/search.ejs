@@ -5,20 +5,6 @@
   <div class="col"><%- include ('../partials/message') %></div>
   <div class = "container">
     <h1>Search</h1>
-    <script>
-      function InCheckout(itemID) {
-    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    let bool = 0;
-    cart.forEach(function (ITEM, index) {
-          console.log(ITEM, index);
-          if(itemID == ITEM){
-              bool = 1;
-          }
-     });
-     return bool;
-    
-    console.table(cart);
-  }</script>
     <form action="/search" method="GET">
       <label for="search" class="form-label"  >Search</label>
       <input type="text" class="form-control" id="search" name ="search">
@@ -43,10 +29,14 @@
                   tab+= '<td>' + '<img src = "' + item.url + '" alt = "No Image" height = 60 width = 80>' + '</td>';
                   console.log(item.userid);
                   if(item.userid){
-                    tab+= '<td><form id ="form3"><button type="button" id = "' + item.itemid + '" name = " item_id " onClick = "CheckoutList(' + item.itemid + ');" disabled>Add To Cart</button></form></td>';
+                    tab+= '<td><form id ="form3"><button type="submit" disabled>Item Unavaliable</button></form></td>';
+                  }
+                  else if(item.incart){
+                    tab+= '<td><form id ="form3" action="/cart/delete" method="POST"><input name = "itemid" value = "' + item.itemid + '" type = "hidden"><button type="submit">Remove From Cart</button></form></td>';
                   }
                   else{
-                    tab+= '<td><form id ="form3"><button type="button" id = "' + item.itemid + '" name = " item_id " onClick = "CheckoutList(' + item.itemid + ');">Add To Cart</button></form></td>';
+                    <!-- add modal here, we do not need to show information if the item is already in cart, maybe for unavailable items as well, but here first, also add dropdown in modal for duration -->
+                    tab+= '<td><form id ="form3" action="/cart/add" method="POST"><input name = "itemid" value = "' + item.itemid + '" type = "hidden"><input name = "duration" value = "7 days" type = "hidden"><button type="submit"> Add to Cart </button></form></td>';
                   }
                   tab+= '</tr>';
                 }); 
@@ -55,30 +45,6 @@
                <%- tab %>
               <% } %>
   </div>
-  <script>
-    //Turn into function
-    function CheckoutList(itemID) {
-    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    let bool = 0;
-    cart.forEach(function (ITEM, index) {
-          console.log(ITEM, index);
-          if(itemID == ITEM){
-              bool = 1;
-              cart.splice(index, 1); 
-              localStorage.setItem("cart", JSON.stringify(cart));
-              document.getElementById(itemID).innerHTML = "Add To Cart";
-          }
-     });
-     if(bool == 0){
-          cart.push(itemID);
-          localStorage.setItem("cart", JSON.stringify(cart));
-          document.getElementById(itemID).innerHTML = "Remove From Cart";
-     }
-    
-    console.table(cart);
-  }
-  
-    </script>
 </main>
 
 <%- include ('../partials/footer') %>
