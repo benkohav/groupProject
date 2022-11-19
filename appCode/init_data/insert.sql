@@ -207,29 +207,30 @@ VALUES ('https://m.media-amazon.com/images/I/31OJZyIDWML._AC_.jpg', 12);
 
 
 INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES (2, 2, '20:10:30', '2022-12-01');
+VALUES (2, 2, '2022-12-01 20:10:30', '2022-12-01 20:10:30');
 INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES (1, 3, '20:12:30', '2022-12-02');
+VALUES (1, 3, '2022-12-01 10:10:30', '2022-12-02 20:45:30');
 INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES (1, 5, '10:12:30', '2022-12-03');
+VALUES (1, 5, '2022-12-01 10:10:30', '2022-12-02 20:45:30');
 INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES (1, 12, '10:42:30', '2022-12-04');
+VALUES (1, 12, '2022-12-01 10:10:30', '2022-12-02 20:45:30');
 INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES (2, 9, '20:12:30', '2022-12-05');
+VALUES (2, 9, '2022-12-01 10:10:30', '2022-12-02 20:45:30');
 INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES (1, 8, '10:52:30', '2022-12-06');
+VALUES (1, 8, '2022-12-01 10:10:30', '2022-12-02 20:45:30');
 INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES (2, 9, '20:32:30', '2022-12-07');
+VALUES (2, 9, '2022-12-01 10:10:30', '2022-12-02 20:45:30');
 INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES (2, 10, '10:12:30', '2022-12-08');
+VALUES (2, 10, '2022-12-01 10:10:30', '2022-12-02 20:45:30');
 INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES (1, 6, '20:02:30', '2022-12-09');
+VALUES (1, 6, '2022-12-01 10:10:30', '2022-12-02 20:45:30');
 INSERT INTO History (userID, ItemID, timeReturned, payBy)
-VALUES (1, 12, '10:22:30', '2022-12-10');
+VALUES (1, 12, '2022-12-01 10:10:30', '2022-12-02 20:45:30');
 
 
-
-
+INSERT INTO Cart(userID, ItemID, Duration)
+VALUES (1,3,'7 days'),
+(1,4,'1 days 12 hours');
 -- INFO
 
 -- INSERT INTO users (username, password, item, timeRent, timeReturn) VALUES

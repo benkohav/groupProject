@@ -13,20 +13,24 @@
       </button>
       <div class="collapse navbar-collapse" id="navbar-collapse">
 
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <!-- TO-DO: For Discover, add a <a> tag with an attribute href to call the '/discover' API -->
-
-
-              <a href="/home" style="color: black;"> Home </a>
-
-          </li>
-        </ul>
-
-        <div class="nav-item me-1" style="position: centre;">
-          <!-- TO-DO: For Logout, add a <a> tag with an attribute href to call the '/logout API -->
-              <a href="/profile" style="color: black;">Profile</a>
-        </div> 
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <!-- TO-DO: For Discover, add a <a> tag with an attribute href to call the '/discover' API -->
+                <a href="/home" style="color: black;"> Home</a>
+            </li>
+            <!-- spacing, it looked too cramped -->
+            <p> &nbsp &nbsp</p>
+            <li class = "nav-item">
+              <form class="d-flex" role="search" action="/search" method="GET">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"id="search" name ="search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
+            </li>
+          </ul>
+          <div class="nav-item me-1" style="position: centre;">
+            <!-- TO-DO: For Logout, add a <a> tag with an attribute href to call the '/logout API -->
+                <a href="/profile" style="color: black;">Profile</a>
+          </div> 
 
         <div class="nav-item me-1" style="position: centre;">
           <!-- TO-DO: For Logout, add a <a> tag with an attribute href to call the '/logout API -->
