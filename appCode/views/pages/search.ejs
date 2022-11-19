@@ -5,28 +5,39 @@
   <div class="col"><%- include ('../partials/message') %></div>
   <div class = "container">
     <h1>Search</h1>
-    <form action="/search" method="POST">
+    <form action="/search" method="GET">
       <label for="search" class="form-label"  >Search</label>
       <input type="text" class="form-control" id="search" name ="search">
       <button id="submit_button" class="btn btn-secondary" type="submit">Search</button>
     </form>
             <% 
-            if (query){
+            if (locals.query){
               var question = '<p>Showing Results For: ' + query + '</p>';
             %>
             <%- question %>
               <% } %>
             <%
-            if (results) {
+            if (locals.results) {
                 var tab = '';
-                tab += '<table> <thead> <tr> <th width = 100> ItemID </th> <th width = 100> Category </th> <th width = 100> SubCategory </th> <th width = 200> Image </th> <th> Add to Cart </th> </tr> <br> </thead> <tbody>'
+                tab += '<table> <thead> <tr> <th width = 100> ItemID </th> <th width = 100> Category </th> <th width = 100> SubCategory </th> <th width = 100>Brand</th> <th width = 100> Image </th><th> Add to Cart </th> </tr> <br> </thead> <tbody>'
                 results.forEach(function(item){
                   tab+= '<tr>';
                   tab+= '<td>' + item.itemid + '</td>';
                   tab+= '<td>' + item.catname + '</td>';
                   tab+= '<td>' + item.subcatname + '</td>';
-                  tab+= '<td>' + '<img src = "' + item.url + '" alt = "No Image" height = 150 width = 200>' + '</td>';
-                  tab+= '<td><a href = "' + item.url + '">Book Now</a></td>';
+                  tab+= '<td>' + item.brand + '</td>'
+                  tab+= '<td>' + '<img src = "' + item.url + '" alt = "No Image" height = 60 width = 80>' + '</td>';
+                  console.log(item.userid);
+                  if(item.userid){
+                    tab+= '<td><form id ="form3"><button type="submit" disabled>Item Unavaliable</button></form></td>';
+                  }
+                  else if(item.incart){
+                    tab+= '<td><form id ="form3" action="/cart/delete" method="POST"><input name = "itemid" value = "' + item.itemid + '" type = "hidden"><button type="submit">Remove From Cart</button></form></td>';
+                  }
+                  else{
+                    <!-- add modal here, we do not need to show information if the item is already in cart, maybe for unavailable items as well, but here first, also add dropdown in modal for duration -->
+                    tab+= '<td><form id ="form3" action="/cart/add" method="POST"><input name = "itemid" value = "' + item.itemid + '" type = "hidden"><input name = "duration" value = "7 days" type = "hidden"><button type="submit"> Add to Cart </button></form></td>';
+                  }
                   tab+= '</tr>';
                 }); 
                 tab += '</tbody></table>';
@@ -36,4 +47,4 @@
   </div>
 </main>
 
-<%- include ('../partials/footer') %>/
+<%- include ('../partials/footer') %>
