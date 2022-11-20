@@ -63,8 +63,9 @@ const dbConfig = {
     //Rendering register
     app.get('/register', (req, res) => {
         res.render('pages/register'); //{<JSON data required to render the page, if applicable>}
-      });
-    
+      }); 
+
+
     //Rendering checkout
     app.get("/checkout", (req, res) => {
       if(!req.session.user)
@@ -75,7 +76,7 @@ const dbConfig = {
       console.log(req.session.user.username);
       console.log('Testing');
       db.any(profileQuery, [
-        req.session.user.userID
+        req.session.user.userid
       ])
       .then(data => 
         {
@@ -100,7 +101,7 @@ const dbConfig = {
       console.log(req.session.user.userid);
       // console.log('Testing');
       db.any(profileQuery, [
-        req.session.user.userID
+        req.session.user.userid
       ])
       .then(data => 
         {
@@ -167,6 +168,26 @@ const dbConfig = {
         })
         .catch((err) => {
             res.render("pages/home", {
+                Item: [],
+                error: true,
+                message: err.message,
+            });
+        });
+    });
+
+    //Rendering Cart
+    app.get('/cart', (req, res) => {
+      if(!req.session.user)
+      {
+        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+      }
+      const ITEMS = 'SELECT Category.CategoryName, Category.Brand, Image.URL, Item.ItemID FROM Item JOIN Category ON Item.CategoryID = Category.CategoryID JOIN Image ON Category.CategoryID = Image.CategoryID Group By Category.CategoryName, Item.ItemDescription, Category.Brand, Image.URL, Item.ItemID ORDER BY COUNT(Item.userID) DESC LIMIT 10;';
+      db.query(ITEMS)
+        .then((Item) => {
+            res.render("pages/cart", { Item });
+        })
+        .catch((err) => {
+            res.render("pages/cart", {
                 Item: [],
                 error: true,
                 message: err.message,
