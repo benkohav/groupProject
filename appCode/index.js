@@ -65,32 +65,6 @@ const dbConfig = {
         res.render('pages/register'); //{<JSON data required to render the page, if applicable>}
       }); 
 
-
-    //Rendering checkout
-    app.get("/checkout", (req, res) => {
-      if(!req.session.user)
-      {
-        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
-      }
-      var profileQuery = "SELECT * FROM userTable WHERE userTable.userID = $1";
-      console.log(req.session.user.username);
-      console.log('Testing');
-      db.any(profileQuery, [
-        req.session.user.userid
-      ])
-      .then(data => 
-        {
-          // console.log(data.firstname);
-          username = data[0].username;
-        res.render("pages/checkout", {
-          username,
-        });
-      })
-      .catch(function (err) {
-        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
-      })
-    });
-    
     //Rendering profile page
     app.get("/profile", (req, res) => {
       if(!req.session.user)
@@ -98,19 +72,19 @@ const dbConfig = {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
       }
       var profileQuery = "SELECT * FROM userTable WHERE userTable.userID = $1";
-      console.log(req.session.user.userid);
       // console.log('Testing');
       db.any(profileQuery, [
         req.session.user.userid
       ])
       .then(data => 
         {
-          // console.log(data.firstname);
+          console.log(data);
           username = data[0].username;
           firstName = data[0].firstname;
           lastName = data[0].lastname;
           email = data[0].email;
           schoolYear =  data[0].schoolyear;
+        
         res.render("pages/profile", {
           username,
           firstName,
@@ -181,43 +155,24 @@ const dbConfig = {
       {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
       }
-      const ITEMS = 'SELECT Category.CategoryName, Category.Brand, Image.URL, Item.ItemID FROM Item JOIN Category ON Item.CategoryID = Category.CategoryID JOIN Image ON Category.CategoryID = Image.CategoryID Group By Category.CategoryName, Item.ItemDescription, Category.Brand, Image.URL, Item.ItemID ORDER BY COUNT(Item.userID) DESC LIMIT 10;';
-      db.query(ITEMS)
-        .then((Item) => {
-            res.render("pages/cart", { Item });
-        })
-        .catch((err) => {
-            res.render("pages/cart", {
-                Item: [],
-                error: true,
-                message: err.message,
-            });
-        });
-    });
-
-    //Rendering checkout
-    app.get('/checkout', (req, res) => {
-      if(!req.session.user)
-      {
-        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
-      }
       else{
-        var query = `SELECT Item.ItemID, CategoryName, CategoryDescription, Duration, URL
-          FROM Cart
-          INNER JOIN Item ON Cart.ItemID = Item.ItemID
+        var query = `SELECT Item.ItemID, CategoryName, CategoryDescription, DurationName, URL
+          FROM (SELECT * FROM Cart WHERE UserID = $1) AS usercart
+          INNER JOIN Item ON usercart.ItemID = Item.ItemID
           INNER JOIN Category ON Item.CategoryID = Category.CategoryID 
-            WHERE ItemID IN $1;`
+          LEFT OUTER JOIN Image ON Category.CategoryID = Image.CategoryID;`
 
           db.any(query, [ 
-            req.body.cart
+            req.session.user.userid
           ])
-          .then(results => {
-            res.render('pages/checkout', {results:results});
+          .then(cart => {
+            // console.log(cart)
+            res.render('pages/cart', {username: req.session.user.username, cart:cart});
             //print out/present the results etc
           })
           .catch(error => {
           // Handle errors
-            res.render('pages/checkout', {message:error})
+            res.render('pages/cart', {username: req.session.user.username, message:error})
       });
       }
     });
@@ -256,7 +211,7 @@ const dbConfig = {
           .then(results => {
               // console.log(results); // the results will be displayed on the terminal if the docker containers are running
             // Send some parameters
-            res.render('pages/search', {query: search, results: results});
+            res.render('pages/search', {query: search, results: results, userid: req.session.user.userid});
             //print out/present the results etc
           })
           .catch(error => {
@@ -269,7 +224,7 @@ const dbConfig = {
     //Register logic 
     app.post('/register', async (req, res) => {
         const hash = await bcrypt.hash(req.body.password, 10);
-
+        console.log(hash);
         var query = "INSERT INTO userTable (username, password, firstName, lastName, email, schoolYear) values ($1, $2, $3, $4, $5, $6);";
 
 
@@ -338,14 +293,18 @@ const dbConfig = {
     app.post('/checkout', async (req, res) => {
       //the logic goes here
 // check if items are available
-      var query = "Update Item SET UserID = $1, timeBorrowed = NOW(), timeReturned = DATE_ADD(NOW(),INTERVAL) WHERE ItemID = "
-      db.any(query, [req.session.userid
-    ])
+      var query = `Update Item 
+      SET UserID = $1, timeBorrowed = NOW(), timeReturned = NOW()+usercart.Duration
+      FROM (SELECT * FROM Cart WHERE userID = $1) AS usercart
+      WHERE Item.ItemID = usercart.ItemID
+      AND Item.userID IS NULL;
+      DELETE FROM Cart WHERE userID = $1;`
+      db.any(query, [req.session.user.userid])
       .then(async function (user) {
-        res.render('pages/home',{message: 'Checkout Successful'} );
+        res.render('pages/checkout',{message: 'Checkout Successful'} );
       })
       .catch(function (err) {
-          res.render('pages/home',{message: 'Checkout failed'} );
+          res.render('pages/checkout',{message: 'Checkout failed'} );
       })
     });
     app.post("/cart/add", (req, res) => {
@@ -353,7 +312,7 @@ const dbConfig = {
       {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
       }
-      var query = "INSERT INTO Cart (userID, ItemID, Duration) VALUES ($1, $2, $3)"
+      var query = "INSERT INTO Cart (userID, ItemID, Duration, DurationName) VALUES ($1, $2, $3, $3)"
       db.any(query, [
       req.session.user.userid,
       req.body.itemid,
@@ -401,13 +360,13 @@ const dbConfig = {
       req.body.items.forEach(function(item){
         query += "Update Item SET UserID = $1, timeBorrowed = CURDATE(), timeReturned = DATE_ADD(CURDATE(),INTERVAL " + item.length + " DAY) WHERE ItemID = " + item.itemid;
       });
-      db.any(query, [req.session.userid
+      db.any(query, [req.session.user.userid
     ])
       .then(async function (user) {
-        res.render('pages/home',{message: 'Checkout Successful'} );
+        res.render('pages/cart',{message: 'Checkout Successful'} );
       })
       .catch(function (err) {
-          res.render('pages/home',{message: 'Checkout failed'} );
+          res.render('pages/cart',{message: 'Checkout failed'} );
       })
     });
     app.get("/logout", (req, res) => {

@@ -1,78 +1,40 @@
 <%- include ('../partials/header') %>
 <%- include ('../partials/menu') %>
 
-<div class="container">
-  <h1 class="title" ><center>Your Cart page </center></h1>
-        <script>
-          function InCheckout(itemID) 
-          {
-            let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-            let bool = 0;
-            cart.forEach(function (ITEM, index) 
-            {
-              console.log(ITEM, index);
-              if(itemID == ITEM)
-              {
-                bool = 1;
-              }
-            });
-            return bool;
-            console.table(cart);
-          }
-        </script>
-      <!-- TABLE -->
-      <table class = "table"><center>
-        <thead>
+<main>
+  <div>
+    <table class="table table-striped">
+      <% if(locals.username){ %>
+      <h1 class="title" ><center> <%= username %>'s Cart </center></h1>
+      <% } %>
+      <% if(locals.cart){ %>
+      <thead>
+        <form action="/checkout" method="POST">
+            <tr>
+              <th scope="col">Item #</th>
+              <th scope="col">Name</th>
+              <th scope="col">Duration</th>
+              <th scope="col">Image</th>
+              <th scope="col"><button type="submit" id="submit_button" class="btn btn-primary" >Checkout All</button></th>
+            </tr>
+          </form>
+      </thead>
+      <tbody>
+        <% cart.forEach(function(Item){ %>
           <tr>
-            <th> Item Name </th>
-            <th> Picture  </th>
-            <th> Brand </th>
-            <th></th>
+            <td> <%= Item.itemid %> </td>
+            <td> <%= Item.categoryname %> </td>
+            <td> <%= Item.durationname %></td>
+            <td> <img src=<%= Item.url %> alt= <%= Item.categoryname %> height=100 width=100></img> </td>
+            <td><form id ="form3" action="/cart/delete" method="POST"><input name = "itemid" value = <%= Item.itemid %> type = "hidden"><button type="submit">Remove From Cart</button></form></td>
           </tr>
-        </thead>
-
-        <tbody>
-          <% Item.forEach(function(Item){ %>
-              <tr>
-                  <td> <%= Item.categoryname %> </td>
-                  <td> <img src=<%= Item.url %> alt= <%= Item.name %> height=100 width=100></img> </td>
-                  <td> <%= Item.brand %></td>
-                  <td>
-                      <form id ="form3" >
-                        <button type="button" id = <%= Item.itemid %> name = 'item_id' onClick = "CheckoutList(<%= Item.itemid %>);" > Add To Cart </button> 
-                      </form> 
-                  </td>
-              </tr>
-            <% }) %> 
-        </tbody>
-      </center>
+        <% }) %>
+      </tbody>
+      <% } %>
     </table>
-</div>
-  
-  <script>
-    //Turn into function
-    function CheckoutList(itemID) 
-    {
-      let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      let bool = 0;
-      cart.forEach(function (ITEM, index) 
-      {
-        console.log(ITEM, index);
-        if(itemID == ITEM)
-        {
-          bool = 1;
-          cart.splice(index, 1); 
-          localStorage.setItem("cart", JSON.stringify(cart));
-          document.getElementById(itemID).innerHTML = "Add To Cart";
-        }
-      });
-      if(bool == 0)
-      {
-        cart.push(itemID);
-        localStorage.setItem("cart", JSON.stringify(cart));
-        document.getElementById(itemID).innerHTML = "Remove From Cart";
-      }
-      console.table(cart);
-    }
-  </script>
+  </div> 
+
+</main>
+
 <%- include ('../partials/footer') %>
+
