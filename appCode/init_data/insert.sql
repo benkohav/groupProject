@@ -121,24 +121,25 @@ VALUES ('annasmith01', '$2b$10$IA06IGcYbT9QjJNAlILaMeAEVAmJUIuvsiZK/xAhUDKhu4QYS
 
 -- IMPORTANT: search queries only work against lowercase
 INSERT INTO Category (CategoryName, CategoryDescription)
-VALUES ('laptop', 'this is a laptop, what else is there to say?');
+VALUES ('Macbook', 'this is a laptop, what else is there to say?');
 INSERT INTO Category (CategoryName, CategoryDescription)
 VALUES ('Sound devices', 'Headphones and earbuds and speaker oh my');
 INSERT INTO Category (CategoryName, CategoryDescription)
 VALUES ('Chargers', 'chargers');
 INSERT INTO Category (CategoryName, CategoryDescription, Brand, SuperCategoryID)
-VALUES ('laptop1', 'description2', 'what brand33333', 1);
+VALUES ('Macbook Pro', 'This Apple Laptop has a 13 inch retna display, touch bar, 20 hour battery life and 8GB of unified memory', 'Apple', 1);
 INSERT INTO Category (CategoryName, CategoryDescription, Brand, SuperCategoryID)
-VALUES ('laptop2', 'description3', 'what brand444444', 2);
+VALUES ('Acer Nitro 5', 'This is an Acer gaming laptop, Uses Windows 11, 15.6 inch display with 8GB of memory', 'Acer', 2);
 INSERT INTO Category (CategoryName, CategoryDescription, Brand, SuperCategoryID)
-VALUES ('laptop3', 'description4', 'what brand555555', 3);
+VALUES ('Mouse', 'This is a bluetooth mouse, can connect to 1 item at a time, compatable with most software', 'HP', 3);
 INSERT INTO Category (CategoryName, CategoryDescription, Brand, SuperCategoryID)
-VALUES ('laptop4', 'description5', 'what brand6666666', 1),
-('laptop5', 'description6', 'what brand777777', 2),
-('laptop6', 'description7', 'what brand888888', 3),
-('laptop7', 'description8', 'what brand99999999', 2),
-('laptop8', 'description9', 'what brand1111111111', 1),
-('laptop9', 'description10', 'what brand121212112', 2);
+VALUES ('LG Monitor - Keyboard - Mouse', 'This item includes a monitor, bluetooth mouse, and bluetooth keyboard', 'LG', 1),
+('Laptop Stand', 'Stand that allows you to have your laptop at eye level', 'ZSIMC', 2),
+('USB', 'USB - 32 GB', 'Sam Data', 3),
+('Brain Cells', 'Community Brain Cells when you are burnt out from finals and need a re boot', 'CU', 2),
+('Ipad', 'Touch screen tablet, 7 in screen, stylus not incuded', 'Apple', 1),
+('Keyboard', 'Bluetooth kayboard, can connect to 1 item at a time, compatable with most software', 'iClever', 2);
+
 -- INSERT INTO Category (CategoryName, CategoryDescription, Brand, SubcategoryID) VALUES
 -- -- ('iPad', 'A tablet manufactured by Apple', 'Apple', 2),
 -- -- ('Tablet', 'A flat screen', NULL, NULL);

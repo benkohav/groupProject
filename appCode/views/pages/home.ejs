@@ -11,16 +11,16 @@
    
    <thead>
     <tr>
-        <th> Popularity </th>
-        <th> Item Name </th>
-        <th> Picture  </th>
+        <th> Popularity (Scale of 1-5)</th>
+        <th> Item Type </th>
+        <th> Visual  </th>
         <th> Brand </th>
+        <th> Find Your Item </th>
         <th> </th>
     </tr>
     </thead>
     
-    
-    
+
     <tbody>
     <% Items.forEach(function(Item){ %>
         
@@ -36,18 +36,11 @@
                  <button type="submit"> Find Item </button> 
                 </form> 
             </td>
-            
-           
         </tr>
-      
-
      <% }) %> 
     </tbody>
-  
     </center>
   </table>
-  
-
   </div>
 
 <%- include ('../partials/footer') %>
