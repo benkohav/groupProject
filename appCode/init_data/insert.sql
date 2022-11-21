@@ -228,9 +228,10 @@ INSERT INTO History (userID, ItemID, timeReturned, payBy)
 VALUES (1, 12, '2022-12-01 10:10:30', '2022-12-02 20:45:30');
 
 
-INSERT INTO Cart(userID, ItemID, Duration)
-VALUES (1,3,'7 days'),
-(1,4,'1 days 12 hours');
+INSERT INTO Cart(userID, ItemID, Duration, DurationName)
+VALUES (1,3,'7 days','7 days'),
+(1,4,'1 days 12 hours','1 days 12 hours'),
+(2,8,'2 days','2 days');
 -- INFO
 
 -- INSERT INTO users (username, password, item, timeRent, timeReturn) VALUES

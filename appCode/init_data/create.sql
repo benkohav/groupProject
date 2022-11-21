@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS Cart(
   userID INT NOT NULL REFERENCES userTable (userID),
   ItemID INT NOT NULL REFERENCES Item (ItemId),
   Duration INTERVAL, 
+  DurationName VARCHAR(50),
   CONSTRAINT CartID PRIMARY KEY (userID, ItemID)
 );
 -- INSERT INTO Image (userID, ItemID, timeReturned, payBy, histPK)

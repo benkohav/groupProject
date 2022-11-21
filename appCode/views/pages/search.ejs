@@ -1,6 +1,17 @@
 <%- include ('../partials/header') %>
 <%- include ('../partials/menu') %>
-
+<!--
+For Use in Modal:   
+<div class="mb-3">
+  <label for="disabledSelect" class="form-label">Select Duration:</label>
+  <select id="duration" class="form-select" name= "duration">
+    <option selected disabled>Please Select</option>
+    <option value="2 weeks">2 weeks</option>
+    <option value="1 week">1 week</option>
+    <option value="1 day">1 day</option>
+    <option value="12 hours">12 hours</option>
+  </select>
+</div> -->
 <main>
   <div class="col"><%- include ('../partials/message') %></div>
   <div class = "container">
@@ -27,15 +38,19 @@
                   tab+= '<td>' + item.subcatname + '</td>';
                   tab+= '<td>' + item.brand + '</td>'
                   tab+= '<td>' + '<img src = "' + item.url + '" alt = "No Image" height = 60 width = 80>' + '</td>';
-                  console.log(item.userid);
                   if(item.userid){
-                    tab+= '<td><form id ="form3"><button type="submit" disabled>Item Unavaliable</button></form></td>';
+                    if(item.userid === userid){
+                      tab+= '<td><form id ="form3"><button type="submit" disabled>Item You Have</button></form></td>';
+                    }
+                    else{
+                      tab+= '<td><form id ="form3"><button type="submit" disabled>Item Unavaliable</button></form></td>';
+                    }
                   }
                   else if(item.incart){
                     tab+= '<td><form id ="form3" action="/cart/delete" method="POST"><input name = "itemid" value = "' + item.itemid + '" type = "hidden"><button type="submit">Remove From Cart</button></form></td>';
                   }
                   else{
-                    <!-- add modal here, we do not need to show information if the item is already in cart, maybe for unavailable items as well, but here first, also add dropdown in modal for duration -->
+                    <!-- add modal here, we do not need to show information if the item is already in cart, maybe for unavailable items as well, but here first, also add dropdown in modal for duration, -->
                     tab+= '<td><form id ="form3" action="/cart/add" method="POST"><input name = "itemid" value = "' + item.itemid + '" type = "hidden"><input name = "duration" value = "7 days" type = "hidden"><button type="submit"> Add to Cart </button></form></td>';
                   }
                   tab+= '</tr>';
