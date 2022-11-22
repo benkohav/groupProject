@@ -20,6 +20,12 @@ CREATE TABLE Category (
 -- INSERT INTO Category (CategoryID, CategoryName, CategoryDescription, Brand)
 -- VALUES ('70', 'Laptop', 'description', 'what brand');
 
+DROP TABLE IF EXISTS Checkout ;
+CREATE TABLE IF NOT EXISTS Checkout (
+  ItemId INT NOT NULL REFERENCES Item (ItemId),
+  userID INT NOT NULL REFERENCES usertable (userID)
+);
+
 DROP TABLE IF EXISTS Item ;
 CREATE TABLE IF NOT EXISTS Item (
   ItemId SERIAL PRIMARY KEY,

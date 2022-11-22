@@ -128,12 +128,28 @@ const dbConfig = {
     });
 
     //Rendering checkout
-    app.get('/checkout', (req, res) => {
-      if(!req.session.user)
-      {
-        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
-      }
-      res.render('pages/checkout'); //{<JSON data required to render the page, if applicable>}
+app.get('/finalcheckout', (req, res) => {
+    var query = 'Select Checkout.ItemId Checkout.userID from Checkout where userName = $1;';
+    var query1 = 'UPDATE Item SET userID = $1 where ItemId = $2;';
+    var query2 = 'DELETE FROM Checkout where ItemId = $1;';
+       db.any(query, [
+           req.session.user.username
+       ])
+           .then(function (data) {
+               data.forEach(function (items, index) {
+                   db.any(query1, [
+                       data.userID,
+                       data.ItemId
+                   ])
+                   db.any(query2, [
+                       data.ItemId
+                   ])
+               });
+               res.redirect('pages/home', { message: 'Please pickup your items at the TechLibrary.' });
+       })
+       .catch(function (err) {
+             res.render('pages/checkout', { message: 'Error. Please make sure your information is correct.' });
+        })
     });
 
     //Rendering search

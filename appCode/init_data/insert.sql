@@ -8,6 +8,8 @@ VALUES ( 'username', '$2b$10$xhjOIbZoN0z/P4hKl8kwyOsGio8RbixVcOgyAnIiXbMZLhaRVSj
 
 INSERT INTO userTable (userName, password, firstName, lastName, email, schoolYear)
 VALUES ('annasmith01', '$2b$10$IA06IGcYbT9QjJNAlILaMeAEVAmJUIuvsiZK/xAhUDKhu4QYSsnrm', 'Anna', 'Smith', 'anna.smith@colorado.edu', 'Undergraduate, Sophomore');
+INSERT INTO Checkout (ItemId,userID)
+VALUES (1,1);
 
 -- INSERT INTO userTable (userID, userName, password, email)
 -- VALUES ('1', '111111111111', 'password2', 'email2');
