@@ -1,22 +1,9 @@
 <%- include ('../partials/header') %>
 <%- include ('../partials/menu') %>
 
-var table = document.getElementById("mytab1");
-for (var i = 0, row; row = table.rows[i]; i++) {
-  //iterate through rows
-  //rows would be accessed using the "row" variable assigned in the for loop
-  for (var j = 0, col; col = row.cells[j]; j++) {
-    //iterate through columns
-    //columns would be accessed using the "col" variable assigned in the for loop
-  }  
-}
-
-
-
-
-<!-- <body>
-  <div class="container">
-    
+<!-- <main>
+  <div class="col"><%- include ('../partials/message') %></div>
+  <div class = "container">
     <h1>Home</h1>
     <p><center>Rules and How to Use</center> </p>
     <p> &nbsp&nbsp&nbsp&nbsp&nbsp The Tech Libray is a place where you can rent technology that we have in stock. Its very easy to use just sign in and then search for an item in the search bar above.</p>
@@ -59,13 +46,6 @@ for (var i = 0, row; row = table.rows[i]; i++) {
   </table>
   
   </div>
-  <script>
-  //Turn into function
-  let cart = JSON.parse(localStorage.setItem("cart") || "[]");
-  cart.push("newitem");
-  localStorage.setItem("cart", JSON.stringify(cart));
-  </script> -->
-
-<%- include ('../partials/footer') %>
+</main> -->
 
 <%- include ('../partials/footer') %>
