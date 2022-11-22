@@ -8,7 +8,7 @@
         <h1><center>Manage your Profile</center></h1>
         <div class="row">
             <div class="col">
-                <div class="card bg-secondary text-white" style="width: 25rem;">
+                <div class="card bg-dark text-white" style="width: 25rem;">
                     <div class="card-body">
                     <h5 class="card-title"><%= firstName %> <%= lastName %></h5>
                     <p class="card-text">Account Holder</p>
@@ -21,38 +21,29 @@
                     <table class = "table"><center>
    
                         <thead>
-                         <tr>
-                             <th> itemID </th>
-                             <th> Item Name </th>
-                             <th> Picture  </th>
-                             <th> </th>
-                         </tr>
+                            <tr>
+                                <th> itemID </th>
+                                <th> Item Name </th>
+                                <th> Picture  </th>
+                                <th> </th>
+                            </tr>
                          </thead>
-                         
-                         
-                         
                          <tbody>
-                         <% Items.forEach(function(Item){ %>
-                             
+                         <% Items.forEach(function(Item){ %>  
                              <tr>
                                  <td> <%= Item.itemid %> </td>
                                  <td> <%= Item.categoryname %> </td>
                                  <td> <img src=<%= Item.url %> alt= <%= Item.categoryname %> height=100 width=100></img> </td>
-
-
                                  <td>
                                     <!-- <form id ="form3" action="/search" method="GET">
                                       <input value = <%=Item.categoryname %> name = "search" id = <%= Item.itemid %> type = hidden> -->
                                      <button type="submit" id="submit_button" class="btn btn-primary" style="margin-top: 20px;"> Return </button> 
                                     <!-- </form>  -->
                                 </td>
-                                
                              </tr>
-                           
-                     
                           <% }) %> 
                          </tbody>
-                       
+                         
                          </center>
                        </table>
                     </div>
@@ -64,13 +55,25 @@
                 <h5 class="card-title">Contact Details</h5>
                 <p class="card-text">Edit your contact info here.</p>
                 <p>First Name: <%= firstName %></p>
-                <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit First Name</button></td></th>
+                <th scope="row">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Edit First Name
+                    </button> </td></th>
                 <p>Last Name: <%= lastName %></p>
-                <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit Last Name</button></td></th>
+                <th scope="row">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Edit Last Name
+                    </button> </td></th>                
                 <p>Email: <%= email %></p>
-                <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit Email</button></td></th>
+                <th scope="row">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Edit Email
+                    </button> </td></th>
                 <p>University Year: <%= schoolYear %></p>
-                <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit University Year</button></td></th>
+                <th scope="row">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Edit University Year
+                    </button> </td></th>
             </div>
             </div>
         </div>
@@ -82,45 +85,70 @@
                 <p class="card-text">Modify your username/password and shopping settings here. </p>
                 <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                 <p>Username: <%= username %></p>
-                <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit Username</button></td></th>
+                 <th scope="row">
+                <button type="button" id = "username"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Update Username
+                </button> </td></th>
                 <p>Password:</p>
-                <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit Password</button></td></th>
+                <th scope="row">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Change Password
+                    </button> </td></th>
                 </div>
             </div>
         </div>
     </div>
     <!-- note: modal code should be placed here -->
-    <div class="modal" id="event-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">create event</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Event Name</label>
-                    <br>
-                    <input type="text" id = "event-name"  />
-                    </div>
-                    <div class="mb-3">
-                        <label for="disabledSelect" class="form-label">Weekday</label>
-                        <select id="event-day" class="form-select">
-                        <option value ="monday">Monday</option>
-                        <option value ="tuesday">Tuesday</option>
-                        <option value = "wednesday">Wednesday</option>
-                        <option value ="thursday">Thursday</option>
-                        <option value = "friday">Friday</option>
-                        <option value ="saturday">Saturday</option>
-                        <option value = "sunday">Sunday</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update Username </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="eventTitle" aria-describedby="emailHelp">
+                  </div>
+
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Password</label>
+                    <input type="text" class="form-control" id="eventTitle" aria-describedby="emailHelp">
+                  </div>
+
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="eventTitle" aria-describedby="emailHelp">
+                  </div>
+             
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="eventTitle" aria-describedby="emailHelp">
+                  </div>
+               
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email</label>
+                    <input type="text" class="form-control" id="eventTitle" aria-describedby="emailHelp">
+                  </div>
+    
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Year</label>
+                    <input type="text" class="form-control" id="eventTitle" aria-describedby="emailHelp">
+                  </div>
+        </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="createButton" class="btn btn-primary">Update Username</button>
+                </div>
+                
+            </form> 
+      
+</div>
+
 
 </main>
 

@@ -148,6 +148,32 @@ const dbConfig = {
       })
     });
 
+    //  // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    //  app.post('/profile/username', async (req, res) => {
+    //   // const hash = await bcrypt.hash(req.body.password, 10);
+
+    //   var query1 = "UPDATE userTable SET username = $1 WHERE userTable.username = $2;";
+
+    //   db.any(query1, [ 
+    //   req.body.username,
+    //   hash,
+    //   // req.body.firstName,
+    //   // req.body.lastName,
+    //   // req.body.email,
+    //   // req.body.schoolYear,
+    //   req.session.user.username,
+    // ])
+    //   .then(function (data) {
+    //       // console.log(req.body.schoolYear);
+    //       res.render('pages/profile',{message: 'Username successfully updated.'} );
+
+    //   })
+    //   .catch(function (err) {
+    //     res.render('pages/profile',{message: 'Error. Please try updating username again.'} );
+    //   })
+    // });
+
+
     //Rendering home
     app.get('/home', (req, res) => {
       if(!req.session.user)
