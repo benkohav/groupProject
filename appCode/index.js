@@ -60,6 +60,10 @@ const dbConfig = {
       res.redirect('/login'); //this will call the /anotherRoute route in the API
     });
 
+    app.get('/test', (req, res) => {
+      res.render('pages/test'); //{<JSON data required to render the page, if applicable>}
+    });
+
     //Rendering register
     app.get('/register', (req, res) => {
         res.render('pages/register'); //{<JSON data required to render the page, if applicable>}
@@ -124,27 +128,28 @@ const dbConfig = {
       })
     });
 
-    // updates the database after fields in profile page have been edited --> updating user variable is needed 
-    app.post('/profile', async (req, res) => {
-      const hash = await bcrypt.hash(req.body.password, 10);
+// updates the database after fields in profile page have been edited --> updating user variable is needed 
+    app.post('/profile/username', async (req, res) => {
+      // const hash = await bcrypt.hash(req.body.password, 10);
 
-      var query1 = "UPDATE userTable SET username = $1, password = $2, firstName = $3, lastName = $4, email = $5, schoolYear = $6 where username =$7;";
+      var query1 = "UPDATE userTable SET username = $1 WHERE userTable.username = $2;";
 
       db.any(query1, [ 
       req.body.username,
-      hash,
-      req.body.firstName,
-      req.body.lastName,
-      req.body.email,
-      req.body.schoolYear,
+      // hash,
+      // req.body.firstName,
+      // req.body.lastName,
+      // req.body.email,
+      // req.body.schoolYear,
       req.session.user.username,
     ])
       .then(function (data) {
-          console.log(req.body.schoolYear);
-          res.redirect('/profile');
+          // console.log(req.body.schoolYear);
+          res.render('pages/profile',{message: 'Username successfully updated.'} );
+
       })
       .catch(function (err) {
-        res.render('pages/profile',{message: 'Error. Please try registering again.'} );
+        res.render('pages/profile',{message: 'Error. Please try updating username again.'} );
       })
     });
 
