@@ -1,10 +1,8 @@
 <%- include ('../partials/header') %>
 <%- include ('../partials/menu') %>
 
-<!-- <main>
-  <div class="col"><%- include ('../partials/message') %></div>
-  <div class = "container">
-    <h1>Home</h1>
+<div class="container">
+    <h1><center>Home</center></h1>
     <p><center>Rules and How to Use</center> </p>
     <p> &nbsp&nbsp&nbsp&nbsp&nbsp The Tech Libray is a place where you can rent technology that we have in stock. Its very easy to use just sign in and then search for an item in the search bar above.</p>
     <p>When you have added all of your items just click checkout at the top and it will walk you through the rest. Down below we have a list of the most commonly rented items.</p>
@@ -13,39 +11,43 @@
    
    <thead>
     <tr>
-        
+        <th> Popularity </th>
         <th> Item Name </th>
         <th> Picture  </th>
         <th> Brand </th>
-        <th></th>
+        <th> </th>
     </tr>
     </thead>
-
+    
     
     
     <tbody>
-    <% Item.forEach(function(Item){ %>
+    <% Items.forEach(function(Item){ %>
         
         <tr>
-            <td> <%= Item.name %> </td>
-            <td> <img src=<%= Item.url %> alt= <%= Item.name %> height=100 width=100></img> </td>
+            <td> <%= Item.num %> </td>
+            <td> <%= Item.categoryname %> </td>
+            <td> <img src=<%= Item.url %> alt= <%= Item.categoryname %> height=100 width=100></img> </td>
             <td> <%= Item.brand %></td>
-        
+            
             <td>
-                <form id ="form3" action = '/add' method = 'POST'>
-                 <button type="submit" name = 'item_id' value = '<%= Item.itemid %>'> ADD </button> 
+                <form id ="form3" action="/search" method="GET">
+                  <input value = <%=Item.categoryname %> name = "search" id = <%= Item.itemid %> type = hidden>
+                 <button type="submit"> Find Item </button> 
                 </form> 
             </td>
-        
+            
+           
         </tr>
       
+
      <% }) %> 
     </tbody>
   
     </center>
   </table>
   
+
   </div>
-</main> -->
 
 <%- include ('../partials/footer') %>
