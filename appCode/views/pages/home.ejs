@@ -1,32 +1,53 @@
 <%- include ('../partials/header') %>
 <%- include ('../partials/menu') %>
 
-<!-- <main>
-  <div class="col"><%- include ('../partials/message') %></div>
-  <div class = "container">
-    <h1>Home</h1>
-    <form action="/search" method="GET">
-      <label for="search" class="form-label"  >Search</label>
-      <input type="text" class="form-control" id="search" name ="search">
-      <button id="submit_button" class="btn btn-secondary" type="submit">Search</button>
-    </form>
-            <!-- <% 
-            if (results.data._embedded.events) {
-                var tab = '';
-                tab += '<table> <thead> <tr> <th>Name of Item</th> <th width = 300></th> <th></th> </tr> <br> </thead> <tbody>'
-                results.data.forEach(function(item){
-                  tab+= '<tr>';
-                  tab+= '<td>'+ item.name + '</td>';
-                  console.log(item.images)
-                  tab+= '<td>'+ '<img src = "' + item.images.url + '" alt = "No Image" height = 100 width = 220>' + '</td>';
-                  tab += '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#event-modal">Borrow</button>''
-                  tab+= '</tr>';
-                }); 
-                tab += '</tbody></table>'
-                %>
-               <%- tab %>
-              <% } %> -->
+<div class="container">
+    <h1><center>Home</center></h1>
+    <p><center>Rules and How to Use</center> </p>
+    <p> &nbsp&nbsp&nbsp&nbsp&nbsp The Tech Libray is a place where you can rent technology that we have in stock. Its very easy to use just sign in and then search for an item in the search bar above.</p>
+    <p>When you have added all of your items just click checkout at the top and it will walk you through the rest. Down below we have a list of the most commonly rented items.</p>
+
+   <table class = "table"><center>
+   
+   <thead>
+    <tr>
+        <th> Popularity </th>
+        <th> Item Name </th>
+        <th> Picture  </th>
+        <th> Brand </th>
+        <th> </th>
+    </tr>
+    </thead>
+    
+    
+    
+    <tbody>
+    <% Items.forEach(function(Item){ %>
+        
+        <tr>
+            <td> <%= Item.num %> </td>
+            <td> <%= Item.categoryname %> </td>
+            <td> <img src=<%= Item.url %> alt= <%= Item.categoryname %> height=100 width=100></img> </td>
+            <td> <%= Item.brand %></td>
+            
+            <td>
+                <form id ="form3" action="/search" method="GET">
+                  <input value = <%=Item.categoryname %> name = "search" id = <%= Item.itemid %> type = hidden>
+                 <button type="submit"> Find Item </button> 
+                </form> 
+            </td>
+            
+           
+        </tr>
+      
+
+     <% }) %> 
+    </tbody>
+  
+    </center>
+  </table>
+  
+
   </div>
-</main> -->
 
 <%- include ('../partials/footer') %>
