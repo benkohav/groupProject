@@ -4,3 +4,6 @@ body {
     font-weight: 400;
     background-color: gray;
 }
+
+a.nav-link {color:#FFFFFF;}
+a.nav-link_hover {color:#F00F00; text-decoration:none;}
