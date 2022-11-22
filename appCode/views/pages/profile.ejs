@@ -14,6 +14,49 @@
                     <p class="card-text">Account Holder</p>
                     </div>
                 </div>
+                <p></p>
+                <div class="card" style="width: 25rem;">
+                    <div class="card-body">
+                    <h5 class="card-title"><%= firstName %>'s Item's Checked Out:</h5>
+                    <table class = "table"><center>
+   
+                        <thead>
+                         <tr>
+                             <th> itemID </th>
+                             <th> Item Name </th>
+                             <th> Picture  </th>
+                             <th> </th>
+                         </tr>
+                         </thead>
+                         
+                         
+                         
+                         <tbody>
+                         <% Items.forEach(function(Item){ %>
+                             
+                             <tr>
+                                 <td> <%= Item.itemid %> </td>
+                                 <td> <%= Item.categoryname %> </td>
+                                 <td> <img src=<%= Item.url %> alt= <%= Item.categoryname %> height=100 width=100></img> </td>
+
+
+                                 <td>
+                                    <!-- <form id ="form3" action="/search" method="GET">
+                                      <input value = <%=Item.categoryname %> name = "search" id = <%= Item.itemid %> type = hidden> -->
+                                     <button type="submit" id="submit_button" class="btn btn-primary" style="margin-top: 20px;"> Return </button> 
+                                    <!-- </form>  -->
+                                </td>
+                                
+                             </tr>
+                           
+                     
+                          <% }) %> 
+                         </tbody>
+                       
+                         </center>
+                       </table>
+                    </div>
+                </div>
             </div>
         <div class="col">
             <div class="card" style="width: 25rem;">
@@ -31,6 +74,7 @@
             </div>
             </div>
         </div>
+        
         <div class="col">
             <div class="card" style="width: 25rem;">
                 <div class="card-body">
