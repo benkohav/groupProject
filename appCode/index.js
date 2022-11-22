@@ -72,6 +72,10 @@ const dbConfig = {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
       }
       var profileQuery = "SELECT * FROM userTable WHERE userTable.userID = $1";
+      var itemsCheckedOutQuery = `SELECT ItemID, CategoryName, CategoryDescription, URL
+          FROM (SELECT * FROM Item WHERE Item.UserID = $1) AS userItems
+          INNER JOIN Category ON userItems.CategoryID = Category.CategoryID 
+          LEFT OUTER JOIN Image ON Category.CategoryID = Image.CategoryID;`;
       // console.log('Testing');
       db.any(profileQuery, [
         req.session.user.userid
@@ -84,17 +88,39 @@ const dbConfig = {
           lastName = data[0].lastname;
           email = data[0].email;
           schoolYear =  data[0].schoolyear;
-        
-        res.render("pages/profile", {
-          username,
-          firstName,
-          lastName,
-          email,
-          schoolYear,
-        });
+
+          db.any(itemsCheckedOutQuery, [
+            req.session.user.userid
+          ])
+          .then(Items => 
+            {
+              console.log(Items);
+              res.render("pages/profile", {
+                username,
+                firstName,
+                lastName,
+                email,
+                schoolYear,
+                Items
+              });
+            })
+            .catch((err) => {
+              res.render("pages/profile", {
+                  Item: [],
+                  error: true,
+                  message: err.message,
+              });
+          });
+        // res.render("pages/profile", {
+        //   username,
+        //   firstName,
+        //   lastName,
+        //   email,
+        //   schoolYear,
+        // });
       })
       .catch(function (err) {
-        res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+        res.render('pages/login',{message: 'Error. This user is not found.'} );
       })
     });
 

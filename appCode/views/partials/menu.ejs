@@ -1,5 +1,6 @@
 <header>
-  <nav class="navbar navbar-expand-sm border-bottom">
+  <link rel="stylesheet" href="../../resources/css/style.css">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
       <button
         class="navbar-toggler ms-auto"
@@ -13,10 +14,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbar-collapse">
 
-          <ul class="navbar-nav me-auto">
+          <ul class="navbar-nav me-auto" >
             <li class="nav-item">
               <!-- TO-DO: For Discover, add a <a> tag with an attribute href to call the '/discover' API -->
-                <a href="/home" style="color: black;"> Home</a>
+                <a class = "nav-link" href="/home"> Home</a>
             </li>
             <!-- spacing, it looked too cramped -->
             <p> &nbsp &nbsp</p>
@@ -26,27 +27,53 @@
                 <button class="btn btn-outline-success" type="submit">Search</button>
               </form>
             </li>
+
+
           </ul>
-          <div class="nav-item me-1" style="position: centre;">
+
+          <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item">
+              <!-- TO-DO: For Discover, add a <a> tag with an attribute href to call the '/discover' API -->
+                <a class = "nav-link" href="/profile"> Profile</a>
+            </li>
+
+            <li class="nav-item">
+              <!-- TO-DO: For Discover, add a <a> tag with an attribute href to call the '/discover' API -->
+                <a class = "nav-link" href="/Cart"> Cart</a>
+            </li>
+
+            <li class="nav-item">
+              <!-- TO-DO: For Discover, add a <a> tag with an attribute href to call the '/discover' API -->
+                <a class = "nav-link" href="/Search"> Search</a>
+            </li>
+
+            <li class="nav-item">
+              <!-- TO-DO: For Discover, add a <a> tag with an attribute href to call the '/discover' API -->
+                <a class = "nav-link" href="/logout"> Logout</a>
+            </li>
+          </ul>
+
+
+          <!-- <div class="nav-item me-1" style="position: centre;"> -->
             <!-- TO-DO: For Logout, add a <a> tag with an attribute href to call the '/logout API -->
-                <a href="/profile" style="color: black;">Profile</a>
-          </div> 
+                <!-- <a href="/profile" style="color: black;">Profile</a> -->
+          <!-- </div>  -->
 
-        <div class="nav-item me-1" style="position: centre;">
+        <!-- <div class="nav-item me-1" style="position: centre;"> -->
           <!-- TO-DO: For Logout, add a <a> tag with an attribute href to call the '/logout API -->
-              <a href="/cart" style="color: black;">Cart</a>
-        </div> 
+              <!-- <a href="/cart" style="color: black;">Cart</a> -->
+        <!-- </div>  -->
 
 
-        <div class="nav-item me-1" style="position: centre;">
+        <!-- <div class="nav-item me-1" style="position: centre;"> -->
           <!-- TO-DO: For Logout, add a <a> tag with an attribute href to call the '/logout API -->
-              <a href="/search" style="color: black;">Search</a>
-        </div>
+              <!-- <a href="/search" style="color: black;">Search</a> -->
+        <!-- </div> -->
         
-        <div class="nav-item me-1" style="position: centre;">
+        <!-- <div class="nav-item me-1" style="position: centre;"> -->
           <!-- TO-DO: For Logout, add a <a> tag with an attribute href to call the '/logout API -->
-              <a href="/logout" style="color: black;">Logout</a>
-        </div>
+              <!-- <a href="/logout" style="color: black;">Logout</a> -->
+        <!-- </div> -->
 
         
       </div>
