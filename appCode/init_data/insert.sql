@@ -121,7 +121,7 @@ VALUES ('annasmith01', '$2b$10$IA06IGcYbT9QjJNAlILaMeAEVAmJUIuvsiZK/xAhUDKhu4QYS
 
 -- IMPORTANT: search queries only work against lowercase
 INSERT INTO Category (CategoryName, CategoryDescription)
-VALUES ('Macbook', 'this is a laptop, what else is there to say?');
+VALUES ('macbook', 'this is a laptop, what else is there to say?');
 INSERT INTO Category (CategoryName, CategoryDescription)
 VALUES ('Sound devices', 'Headphones and earbuds and speaker oh my');
 INSERT INTO Category (CategoryName, CategoryDescription)
@@ -144,8 +144,7 @@ VALUES ('LG Monitor - Keyboard - Mouse', 'This item includes a monitor, bluetoot
 -- -- ('iPad', 'A tablet manufactured by Apple', 'Apple', 2),
 -- -- ('Tablet', 'A flat screen', NULL, NULL);
 
--- INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
--- VALUES ('6000', 'ItemName1' ,'ItemDescription1', 'Condition1', '110' , '0', '10.00' , '1234', '5678');
+--CALUES ('6000', 'ItemName1' ,'ItemDescription1', 'Condition1', '110' , '0', '10.00' , '1234', '5678');
 -- INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
 -- VALUES ('7000', 'ItemName2' ,'ItemDescription2', 'Condition2', '80' , '1', '12.00' ,'4321', '3421');
 -- INSERT INTO Item (ItemId, ItemName, ItemDescription, Condition, CategoryID, userID, rentPerDay, timeBorrowed, timeReturned)
