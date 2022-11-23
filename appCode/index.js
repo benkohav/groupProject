@@ -127,29 +127,29 @@ const dbConfig = {
     // updates the database after fields in profile page have been edited --> updating user variable is needed 
 
     //Register logic 
-    app.post('/profileUpdate', async (req, res) => {
-      const hash = await bcrypt.hash(req.body.password, 10);
+    // app.post('/profile', async (req, res) => {
+    //   const hash = await bcrypt.hash(req.body.password, 10);
 
-      var queryReview = "UPDATE userTable SET username = $1 WHERE userTable.username = $2;";
+    //   var queryReview = "UPDATE userTable SET username = $1 WHERE userTable.username = $2;";
 
-      db.any(queryReview,
-          [request.body.review_id,
-          request.body.review,
-          request.body.imageAddress])
+    //   db.any(queryReview,
+    //       [request.body.review_id,
+    //       request.body.review,
+    //       request.body.imageAddress])
 
-      .then(function (data) {
-      res.status(200).json({
-          status: 'success',
-          data: data,
-          message: 'Review updated successfully',
-      });
-      return;
-      })
-      .catch(function (err) {
-      return console.log(err);
-      });
+    //   .then(function (data) {
+    //   res.status(200).json({
+    //       status: 'success',
+    //       data: data,
+    //       message: 'Profile updated successfully',
+    //   });
+    //   return;
+    //   })
+    //   .catch(function (err) {
+    //   return console.log(err);
+    //   });
 
-    });
+    // });
 
 
     // app.post('/profile', async (req, res) => {
@@ -175,30 +175,30 @@ const dbConfig = {
     //   })
     // });
 
-    //  // updates the database after fields in profile page have been edited --> updating user variable is needed 
-    //  app.post('/profile/username', async (req, res) => {
-    //   // const hash = await bcrypt.hash(req.body.password, 10);
+     // updates the database after fields in profile page have been edited --> updating user variable is needed 
+     app.post('/profile/username', async (req, res) => {
+      // const hash = await bcrypt.hash(req.body.password, 10);
 
-    //   var query1 = "UPDATE userTable SET username = $1 WHERE userTable.username = $2;";
+      var query1 = "UPDATE userTable SET username = $2 WHERE userTable.username = $1;";
 
-    //   db.any(query1, [ 
-    //   req.body.username,
-    //   hash,
-    //   // req.body.firstName,
-    //   // req.body.lastName,
-    //   // req.body.email,
-    //   // req.body.schoolYear,
-    //   req.session.user.username,
-    // ])
-    //   .then(function (data) {
-    //       // console.log(req.body.schoolYear);
-    //       res.render('pages/profile',{message: 'Username successfully updated.'} );
+      db.any(query1, [ 
+      req.body.username,
+      // hash,
+      // req.body.firstName,
+      // req.body.lastName,
+      // req.body.email,
+      // req.body.schoolYear,
+      req.session.user.username
+    ])
+      .then(function (data) {
+          // console.log(req.body.schoolYear);
+          res.render('pages/profile',{message: 'Username successfully updated.'} );
 
-    //   })
-    //   .catch(function (err) {
-    //     res.render('pages/profile',{message: 'Error. Please try updating username again.'} );
-    //   })
-    // });
+      })
+      .catch(function (err) {
+        res.render('pages/profile',{message: 'Error. Please try updating username again.'} );
+      })
+    });
 
 
     //Rendering home
