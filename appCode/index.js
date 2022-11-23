@@ -60,10 +60,6 @@ const dbConfig = {
       res.redirect('/login'); //this will call the /anotherRoute route in the API
     });
 
-    app.get('/test', (req, res) => {
-      res.render('pages/test'); //{<JSON data required to render the page, if applicable>}
-    });
-
     //Rendering register
     app.get('/register', (req, res) => {
         res.render('pages/register'); //{<JSON data required to render the page, if applicable>}
