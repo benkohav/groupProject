@@ -105,7 +105,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Update Username </h5>
+          <h5 class="modal-title" id="exampleModalLabel">Update User Info </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -115,7 +115,7 @@
                     <input type="text" class="form-control" id="eventTitle" aria-describedby="emailHelp">
                   </div>
 
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Password</label>
                     <input type="text" class="form-control" id="eventTitle" aria-describedby="emailHelp">
                   </div>
@@ -136,9 +136,18 @@
                   </div>
     
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Year</label>
-                    <input type="text" class="form-control" id="eventTitle" aria-describedby="emailHelp">
-                  </div>
+                    <label for="disabledSelect" class="form-label">School Year:</label>
+                    <select id="schoolYear" class="form-select" name= "schoolYear">
+                      <option selected disabled>Please Select</option>
+                      <option value="Undergraduate, Freshman">Undergraduate, Freshman</option>
+                      <option value="Undergraduate, Sophomore">Undergraduate, Sophomore</option>
+                      <option value="Undergraduate, Junior">Undergraduate, Junior</option>
+                      <option value="Undergraduate, Senior">Undergraduate, Senior</option>
+                      <option value = "Graduate Student">Graduate Student</option>
+                      <option value="Postgraduate">Postgraduate</option>
+                      <option value="Faculty">Faculty</option>
+                    </select>
+                </div> -->
         </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

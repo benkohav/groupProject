@@ -125,28 +125,55 @@ const dbConfig = {
     });
 
     // updates the database after fields in profile page have been edited --> updating user variable is needed 
-    app.post('/profile', async (req, res) => {
+
+    //Register logic 
+    app.post('/profileUpdate', async (req, res) => {
       const hash = await bcrypt.hash(req.body.password, 10);
 
-      var query1 = "UPDATE userTable SET username = $1, password = $2, firstName = $3, lastName = $4, email = $5, schoolYear = $6 where username =$7;";
+      var queryReview = "UPDATE userTable SET username = $1 WHERE userTable.username = $2;";
 
-      db.any(query1, [ 
-      req.body.username,
-      hash,
-      req.body.firstName,
-      req.body.lastName,
-      req.body.email,
-      req.body.schoolYear,
-      req.session.user.username,
-    ])
+      db.any(queryReview,
+          [request.body.review_id,
+          request.body.review,
+          request.body.imageAddress])
+
       .then(function (data) {
-          console.log(req.body.schoolYear);
-          res.redirect('/profile');
+      res.status(200).json({
+          status: 'success',
+          data: data,
+          message: 'Review updated successfully',
+      });
+      return;
       })
       .catch(function (err) {
-        res.render('pages/profile',{message: 'Error. Please try registering again.'} );
-      })
+      return console.log(err);
+      });
+
     });
+
+
+    // app.post('/profile', async (req, res) => {
+    //   const hash = await bcrypt.hash(req.body.password, 10);
+
+    //   var query1 = "UPDATE userTable SET username = $1, password = $2, firstName = $3, lastName = $4, email = $5, schoolYear = $6 where username =$7;";
+
+    //   db.any(query1, [ 
+    //   req.body.username,
+    //   hash,
+    //   req.body.firstName,
+    //   req.body.lastName,
+    //   req.body.email,
+    //   req.body.schoolYear,
+    //   req.session.user.username,
+    // ])
+    //   .then(function (data) {
+    //       console.log(req.body.schoolYear);
+    //       res.redirect('/profile');
+    //   })
+    //   .catch(function (err) {
+    //     res.render('pages/profile',{message: 'Error. Please try registering again.'} );
+    //   })
+    // });
 
     //  // updates the database after fields in profile page have been edited --> updating user variable is needed 
     //  app.post('/profile/username', async (req, res) => {
