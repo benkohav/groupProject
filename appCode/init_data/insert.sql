@@ -1,8 +1,8 @@
 
 -- passwords should be hashed, run the hash and then paste it in, do not try to add it without hashing
 -- password: password
-INSERT INTO userTable (userName, password, email)
-VALUES ( 'username', '$2b$10$xhjOIbZoN0z/P4hKl8kwyOsGio8RbixVcOgyAnIiXbMZLhaRVSjua', 'username@dummydata.com');
+INSERT INTO userTable (userName, password, firstName, lastName, email)
+VALUES ( 'username', '$2b$10$xhjOIbZoN0z/P4hKl8kwyOsGio8RbixVcOgyAnIiXbMZLhaRVSjua', 'user', 'name', 'username@dummydata.com');
 
 -- password: password1
 
@@ -180,7 +180,7 @@ VALUES
 (4,1, 'Broken'),
 (7,1, 'As good as new'),
 (6,2, 'As good as new'),
-(3,1, 'As good as new'),
+(7,1, 'As good as new'),
 (10,2, 'As good as new');
 
 -- Note for inserting future images: please link to image directly not google page, I had to change all of these
