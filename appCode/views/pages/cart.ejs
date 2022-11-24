@@ -26,7 +26,7 @@
             <td> <%= Item.categoryname %> </td>
             <td> <%= Item.durationname %></td>
             <td> <img src=<%= Item.url %> alt= <%= Item.categoryname %> height=100 width=100></img> </td>
-            <td><form id ="form3" action="/cart/delete" method="POST"><input name = "itemid" value = <%= Item.itemid %> type = "hidden"><button type="submit">Remove From Cart</button></form></td>
+            <td><form id ="form3" action="/cart/delete" method="POST"><input name = "itemid" value = <%= Item.itemid %> type = "hidden"><input name = "returnto" value = "/cart" type = "hidden"><button type="submit">Remove From Cart</button></form></td>
           </tr>
         <% }) %>
       </tbody>

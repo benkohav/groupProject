@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <p></p>
-                <div class="card" style="width: 25rem;">
+                <div class="card" style="width: 35rem;">
                     <div class="card-body">
                     <h5 class="card-title"><%= firstName %>'s Item's Checked Out:</h5>
                     <table class = "table"><center>
@@ -24,6 +24,7 @@
                          <tr>
                              <th> itemID </th>
                              <th> Item Name </th>
+                             <th> Time Due</th>
                              <th> Picture  </th>
                              <th> </th>
                          </tr>
@@ -37,14 +38,13 @@
                              <tr>
                                  <td> <%= Item.itemid %> </td>
                                  <td> <%= Item.categoryname %> </td>
+                                 <td> <%= Item.timereturned %></td>
                                  <td> <img src=<%= Item.url %> alt= <%= Item.categoryname %> height=100 width=100></img> </td>
-
-
                                  <td>
-                                    <!-- <form id ="form3" action="/search" method="GET">
-                                      <input value = <%=Item.categoryname %> name = "search" id = <%= Item.itemid %> type = hidden> -->
+                                    <form id ="form3" action="/return" method="POST">
+                                      <input value = <%=Item.itemid %> name = "itemid" id = <%= Item.itemid %> type = hidden>
                                      <button type="submit" id="submit_button" class="btn btn-primary" style="margin-top: 20px;"> Return </button> 
-                                    <!-- </form>  -->
+                                    </form> 
                                 </td>
                                 
                              </tr>

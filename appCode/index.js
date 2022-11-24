@@ -72,7 +72,7 @@ const dbConfig = {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
       }
       var profileQuery = "SELECT * FROM userTable WHERE userTable.userID = $1";
-      var itemsCheckedOutQuery = `SELECT ItemID, CategoryName, CategoryDescription, URL
+      var itemsCheckedOutQuery = `SELECT ItemID, timeReturned, CategoryName, CategoryDescription, URL
           FROM (SELECT * FROM Item WHERE Item.UserID = $1) AS userItems
           INNER JOIN Category ON userItems.CategoryID = Category.CategoryID 
           LEFT OUTER JOIN Image ON Category.CategoryID = Image.CategoryID;`;
@@ -383,17 +383,15 @@ const dbConfig = {
     app.post('/return', async (req, res) => {
       //the logic goes here
       // check if items are available
-      var query = ""
-      req.body.items.forEach(function(item){
-        query += "Update Item SET UserID = $1, timeBorrowed = CURDATE(), timeReturned = DATE_ADD(CURDATE(),INTERVAL " + item.length + " DAY) WHERE ItemID = " + item.itemid;
-      });
-      db.any(query, [req.session.user.userid
-    ])
+      var query = `INSERT INTO History (userID, ItemID, timeBorrowed, timeReturned)
+      SELECT userID, ItemID, timeBorrowed, NOW() FROM Item WHERE ItemID = $1;
+      UPDATE Item SET userID = NULL, timeBorrowed = NULL, timeReturned = NULL WHERE ItemID = $1;`
+      db.any(query, [req.body.itemid])
       .then(async function (user) {
-        res.render('pages/cart',{message: 'Checkout Successful'} );
+        res.redirect('/profile');
       })
       .catch(function (err) {
-          res.render('pages/cart',{message: 'Checkout failed'} );
+          res.render('pages/checkout',{message: 'Return failed'} );
       })
     });
     app.get("/logout", (req, res) => {
