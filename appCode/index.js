@@ -106,7 +106,7 @@ const dbConfig = {
             })
             .catch((err) => {
               res.render("pages/profile", {
-                  Item: [],
+                  Items: [],
                   error: true,
                   message: err.message,
               });
@@ -141,7 +141,9 @@ const dbConfig = {
     ])
       .then(function (data) {
           // console.log(req.body.schoolYear);
-          res.render('pages/profile',{message: 'Username successfully updated.'} );
+          req.session.user.username = req.body.username;
+          // res.render('pages/profile',{message: 'Username successfully updated.'} );
+          res.redirect('/profile');
 
       })
       .catch(function (err) {
