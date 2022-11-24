@@ -82,7 +82,10 @@
                 <p class="card-text">Modify your username/password and shopping settings here. </p>
                 <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                 <p>Username: <%= username %></p>
-                <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit Username</button></td></th>
+                 <th scope="row">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Update Username
+                </button> </td></th>
                 <p>Password:</p>
                 <th scope="row"><button type="submit" id="submit_button" name = "course_id" class="btn btn-primary" >Edit Password</button></td></th>
                 </div>
@@ -90,37 +93,29 @@
         </div>
     </div>
     <!-- note: modal code should be placed here -->
-    <div class="modal" id="event-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">create event</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Event Name</label>
-                    <br>
-                    <input type="text" id = "event-name"  />
-                    </div>
-                    <div class="mb-3">
-                        <label for="disabledSelect" class="form-label">Weekday</label>
-                        <select id="event-day" class="form-select">
-                        <option value ="monday">Monday</option>
-                        <option value ="tuesday">Tuesday</option>
-                        <option value = "wednesday">Wednesday</option>
-                        <option value ="thursday">Thursday</option>
-                        <option value = "friday">Friday</option>
-                        <option value ="saturday">Saturday</option>
-                        <option value = "sunday">Sunday</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update Username </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/profile/username" method="POST">
+                <div class="mb-3">
+                  <label for="username" class="form-label">Username</label>
+                  <input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp">
+                </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" id="createButton" class="btn btn-primary">Update Username</button>
+        </div>
+      </form> 
+      <!-- add form changed -->
+      </div>
 
 </main>
 

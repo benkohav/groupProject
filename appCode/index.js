@@ -106,7 +106,7 @@ const dbConfig = {
             })
             .catch((err) => {
               res.render("pages/profile", {
-                  Item: [],
+                  Items: [],
                   error: true,
                   message: err.message,
               });
@@ -124,27 +124,30 @@ const dbConfig = {
       })
     });
 
-    // updates the database after fields in profile page have been edited --> updating user variable is needed 
-    app.post('/profile', async (req, res) => {
-      const hash = await bcrypt.hash(req.body.password, 10);
+// updates the database after fields in profile page have been edited --> updating user variable is needed 
+    app.post('/profile/username', async (req, res) => {
+      // const hash = await bcrypt.hash(req.body.password, 10);
 
-      var query1 = "UPDATE userTable SET username = $1, password = $2, firstName = $3, lastName = $4, email = $5, schoolYear = $6 where username =$7;";
+      var query1 = "UPDATE userTable SET username = $1 WHERE userTable.username = $2;";
 
       db.any(query1, [ 
       req.body.username,
-      hash,
-      req.body.firstName,
-      req.body.lastName,
-      req.body.email,
-      req.body.schoolYear,
+      // hash,
+      // req.body.firstName,
+      // req.body.lastName,
+      // req.body.email,
+      // req.body.schoolYear,
       req.session.user.username,
     ])
       .then(function (data) {
-          console.log(req.body.schoolYear);
+          // console.log(req.body.schoolYear);
+          req.session.user.username = req.body.username;
+          // res.render('pages/profile',{message: 'Username successfully updated.'} );
           res.redirect('/profile');
+
       })
       .catch(function (err) {
-        res.render('pages/profile',{message: 'Error. Please try registering again.'} );
+        res.render('pages/profile',{message: 'Error. Please try updating username again.'} );
       })
     });
 
