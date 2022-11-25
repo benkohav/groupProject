@@ -21,6 +21,13 @@ For Use in Modal:
       <input type="text" class="form-control" id="search" name ="search">
       <button id="submit_button" class="btn btn-secondary" type="submit">Search</button>
     </form>
+    <form action="">Select a Filter?
+      <select id="schoolYear" class="form-select" name= "schoolYear">
+        <option selected disabled>Please Select</option>
+        <option value="available">Only Available</option>
+        <option value="all">All Items</option>
+      </select>
+    </form>
             <% 
             if (locals.query){
               var question = '<p>Showing Results For: ' + query + '</p>';
