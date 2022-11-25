@@ -15,33 +15,12 @@ For Use in Modal:
 <main>
   <div class="col"><%- include ('../partials/message') %></div>
   <div class = "container">
-    <!-- <div class="col-auto"> -->
     <h1>Search</h1>
     <form action="/search" method="GET">
-      <!-- <label for="search" class="form-label"  >Search</label>
+      <label for="search" class="form-label"  >Search</label>
       <input type="text" class="form-control" id="search" name ="search">
       <button id="submit_button" class="btn btn-secondary" type="submit">Search</button>
- -->
-      <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        <form class="d-flex" role="search" action="/search" method="GET">
-        <label class="btn btn-secondary">
-          <a class = "nav-link" href="/search" aria-label="Search"id="searchAll" name ="searchAll">All Items </a>
-        </label>
-        <label class="btn btn-secondary">
-          <a class = "nav-link" href="/search" aria-label="Search"id="searchAvail" name ="searchAvail"> Only Available Items</a>
-        </label>
-      </form>
-      </div>
-
-
     </form>
-    <!-- <form action="">Select a Filter?
-      <select id="schoolYear" class="form-select" name= "schoolYear">
-        <option selected disabled>Please Select</option>
-        <option value="available">Only Available</option>
-        <option value="all">All Items</option>
-      </select>
-    </form> -->
             <% 
             if (locals.query){
               var question = '<p>Showing Results For: ' + query + '</p>';
@@ -51,7 +30,7 @@ For Use in Modal:
             <%
             if (locals.results) {
                 var tab = '';
-                tab += '<table class="table table-responsive"> <thead> <tr> <th width = 100> ItemID </th> <th width = 100> Category </th> <th width = 100> SubCategory </th> <th width = 100>Brand</th> <th width = 100> Image </th><th> Add to Cart </th> <th> More about this Item</th> </tr> <br> </thead> <tbody>'
+                tab += '<table> <thead> <tr> <th width = 100> ItemID </th> <th width = 100> Category </th> <th width = 100> SubCategory </th> <th width = 100>Brand</th> <th width = 100> Image </th><th> Add to Cart </th> </tr> <br> </thead> <tbody>'
                 results.forEach(function(item){
                   tab+= '<tr>';
                   tab+= '<td>' + item.itemid + '</td>';
@@ -61,27 +40,25 @@ For Use in Modal:
                   tab+= '<td>' + '<img src = "' + item.url + '" alt = "No Image" height = 60 width = 80>' + '</td>';
                   if(item.userid){
                     if(item.userid === userid){
-                      tab+= '<td><form id ="form3"><button type="submit" class="btn btn-dark" disabled>Item You Have</button></form></td>';
+                      tab+= '<td><form id ="form3"><button type="submit" disabled>Item You Have</button></form></td>';
                     }
                     else{
-                      tab+= '<td><form id ="form3"><button type="submit" class="btn btn-dark" disabled>Item Unavaliable</button></form></td>';
+                      tab+= '<td><form id ="form3"><button type="submit" disabled>Item Unavaliable</button></form></td>';
                     }
                   }
                   else if(item.incart){
-                    tab+= '<td><form id ="form3" action="/cart/delete" method="POST"><input name = "itemid" value = "' + item.itemid + '" type = "hidden"><button type="submit" class="btn btn-dark">Remove From Cart</button></form></td>';
+                    tab+= '<td><form id ="form3" action="/cart/delete" method="POST"><input name = "itemid" value = "' + item.itemid + '" type = "hidden"><button type="submit">Remove From Cart</button></form></td>';
                   }
                   else{
                     <!-- add modal here, we do not need to show information if the item is already in cart, maybe for unavailable items as well, but here first, also add dropdown in modal for duration, -->
-                    tab+= '<td><form id ="form3" action="/cart/add" method="POST"><input name = "itemid" value = "' + item.itemid + '" type = "hidden"><input name = "duration" value = "7 days" type = "hidden"><button type="submit" class="btn btn-dark"> Add to Cart </button></form></td>';
+                    tab+= '<td><form id ="form3" action="/cart/add" method="POST"><input name = "itemid" value = "' + item.itemid + '" type = "hidden"><input name = "duration" value = "7 days" type = "hidden"><button type="submit"> Add to Cart </button></form></td>';
                   }
-                  tab+= '<td><form id ="form3"><button type="submit" class="btn btn-dark">+</button></form></td>';
                   tab+= '</tr>';
                 }); 
                 tab += '</tbody></table>';
                 %>
                <%- tab %>
               <% } %>
-            <!-- </div> -->
   </div>
 </main>
 

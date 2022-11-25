@@ -205,6 +205,49 @@ const dbConfig = {
       });
       }
     });
+
+        //Rendering search
+        app.get('/searchAlt', (req, res) => {
+          const search = "";
+          if(!req.session.user)
+          {
+            res.render('pages/login',{message: 'Error. No user logged in currently.'} );
+          }
+          else if(!req.query.search){
+            // const search = "";
+            res.render('pages/searchAlt');
+          }
+          else{
+            const search = req.query.search.toLowerCase();
+          // console.log(req.query)
+          // console.log(search);
+          console.log('Searching for ' + search + ' ... ');
+              var query = `SELECT Item.userID as userid, Item.ItemID, SubCategory.CategoryName as subcatname, SuperCategory.CategoryName as catname, SuperCategory.CategoryDescription, SubCategory.Brand, URL, usercart.userID AS incart
+              FROM Item 
+              INNER JOIN Category SubCategory ON Item.CategoryID = SubCategory.CategoryID 
+              LEFT OUTER JOIN Category SuperCategory ON SubCategory.SuperCategoryID = SuperCategory.CategoryID 
+              LEFT OUTER JOIN Image ON SubCategory.CategoryID = Image.CategoryID
+              LEFT OUTER JOIN (SELECT * FROM Cart WHERE UserID = $2) AS usercart ON usercart.ItemID = Item.ItemID
+                WHERE SubCategory.Brand LIKE $1
+                OR SubCategory.CategoryName LIKE $1
+                OR SuperCategory.CategoryName LIKE $1;`
+              db.any(query, [ 
+                '%' + search + '%',
+                req.session.user.userid
+              ])
+    
+              .then(results => {
+                  // console.log(results); // the results will be displayed on the terminal if the docker containers are running
+                // Send some parameters
+                res.render('pages/searchAlt', {query: search, results: results, userid: req.session.user.userid});
+                //print out/present the results etc
+              })
+              .catch(error => {
+              // Handle errors
+          res.render('pages/searchAlt', {query: search, results: [], message: 'Error'}); //{<JSON data required to render the page, if applicable>}
+          });
+        }
+      });
     
 
     //Rendering search
@@ -214,12 +257,19 @@ const dbConfig = {
       {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
       }
-      else if(!req.query.search){
+      else if(req.query.searchAvail) //if the request is to filter the search to only available. 
+      {
+        const search = req.session.user.search;
+        console.log("entered");
+      }
+      else if(!req.query.search){ //if there is no search given...
         // const search = "";
         res.render('pages/search');
       }
       else{
         const search = req.query.search.toLowerCase();
+        req.session.user.search = search;
+        console.log(req.session.user.search);
       // console.log(req.query)
       // console.log(search);
       console.log('Searching for ' + search + ' ... ');
@@ -342,7 +392,8 @@ const dbConfig = {
             {
                 req.session.user = {
                     userid: user[0].userid,
-                    username: u_name
+                    username: u_name,
+                    search: ""
                   };
                   req.session.save();
                 res.redirect('/home');
