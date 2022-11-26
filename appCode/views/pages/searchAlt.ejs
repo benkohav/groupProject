@@ -16,7 +16,7 @@ For Use in Modal:
   <div class="col"><%- include ('../partials/message') %></div>
   <div class = "container">
     <h1>Search</h1>
-    <form action="/search" method="GET">
+    <form action="/searchAlt" method="GET">
       <label for="search" class="form-label"  >Search</label>
       <input type="text" class="form-control" id="search" name ="search">
       <button id="submit_button" class="btn btn-secondary" type="submit">Search</button>
@@ -30,32 +30,41 @@ For Use in Modal:
             <%
             if (locals.results) {
                 var tab = '';
-                tab += '<table> <thead> <tr> <th width = 100> ItemID </th> <th width = 100> Category </th> <th width = 100> SubCategory </th> <th width = 100>Brand</th> <th width = 100> Image </th><th> Add to Cart </th> </tr> <br> </thead> <tbody>'
+                <!-- tab += '<table> <thead> <tr> <th width = 100> ItemID </th> <th width = 100> Category </th> <th width = 100> SubCategory </th> <th width = 100>Brand</th> <th width = 100> Image </th><th> Add to Cart </th> </tr> <br> </thead> <tbody>' -->
                 results.forEach(function(item){
-                  tab+= '<tr>';
-                  tab+= '<td>' + item.itemid + '</td>';
-                  tab+= '<td>' + item.catname + '</td>';
-                  tab+= '<td>' + item.subcatname + '</td>';
-                  tab+= '<td>' + item.brand + '</td>'
-                  tab+= '<td>' + '<img src = "' + item.url + '" alt = "No Image" height = 60 width = 80>' + '</td>';
-                  if(item.userid){
-                    if(item.userid === userid){
-                      tab+= '<td><form id ="form3"><button type="submit" disabled>Item You Have</button></form></td>';
-                    }
-                    else{
-                      tab+= '<td><form id ="form3"><button type="submit" disabled>Item Unavaliable</button></form></td>';
-                    }
-                  }
-                  else if(item.incart){
-                    tab+= '<td><form id ="form3" action="/cart/delete" method="POST"><input name = "itemid" value = "' + item.itemid + '" type = "hidden"><button type="submit">Remove From Cart</button></form></td>';
-                  }
-                  else{
-                    <!-- add modal here, we do not need to show information if the item is already in cart, maybe for unavailable items as well, but here first, also add dropdown in modal for duration, -->
-                    tab+= '<td><form id ="form3" action="/cart/add" method="POST"><input name = "itemid" value = "' + item.itemid + '" type = "hidden"><input name = "duration" value = "7 days" type = "hidden"><button type="submit"> Add to Cart </button></form></td>';
-                  }
-                  tab+= '</tr>';
+                  
+                  tab+= '<div class="card mb-4 container-fluid" style="max-width: 700px">';
+                    tab+= '<div class="row g-0 container-fluid">';
+                      tab+= '<div class="col-md-3">';
+                        tab+='<img src = "' + item.url + '" class="img-fluid rounded-start" alt="..." >';
+                      tab+=  '</div>';
+                      tab+= '<div class="col-md-7">';
+                        tab+= '<div class="card-body">';
+                          tab+='<h5 class="card-title">' + item.catname + '</h5>';
+                          tab+='<h6 class="card-title">' + item.subcatname + '</h6>';
+                          tab+='<p class="card-text">' + item.categorydescription + '</p>';
+                          if(item.userid){
+                            if(item.userid === userid){
+                              tab+= '<form id ="form3"><button type="submit" class="btn btn-dark" disabled>Item You Have</button></form>';
+                            }
+                            else{
+                              tab+= '<form id ="form3"><button type="submit" class="btn btn-dark" disabled>Item Unavaliable</button></form>';
+                            }
+                          }
+                          else if(item.incart){
+                            tab+= '<form id ="form3" action="/cart/delete" method="POST"><input name = "itemid" value = "' + item.itemid + '" type = "hidden"><button type="submit" class="btn btn-dark">Remove From Cart</button></form>';
+                          }
+                          else{
+                            <!-- add modal here, we do not need to show information if the item is already in cart, maybe for unavailable items as well, but here first, also add dropdown in modal for duration, -->
+                            tab+= '<form id ="form3" action="/cart/add" method="POST"><input name = "itemid" value = "' + item.itemid + '" type = "hidden"><input name = "duration" value = "7 days" type = "hidden"><button type="submit" class="btn btn-dark"> Add to Cart </button></form>';
+                          }
+                        tab+=  '</div>';
+                      tab+=  '</div>';
+                    tab+=  '</div>';
+                  tab+=  '</div>';
+
+
                 }); 
-                tab += '</tbody></table>';
                 %>
                <%- tab %>
               <% } %>

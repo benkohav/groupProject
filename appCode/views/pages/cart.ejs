@@ -3,11 +3,12 @@
 
 <main>
   <div>
+    <div class="col-md-10 mx-auto justify-content-center">
     <table class="table table-striped">
       <% if(locals.username){ %>
       <h1 class="title" ><center> <%= username %>'s Cart </center></h1>
       <% } %>
-      <% if(locals.cart){ %>
+      <% if(locals.cart.length != 0) { %>
       <thead>
         <form action="/checkout" method="POST">
             <tr>
@@ -30,8 +31,11 @@
           </tr>
         <% }) %>
       </tbody>
-      <% } %>
+      <%} else {%>
+        <h4><center> No items checked out! Visit <a href="/home">home</a> to see what is available.</center></h4>
+    <% } %>
     </table>
+  </div>
   </div> 
 
 </main>

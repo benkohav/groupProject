@@ -429,6 +429,9 @@ const dbConfig = {
           res.render('pages/checkout',{message: 'Checkout failed'} );
       })
     });
+
+
+    
     app.post("/cart/add", (req, res) => {
       if(!req.session.user)
       {
