@@ -26,9 +26,8 @@ CREATE TABLE IF NOT EXISTS Item (
   Condition VARCHAR(200),
   CategoryID INT NOT NULL REFERENCES Category (CategoryID),
   userID INT REFERENCES userTable (userID),
-  rentPerDay DECIMAL(10,2),
   timeBorrowed TIMESTAMP,
-  timeReturned TIMESTAMP
+  timeDue TIMESTAMP
 );
 
 DROP TABLE IF EXISTS Image ;

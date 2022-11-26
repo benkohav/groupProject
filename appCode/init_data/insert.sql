@@ -175,13 +175,16 @@ VALUES
 (8),
 (9),
 (10);
-INSERT INTO Item (CategoryId, userID, Condition)
+INSERT INTO Item (CategoryId, userID, Condition, timeBorrowed, timeDue)
 VALUES 
-(4,1, 'Broken'),
-(7,1, 'As good as new'),
-(6,2, 'As good as new'),
-(7,1, 'As good as new'),
-(10,2, 'As good as new');
+(4,1, 'Broken', '2022-10-01 10:10:30', '2022-10-02 20:45:30'),
+(7,1, 'As good as new', '2022-11-01 10:10:30', '2022-12-02 20:45:30'),
+(6,2, 'As good as new', '2022-9-01 10:10:30', '2022-10-02 20:45:30'),
+(7,1, 'As good as new', '2022-8-01 10:10:30', '2022-9-02 20:45:30'),
+(10,2, 'As good as new', '2022-10-01 10:10:30', '2022-10-02 20:45:30');
+INSERT INTO Item (CategoryId, userID, timeBorrowed, timeDue)
+VALUES 
+(4,1, '2022-10-01 10:10:30', '2022-10-02 20:45:30');
 
 -- Note for inserting future images: please link to image directly not google page, I had to change all of these
 INSERT INTO Image (URL, CategoryID)
@@ -231,6 +234,7 @@ VALUES (1, 12, '2022-12-01 10:10:30', '2022-12-02 20:45:30');
 INSERT INTO Cart(userID, ItemID, Duration, DurationName)
 VALUES (1,3,'7 days','7 days'),
 (1,4,'1 days 12 hours','1 days 12 hours'),
+(1,12,'1 days 12 hours','1 days 12 hours'),
 (2,8,'2 days','2 days');
 -- INFO
 
