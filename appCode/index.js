@@ -72,7 +72,7 @@ const dbConfig = {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
       }
       var profileQuery = "SELECT * FROM userTable WHERE userTable.userID = $1";
-      var itemsCheckedOutQuery = `SELECT ItemID, timeReturned, CategoryName, CategoryDescription, URL
+      var itemsCheckedOutQuery = `SELECT ItemID, EXTRACT(day FROM timeDue-NOW()) as day, ABS(EXTRACT(hour FROM timeDue-NOW())) as hour, ABS(EXTRACT(minute FROM timeDue-NOW())) as minute, CategoryName, CategoryDescription, URL
           FROM (SELECT * FROM Item WHERE Item.UserID = $1) AS userItems
           INNER JOIN Category ON userItems.CategoryID = Category.CategoryID 
           LEFT OUTER JOIN Image ON Category.CategoryID = Image.CategoryID;`;
@@ -82,7 +82,7 @@ const dbConfig = {
       ])
       .then(data => 
         {
-          console.log(data);
+          // console.log(data);
           username = data[0].username;
           firstName = data[0].firstname;
           lastName = data[0].lastname;
@@ -94,7 +94,7 @@ const dbConfig = {
           ])
           .then(Items => 
             {
-              console.log(Items);
+              // console.log(Items);
               res.render("pages/profile", {
                 username,
                 firstName,
@@ -185,8 +185,8 @@ const dbConfig = {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
       }
       else{
-        var query = `SELECT Item.ItemID, CategoryName, CategoryDescription, DurationName, URL
-          FROM (SELECT * FROM Cart WHERE UserID = $1) AS usercart
+        var query = `SELECT Item.ItemID, CategoryName, CategoryDescription, DurationName, URL, Item.userID
+          FROM (SELECT * FROM Cart WHERE userID = $1) AS usercart
           INNER JOIN Item ON usercart.ItemID = Item.ItemID
           INNER JOIN Category ON Item.CategoryID = Category.CategoryID 
           LEFT OUTER JOIN Image ON Category.CategoryID = Image.CategoryID;`
@@ -357,25 +357,44 @@ const dbConfig = {
 
     //Rendering home again when you checkout 
     app.post('/checkout', async (req, res) => {
-      //the logic goes here
-// check if items are available
-      var query = `Update Item 
-      SET UserID = $1, timeBorrowed = NOW(), timeReturned = NOW()+usercart.Duration
-      FROM (SELECT * FROM Cart WHERE userID = $1) AS usercart
-      WHERE Item.ItemID = usercart.ItemID
-      AND Item.userID IS NULL;
-      DELETE FROM Cart WHERE userID = $1;`
-      db.any(query, [req.session.user.userid])
-      .then(async function (user) {
-        res.render('pages/checkout',{message: 'Checkout Successful'} );
+      //check if user has overdue items
+      var itemcheck = "SELECT EXTRACT(day FROM timeDue-NOW()) as day FROM Item WHERE Item.UserID = $1";
+      db.any(itemcheck, [req.session.user.userid])
+      .then(async function (times) {
+        var overdue = 0;
+        times.forEach(function(Item){
+          if(Item.day < 0){
+            // console.log(Item.day)
+            overdue += 1;
+          }
+        });
+        if(overdue > 0){
+          res.render('pages/checkout',{message: 'You have ' + overdue + ' overdue items. Please return them or mark as missing and try again'} );
+        }
+        else{
+          var query = `Update Item 
+          SET UserID = $1, timeBorrowed = NOW(), timeDue = NOW()+usercart.Duration
+          FROM (SELECT * FROM Cart WHERE userID = $1) AS usercart
+          WHERE Item.ItemID = usercart.ItemID
+          AND Item.userID IS NULL;
+          DELETE FROM Cart WHERE userID = $1;`
+          db.any(query, [req.session.user.userid])
+          .then(async function (user) {
+            res.render('pages/checkout',{message: 'Checkout Successful'} );
+          })
+          .catch(function (err) {
+              res.render('pages/checkout',{message: 'Checkout failed'} );
+          })
+        }
       })
       .catch(function (err) {
           res.render('pages/checkout',{message: 'Checkout failed'} );
       })
+// check if items are available
+      
     });
 
 
-    
     app.post("/cart/add", (req, res) => {
       if(!req.session.user)
       {
@@ -422,12 +441,13 @@ const dbConfig = {
           res.render('pages/home',{message: 'Not Added'} );
       })
     });
+
     app.post('/return', async (req, res) => {
       //the logic goes here
       // check if items are available
       var query = `INSERT INTO History (userID, ItemID, timeBorrowed, timeReturned)
       SELECT userID, ItemID, timeBorrowed, NOW() FROM Item WHERE ItemID = $1;
-      UPDATE Item SET userID = NULL, timeBorrowed = NULL, timeReturned = NULL WHERE ItemID = $1;`
+      UPDATE Item SET userID = NULL, timeBorrowed = NULL, timeDue = NULL WHERE ItemID = $1;`
       db.any(query, [req.body.itemid])
       .then(async function (user) {
         res.redirect('/profile');

@@ -25,7 +25,7 @@
                          <tr>
                              <th> itemID </th>
                              <th> Item Name </th>
-                             <th> Time Due</th>
+                             <th> Time Left</th>
                              <th> Picture  </th>
                              <th> </th>
                          </tr>
@@ -39,7 +39,8 @@
                              <tr>
                                  <td> <%= Item.itemid %> </td>
                                  <td> <%= Item.categoryname %> </td>
-                                 <td> <%= Item.timereturned %></td>
+                                 <td <%if(Item.day<0){%> style="color:Red;"<%} %>
+                                 > <%= Item.day %> days <%= Item.hour %> hours <%= Item.minute %> minutes </td>
                                  <td> <img src=<%= Item.url %> alt= <%= Item.categoryname %> height=100 width=100></img> </td>
                                  <td>
                                     <form id ="form3" action="/return" method="POST">
