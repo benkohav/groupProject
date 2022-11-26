@@ -15,36 +15,25 @@ For Use in Modal:
 <main>
   <div class="col"><%- include ('../partials/message') %></div>
   <div class = "container">
-    <!-- <div class="col-auto"> -->
+    <div class="col-auto" style="max-width: 600px; ">
     <h1>Search</h1>
-    <form action="/search" method="GET">
-      <!-- <label for="search" class="form-label"  >Search</label>
-      <input type="text" class="form-control" id="search" name ="search">
-      <button id="submit_button" class="btn btn-secondary" type="submit">Search</button>
- -->
-      <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        <form class="d-flex" role="search" action="/search" method="GET">
-        <label class="btn btn-secondary">
-          <a class = "nav-link" href="/search" aria-label="Search"id="searchAll" name ="searchAll">All Items </a>
-        </label>
-        <label class="btn btn-secondary">
-          <a class = "nav-link" href="/search" aria-label="Search"id="searchAvail" name ="searchAvail"> Only Available Items</a>
-        </label>
-      </form>
-      </div>
-
-
+    <form class="d-flex" action="/search" method="GET">
+      <label for="search" class="form-label me-2"  >Search: </label>
+      <!-- <p>Search:</p> -->
+      <input type="text" class="form-control me-2" placeholder="Search" id="search" name ="search" value=<%=query%>>
+      <!-- <label for="search" class="form-label"  >Filter: </label> -->
+      <label for="filter">Filter: </label>
+          <select id="filter" class="form-select me-2" name= "filter">
+            <option selected disabled value="disabled">Please Select</option>
+            <option value="available">Only Available</option>
+            <option value="all">All Items</option>
+          </select>
+      <button id="submit_button" class="btn btn-secondary me-2" type="submit">Search</button>
     </form>
-    <!-- <form action="">Select a Filter?
-      <select id="schoolYear" class="form-select" name= "schoolYear">
-        <option selected disabled>Please Select</option>
-        <option value="available">Only Available</option>
-        <option value="all">All Items</option>
-      </select>
-    </form> -->
+    </div>
             <% 
             if (locals.query){
-              var question = '<p>Showing Results For: ' + query + '</p>';
+              var question = '<p>Showing Results For: "' + query + '"</p>';
             %>
             <%- question %>
               <% } %>
