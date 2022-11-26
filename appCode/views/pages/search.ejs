@@ -20,34 +20,19 @@ For Use in Modal:
     <form class="d-flex" action="/search" method="GET">
       <label for="search" class="form-label me-2"  >Search: </label>
       <!-- <p>Search:</p> -->
-      <input type="text" class="form-control me-2" placeholder="Search" id="search" name ="search" value=<%=query%>>
+      <input type="text" class="form-control me-2" placeholder="Search" id="search" name ="search" <% if (locals.query){%>value=<%=query%><% } %>>
       <!-- <label for="search" class="form-label"  >Filter: </label> -->
       <label for="filter">Filter: </label>
-          <select id="filter" class="form-select me-2" name= "filter">
-            <% if(filter == "available"){ %>
-              <option disabled value="disabled">Please Select</option>
-              <option selected value="available">Only Available</option>
-              <option value="all">All Items</option>
-              <% } else if(filter == "all"){ %>
-                <option disabled value="disabled">Please Select</option>
-                <option value="available">Only Available</option>
-                <option selected value="all">All Items</option>                          
-            <% } else{ %>
-            <option selected disabled value="disabled">Please Select</option>
-            <option value="available">Only Available</option>
+          <select id="filter" class="form-select me-2" name= "available" <% if (locals.available){ %> value = <%=available%><% } %>>
             <option value="all">All Items</option>
-            <% } %>
+            <option value="available" <% if (locals.available){ %><% if(available == "available"){%> selected <%}}%>>Only Available</option>
           </select>
       <button id="submit_button" class="btn btn-secondary me-2" type="submit">Search</button>
     </form>
-    <p></p>
     </div>
-            <% 
-            if (locals.query){
-              var question = '<p>Showing Results For: "' + query + '"</p>';
-            %>
-            <%- question %>
-              <% } %>
+            <% if (locals.query){ %>
+            <p>Showing Results For: <%=query%></p>
+            <% } %>
             <%
             if (locals.results) {
               var tab = '';
