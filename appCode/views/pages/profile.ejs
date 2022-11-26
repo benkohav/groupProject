@@ -15,9 +15,10 @@
                     </div>
                 </div>
                 <p></p>
-                <div class="card" style="width: 35rem;">
+                <div class="card" style="width: 32rem;">
                     <div class="card-body">
-                    <h5 class="card-title"><%= firstName %>'s Item's Checked Out:</h5>
+                    <h5 class="card-title"><%= firstName %>'s Checked Out Items:</h5>
+                    <% if(locals.Items.length != 0) { %>
                     <table class = "table"><center>
    
                         <thead>
@@ -56,11 +57,14 @@
                        
                          </center>
                        </table>
+                    <%} else {%>
+                        <p>No items checked out! Visit <a href="/home">home</a> to see what is available.</p>
+                    <% } %>
                     </div>
                 </div>
             </div>
         <div class="col">
-            <div class="card" style="width: 25rem;">
+            <div class="card" style="width: 20rem;">
                 <div class="card-body">
                 <h5 class="card-title">Contact Details</h5>
                 <p class="card-text">Edit your contact info here.</p>
@@ -77,7 +81,7 @@
         </div>
         
         <div class="col">
-            <div class="card" style="width: 25rem;">
+            <div class="card" style="width: 20rem;">
                 <div class="card-body">
                 <h5 class="card-title">Settings</h5>
                 <p class="card-text">Modify your username/password and shopping settings here. </p>
