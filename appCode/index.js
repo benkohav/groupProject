@@ -124,6 +124,7 @@ const dbConfig = {
       })
     });
 
+
 // updates the database after fields in profile page have been edited --> updating user variable is needed 
     app.post('/profile/username', async (req, res) => {
       // const hash = await bcrypt.hash(req.body.password, 10);
@@ -137,6 +138,7 @@ const dbConfig = {
       // req.body.lastName,
       // req.body.email,
       // req.body.schoolYear,
+
       req.session.user.username,
     ])
       .then(function (data) {
@@ -150,6 +152,7 @@ const dbConfig = {
         res.render('pages/profile',{message: 'Error. Please try updating username again.'} );
       })
     });
+
 
     //Rendering home
     app.get('/home', (req, res) => {
