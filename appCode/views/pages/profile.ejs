@@ -15,30 +15,35 @@
                     </div>
                 </div>
                 <p></p>
-                <div class="card" style="width: 25rem;">
+                <div class="card" style="width: 32rem;">
                     <div class="card-body">
-                    <h5 class="card-title"><%= firstName %>'s Item's Checked Out:</h5>
+                    <h5 class="card-title"><%= firstName %>'s Checked Out Items:</h5>
+                    <% if(locals.Items.length != 0) { %>
                     <table class = "table"><center>
    
                         <thead>
-                            <tr>
-                                <th> itemID </th>
-                                <th> Item Name </th>
-                                <th> Picture  </th>
-                                <th> </th>
-                            </tr>
+
+                         <tr>
+                             <th> itemID </th>
+                             <th> Item Name </th>
+                             <th> Time Left</th>
+                             <th> Picture  </th>
+                             <th> </th>
+                         </tr>
                          </thead>
                          <tbody>
                          <% Items.forEach(function(Item){ %>  
                              <tr>
                                  <td> <%= Item.itemid %> </td>
                                  <td> <%= Item.categoryname %> </td>
+                                 <td <%if(Item.day<0){%> style="color:Red;"<%} %>
+                                 > <%= Item.day %> days <%= Item.hour %> hours <%= Item.minute %> minutes </td>
                                  <td> <img src=<%= Item.url %> alt= <%= Item.categoryname %> height=100 width=100></img> </td>
                                  <td>
-                                    <!-- <form id ="form3" action="/search" method="GET">
-                                      <input value = <%=Item.categoryname %> name = "search" id = <%= Item.itemid %> type = hidden> -->
+                                    <form id ="form3" action="/return" method="POST">
+                                      <input value = <%=Item.itemid %> name = "itemid" id = <%= Item.itemid %> type = hidden>
                                      <button type="submit" id="submit_button" class="btn btn-primary" style="margin-top: 20px;"> Return </button> 
-                                    <!-- </form>  -->
+                                    </form> 
                                 </td>
                              </tr>
                           <% }) %> 
@@ -46,11 +51,14 @@
                          
                          </center>
                        </table>
+                    <%} else {%>
+                        <p>No items checked out! Visit <a href="/home">home</a> to see what is available.</p>
+                    <% } %>
                     </div>
                 </div>
             </div>
         <div class="col">
-            <div class="card" style="width: 25rem;">
+            <div class="card" style="width: 20rem;">
                 <div class="card-body">
                 <h5 class="card-title">Contact Details</h5>
                 <p class="card-text">Edit your contact info here.</p>
@@ -79,14 +87,15 @@
         </div>
         
         <div class="col">
-            <div class="card" style="width: 25rem;">
+            <div class="card" style="width: 20rem;">
                 <div class="card-body">
                 <h5 class="card-title">Settings</h5>
                 <p class="card-text">Modify your username/password and shopping settings here. </p>
                 <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                 <p>Username: <%= username %></p>
                  <th scope="row">
-                <button type="button" id = "username"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Update Username
                 </button> </td></th>
                 <p>Password:</p>
@@ -105,58 +114,24 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Update User Info </h5>
+
+          <h5 class="modal-title" id="exampleModalLabel">Update Username </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action = "/profile/username" method="POST">
+            <form action="/profile/username" method="POST">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" aria-describedby="emailHelp">
-                  </div>
-
-                <!-- <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Password</label>
-                    <input type="text" class="form-control" id="eventTitle" aria-describedby="emailHelp">
-                  </div>
-
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">First Name</label>
-                    <input type="text" class="form-control" id="eventTitle" aria-describedby="emailHelp">
-                  </div>
-             
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" id="eventTitle" aria-describedby="emailHelp">
-                  </div>
-               
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email</label>
-                    <input type="text" class="form-control" id="eventTitle" aria-describedby="emailHelp">
-                  </div>
-    
-                <div class="mb-3">
-                    <label for="disabledSelect" class="form-label">School Year:</label>
-                    <select id="schoolYear" class="form-select" name= "schoolYear">
-                      <option selected disabled>Please Select</option>
-                      <option value="Undergraduate, Freshman">Undergraduate, Freshman</option>
-                      <option value="Undergraduate, Sophomore">Undergraduate, Sophomore</option>
-                      <option value="Undergraduate, Junior">Undergraduate, Junior</option>
-                      <option value="Undergraduate, Senior">Undergraduate, Senior</option>
-                      <option value = "Graduate Student">Graduate Student</option>
-                      <option value="Postgraduate">Postgraduate</option>
-                      <option value="Faculty">Faculty</option>
-                    </select>
-                </div> -->
-        </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" id="createButton" class="btn btn-primary">Update Username</button>
+                  <label for="username" class="form-label">Username</label>
+                  <input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp">
                 </div>
-                
-            </form> 
-      
-</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" id="createButton" class="btn btn-primary">Update Username</button>
+        </div>
+      </form> 
+      <!-- add form changed -->
+      </div>
 
 
 </main>
