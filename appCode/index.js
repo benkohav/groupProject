@@ -130,6 +130,20 @@ const dbConfig = {
 app.post('/profile/username', async (req, res) => {
   // const hash = await bcrypt.hash(req.body.password, 10);
   var useName = req.body.username;
+
+  // if (empty) {
+  //   // var input = document.querySelector('[id="submitUser"]');
+  //   // Without querySelector API
+  //   var input = document.getElementsByName('submitUsername').item(0);
+    
+  //   // disable
+  //   input.setAttribute('disabled', true);
+    
+  // } 
+  // else {
+  //   input.removeAttribute('disabled');
+  // }
+
   if (useName !== "") {
     var query1 = "UPDATE userTable SET username = $1 WHERE userTable.username = $2;";
     db.any(query1, [
