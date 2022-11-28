@@ -126,20 +126,20 @@ const dbConfig = {
 
 
 // updates the database after fields in profile page have been edited --> updating user variable is needed 
-    app.post('/profile/username', async (req, res) => {
+    app.post('/profile/firstName', async (req, res) => {
       // const hash = await bcrypt.hash(req.body.password, 10);
 
-      var query1 = "UPDATE userTable SET username = $1 WHERE userTable.username = $2;";
+      var query1 = "UPDATE userTable SET firstName = $3 WHERE username = $1;";
 
       db.any(query1, [ 
       req.body.username,
       // hash,
       // req.body.firstName,
-      // req.body.lastName,
+      req.body.lastName,
       // req.body.email,
       // req.body.schoolYear,
 
-      req.session.user.username,
+      req.session.user.firstname,
     ])
       .then(function (data) {
           // console.log(req.body.schoolYear);
@@ -472,4 +472,3 @@ const dbConfig = {
     //         // Handle errors
     //         res.render('pages/discover', {results: []});
     //         })
-
