@@ -20,7 +20,7 @@ INSERT INTO Category (CategoryName, CategoryDescription) VALUES
 ('Other', 'Oddball items');
 -- Current categories: 7-15
 INSERT INTO Category (CategoryName, CategoryDescription, Brand, SuperCategoryID, URL) VALUES 
-('Framework Computer', 'Repairable laptap', 'Framework', 1, 'https://static.frame.work/x58rdni5eh0cjy7mg7dparafb3g8'),
+('Framework Computer', 'Repairable laptop', 'Framework', 1, 'https://static.frame.work/x58rdni5eh0cjy7mg7dparafb3g8'),
 ('Macbook Air', 'This Apple Laptop has a 13 inch retna display, touch bar, 20 hour battery life and 8GB of unified memory', 'Apple', 1, 'https://cdn.pocket-lint.com/r/s/970x/assets/images/161396-laptops-review-hands-on-macbook-air-review-image1-v2jzcb3rqd-jpg.webp'),
 ('Bose Headphones', 'Headphones by Bose, good sound quality', 'Bose', 2, 'https://m.media-amazon.com/images/I/41jSuUHT8eL._AC_.jpg'),
 ('Microsoft Ergonomic mouse Right-hand Bluetooth', 'Work in comfort all day with our premium wireless ergonomic mouse. Navigate precisely with detent scrolling and access your most-used features with two programmable buttons.', 'Microsoft', 4, 'https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/PCA21_MSBluetoothErgonomicMouse_Feature_MatteBlack_RGB_740x417?wid=515&hei=293&fit=crop'),
