@@ -15,42 +15,43 @@ For Use in Modal:
 <main>
   <div class="col"><%- include ('../partials/message') %></div>
   <div class = "container">
-    <div class="col-auto" style="max-width: 600px; ">
+    <div class="col-auto" style="max-width: 1000px; ">
     <h1>Search</h1>
     <form class="d-flex" action="/search" method="GET">
       <label for="search" class="form-label me-2"  >Search: </label>
       <!-- <p>Search:</p> -->
-      <input type="text" class="form-control me-2" placeholder="Search" id="search" name ="search" <% if (locals.query){%>value=<%=query%><% } %>>
+      <input type="text" class="form-control me-2" placeholder="Search" id="search" name ="search" <% if (locals.query){%>value="<%=query%>"<% } %>>
       <!-- <label for="search" class="form-label"  >Filter: </label> -->
       <label for="filter">Filter: </label>
-          <select id="filter" class="form-select me-2" name= "available" <% if (locals.available){ %> value = <%=available%><% } %>>
+          <select id="filter" style="max-width: 150px; " class="form-select me-2" name= "available" <% if (locals.available){ %> value = "<%=available%>"<% } %>>
             <option value="all">All Items</option>
             <option value="available" <% if (locals.available){ %><% if(available == "available"){%> selected <%}}%>>Only Available</option>
           </select>
       <button id="submit_button" class="btn btn-secondary me-2" type="submit">Search</button>
     </form>
+  </br>
+    <p>Tip: Hover over Name and Category Name for description. To see all, type in % or _</p>
     </div>
-            <% if (locals.query){ %>
-            <p>Showing Results For: <%=query%></p>
-            <% } %>
             <%
             if (locals.results) {
               var tab = '';
+              var num = 0;
               <!-- tab += '<table> <thead> <tr> <th width = 100> ItemID </th> <th width = 100> Category </th> <th width = 100> SubCategory </th> <th width = 100>Brand</th> <th width = 100> Image </th><th> Add to Cart </th> </tr> <br> </thead> <tbody>' -->
               results.forEach(function(item){
                 
                 tab+= '<div class="card mb-3 container-fluid" style="max-width: 600px">';
                   tab+= '<div class="row g-0 container-fluid">';
                     tab+= '<div class="col-md-3">';
-                      tab+='<img src = "' + item.url + '" class="img-fluid rounded-start" alt="..." height = 60 width = 80>';
+                      tab+='<img src = "' + item.url + '" class="img-fluid rounded-start" alt="..." height = 120 width = 160>';
                     tab+=  '</div>';
                     tab+= '<div class="col-md-7">';
                       tab+= '<div class="card-body">';
-                        tab+='<h5 class="card-title">' + item.catname + '</h5>';
-                        tab+='<h6 class="card-title">' + item.subcatname + '</h6>';
-                        tab+='<h6 class="card-title">Brand: ' + item.brand + '</h6>';
+                        tab+='<h5 class="card-title" data-toggle="tooltip" data-placement="top" title="' + item.subcatdesc + '">' + item.subcatname + '</h5>';
+                        tab+='<h6 class="card-title">Brand: ' + item.brand + '&nbsp&nbsp&nbspNumber of Uses: ';
+                        if(item.uses != 1){tab += item.uses }else{tab += '0-1'}
+                        tab+='</h6>';
+                        tab+='<h6 class="card-title" data-toggle="tooltip" data-placement="top" title="' + item.catdesc + '">Category: ' + item.catname + '</h6>';
                         tab+='<h6 class="card-title"> Item ID:' + item.itemid + '</h6>';
-                        tab+='<p class="card-text">' + item.categorydescription + '</p>';
                         if(item.userid){
                           if(item.userid === userid){
                             tab+= '<form id ="form3"><button type="submit" class="btn btn-dark" disabled>Item You Have</button></form>';
@@ -70,12 +71,16 @@ For Use in Modal:
                     tab+=  '</div>';
                   tab+=  '</div>';
                 tab+=  '</div>';
-
+                num += 1;
 
               }); 
               %>
+              <% if (locals.query){ %>
+                <p>Showing <%=num %> Results For: "<%=query%>"</p>
+              <% } %>
              <%- tab %>
             <% } %>
+            
             </div>
   </div>
 </main>

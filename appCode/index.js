@@ -74,8 +74,7 @@ const dbConfig = {
       var profileQuery = "SELECT * FROM userTable WHERE userTable.userID = $1";
       var itemsCheckedOutQuery = `SELECT ItemID, EXTRACT(day FROM timeDue-NOW()) as day, ABS(EXTRACT(hour FROM timeDue-NOW())) as hour, ABS(EXTRACT(minute FROM timeDue-NOW())) as minute, CategoryName, CategoryDescription, URL
           FROM (SELECT * FROM Item WHERE Item.UserID = $1) AS userItems
-          INNER JOIN Category ON userItems.CategoryID = Category.CategoryID 
-          LEFT OUTER JOIN Image ON Category.CategoryID = Image.CategoryID;`;
+          INNER JOIN Category ON userItems.CategoryID = Category.CategoryID;`;
       // console.log('Testing');
       db.any(profileQuery, [
         req.session.user.userid
@@ -235,12 +234,11 @@ const dbConfig = {
       {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
       }
-      const ITEMS = `SELECT COUNT(*) as num, Category.CategoryName, Category.Brand, Image.URL 
+      const ITEMS = `SELECT COUNT(*) as num, Category.CategoryName, Category.Brand, URL 
       FROM History
       RIGHT OUTER JOIN Item ON History.ItemID = Item.ItemID
       JOIN Category ON Item.CategoryID = Category.CategoryID 
-      LEFT OUTER JOIN Image ON Category.CategoryID = Image.CategoryID 
-      GROUP By Category.CategoryID, Image.URL
+      GROUP By Category.CategoryID, URL
       ORDER BY COUNT(*) DESC LIMIT 5;`;
       db.query(ITEMS)
         .then((Items) => {
@@ -266,8 +264,7 @@ const dbConfig = {
         var query = `SELECT Item.ItemID, CategoryName, CategoryDescription, DurationName, URL, Item.userID
           FROM (SELECT * FROM Cart WHERE userID = $1) AS usercart
           INNER JOIN Item ON usercart.ItemID = Item.ItemID
-          INNER JOIN Category ON Item.CategoryID = Category.CategoryID 
-          LEFT OUTER JOIN Image ON Category.CategoryID = Image.CategoryID;`
+          INNER JOIN Category ON Item.CategoryID = Category.CategoryID ;`
 
           db.any(query, [ 
             req.session.user.userid
@@ -296,22 +293,24 @@ const dbConfig = {
       }
       else{
         const search = req.query.search.toLowerCase();;
-        var query = `SELECT Item.userID as userid, Item.ItemID, SubCategory.CategoryName as subcatname, SuperCategory.CategoryName as catname, SuperCategory.CategoryDescription, SubCategory.Brand, URL, usercart.userID AS incart
+        var query = `SELECT Item.userID as userid, Item.ItemID, SubCategory.CategoryName as subcatname, SuperCategory.CategoryName as catname, SuperCategory.CategoryDescription as catdesc, SubCategory.CategoryDescription as subcatdesc, SubCategory.Brand, SubCategory.URL, usercart.userID AS incart, COUNT(*) as uses
         FROM Item 
         INNER JOIN Category SubCategory ON Item.CategoryID = SubCategory.CategoryID 
         LEFT OUTER JOIN Category SuperCategory ON SubCategory.SuperCategoryID = SuperCategory.CategoryID 
-        LEFT OUTER JOIN Image ON SubCategory.CategoryID = Image.CategoryID
         LEFT OUTER JOIN (SELECT * FROM Cart WHERE UserID = $2) AS usercart ON usercart.ItemID = Item.ItemID
-          WHERE (SubCategory.Brand LIKE $1
-          OR SubCategory.CategoryName LIKE $1
-          OR SuperCategory.CategoryName LIKE $1)
+        LEFT OUTER JOIN History ON History.ItemID = Item.ItemID
+          WHERE (LOWER(SubCategory.Brand) LIKE $1
+          OR LOWER(SubCategory.CategoryName) LIKE $1
+          OR LOWER(SubCategory.CategoryDescription) LIKE $1
+          OR LOWER(SuperCategory.CategoryDescription) LIKE $1
+          OR LOWER(SuperCategory.CategoryName) LIKE $1)
         `
         if(req.query.available == "available"){
           console.log("entered available");
           query += `AND Item.userID IS NULL
           `;
         }
-        query+= `GROUP BY Item.ItemID, Item.userID, Item.ItemID, SubCategory.CategoryName, SuperCategory.CategoryName, SuperCategory.CategoryDescription, SubCategory.Brand, URL, usercart.userID`
+        query+= `GROUP BY Item.ItemID, Item.userID, SubCategory.CategoryName, SuperCategory.CategoryName, SuperCategory.CategoryDescription, SubCategory.CategoryDescription, SubCategory.Brand, SubCategory.URL, usercart.userID`
         query += `;`;
         db.any(query, [ 
           '%' + search + '%',
