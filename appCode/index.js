@@ -127,9 +127,34 @@ const dbConfig = {
 // POSTS FOR THE PROFILE PAGE -----------------------------
 
 // updates the database after fields in profile page have been edited --> updating user variable is needed 
-    app.post('/profile/username', async (req, res) => {
-      // const hash = await bcrypt.hash(req.body.password, 10);
-      var query1 = "UPDATE userTable SET username = $1 WHERE userTable.username = $2;";
+app.post('/profile/username', async (req, res) => {
+  // const hash = await bcrypt.hash(req.body.password, 10);
+  var useName = req.body.username;
+  if (useName !== "") {
+    var query1 = "UPDATE userTable SET username = $1 WHERE userTable.username = $2;";
+    db.any(query1, [
+      req.body.useName,
+      req.session.user.username,
+    ])
+      .then(function (data) {
+        req.session.user.username = req.body.username;
+        res.redirect('/profile');
+      })
+      .catch(function (err) {
+        res.render('pages/profile', { message: 'Error. Please try updating username again.' });
+      })
+  }
+  if (useName.length == 0) {
+    res.render('pages/profile', { message: 'Error. Username cannot be blank.' });
+  }
+});       
+
+    //password
+    app.post('/profile/password', async (req, res) => {
+      const hash = await bcrypt.hash(req.body.password, 10);
+
+      var query1 = "UPDATE userTable SET password = $1 WHERE userTable.username = $2;";
+
       db.any(query1, [ 
       req.body.username,
       req.session.user.username,
@@ -142,8 +167,11 @@ const dbConfig = {
         res.render('pages/profile',{message: 'Error. Please try updating username again.'} );
       })
     });
+
+
     //FIRST NAME
     app.post('/profile/firstName', async (req, res) => {
+      var used = req.body.firstName;
       var query1 = "UPDATE userTable SET firstName = $1 WHERE userTable.username = $2;";
       db.any(query1, [ req.body.firstName,req.session.user.username,])
       .then(function (data) {res.redirect('/profile');})
@@ -375,7 +403,7 @@ const dbConfig = {
           DELETE FROM Cart WHERE userID = $1;`
           db.any(query, [req.session.user.userid])
           .then(async function (user) {
-            res.render('pages/checkout',{message: 'Checkout Successful'} );
+            res.render('pages/checkout',{message: 'Checkout Successful. Your item(s) can be picked up at UMC Boulder Colorado'});
           })
           .catch(function (err) {
               res.render('pages/checkout',{message: 'Checkout failed'} );
