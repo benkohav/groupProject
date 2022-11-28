@@ -12,10 +12,11 @@ CREATE TABLE userTable (
 DROP TABLE IF EXISTS Category ;
 CREATE TABLE Category (
   CategoryID SERIAL PRIMARY KEY,
-  CategoryName VARCHAR(45),
-  CategoryDescription VARCHAR(200),
+  CategoryName VARCHAR(100),
+  CategoryDescription VARCHAR(300),
   SuperCategoryID INT REFERENCES Category (CategoryID),
-  Brand VARCHAR(45)
+  Brand VARCHAR(100),
+  URL VARCHAR(2048)
 );
 -- INSERT INTO Category (CategoryID, CategoryName, CategoryDescription, Brand)
 -- VALUES ('70', 'Laptop', 'description', 'what brand');
@@ -30,12 +31,6 @@ CREATE TABLE IF NOT EXISTS Item (
   timeDue TIMESTAMP
 );
 
-DROP TABLE IF EXISTS Image ;
-CREATE TABLE IF NOT EXISTS Image (
-  ImageID SERIAL PRIMARY KEY,
-  URL VARCHAR,
-  CategoryID INT NOT NULL REFERENCES Category (CategoryID)
-);
 -- INSERT INTO Image (ImageID, URL, CategoryID)
 -- VALUES ('1200', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.science.org%2Fcontent%2Farticle%2Fthese-adorable-puppies-may-help-explain-why-dogs-understand-our-body-language&psig=AOvVaw24OXFHBDcLqoDqDU5bIuIN&ust=1668149428389000&source=images&cd=vfe&ved=0CBAQjhxqFwoTCIjpsIODo_sCFQAAAAAdAAAAABAE', '70');
 

@@ -11,7 +11,7 @@
    
    <thead>
     <tr>
-        <th> Popularity (Scale of 1-5)</th>
+        <th> Popularity</th>
         <th> Item Type </th>
         <th> Visual  </th>
         <th> Brand </th>
@@ -32,7 +32,7 @@
             
             <td>
                 <form id ="form3" action="/search" method="GET">
-                  <input value = <%=Item.categoryname %> name = "search" id = <%= Item.itemid %> type = hidden>
+                  <input value = "<%=Item.categoryname %>" name = "search" id = <%= Item.itemid %> type = hidden>
                  <button type="submit" class="btn btn-dark"> Find Item </button> 
                 </form> 
             </td>
