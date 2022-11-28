@@ -293,7 +293,7 @@ const dbConfig = {
       }
       else{
         const search = req.query.search.toLowerCase();;
-        var query = `SELECT Item.userID as userid, Item.ItemID, SubCategory.CategoryName as subcatname, SuperCategory.CategoryName as catname, SuperCategory.CategoryDescription as catdesc, SubCategory.CategoryDescription as subcatdesc, SubCategory.Brand, SubCategory.URL, usercart.userID AS incart, COUNT(*) as uses
+        var query = `SELECT Item.userID as userid, Item.ItemID, Item.Condition, SubCategory.CategoryName as subcatname, SuperCategory.CategoryName as catname, SuperCategory.CategoryDescription as catdesc, SubCategory.CategoryDescription as subcatdesc, SubCategory.Brand, SubCategory.URL, usercart.userID AS incart, COUNT(*) as uses
         FROM Item 
         INNER JOIN Category SubCategory ON Item.CategoryID = SubCategory.CategoryID 
         LEFT OUTER JOIN Category SuperCategory ON SubCategory.SuperCategoryID = SuperCategory.CategoryID 
@@ -310,7 +310,7 @@ const dbConfig = {
           query += `AND Item.userID IS NULL
           `;
         }
-        query+= `GROUP BY Item.ItemID, Item.userID, SubCategory.CategoryName, SuperCategory.CategoryName, SuperCategory.CategoryDescription, SubCategory.CategoryDescription, SubCategory.Brand, SubCategory.URL, usercart.userID`
+        query+= `GROUP BY Item.ItemID, Item.userID, Item.Condition, SubCategory.CategoryName, SuperCategory.CategoryName, SuperCategory.CategoryDescription, SubCategory.CategoryDescription, SubCategory.Brand, SubCategory.URL, usercart.userID`
         query += `;`;
         db.any(query, [ 
           '%' + search + '%',
