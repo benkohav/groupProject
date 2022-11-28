@@ -98,6 +98,15 @@
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#usernameModal">
                     Update Username
                 </button> </td></th>
+                
+                <p></p>
+
+                <i> User Password Hidden </i> 
+                 <th scope="row">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#passwordModal">
+                    Change Password
+                </button> </td></th>
+
                 </div>
             </div>
         </div>
@@ -146,7 +155,7 @@
                 <div class="modal-body">
 
                     <div class="mb-3">
-                        <label for="firstName" class="form-label">Firs Name</label>
+                        <label for="firstName" class="form-label">Enter First Name</label>
                         <input type="text" class="form-control" id="firstName" name="firstName"
                             aria-describedby="emailHelp">
                     </div>
@@ -174,7 +183,7 @@
                 <div class="modal-body">
 
                     <div class="mb-3">
-                        <label for="lastName" class="form-label">Last Name</label>
+                        <label for="lastName" class="form-label">Enter Last Name</label>
                         <input type="text" class="form-control" id="lastName" name="lastName"
                             aria-describedby="emailHelp">
                     </div>
@@ -202,7 +211,7 @@
                 <div class="modal-body">
 
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
+                        <label for="email" class="form-label">Enter Email</label>
                         <input type="text" class="form-control" id="email" name="email"
                             aria-describedby="emailHelp">
                     </div>
@@ -228,7 +237,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="disabledSelect" class="form-label">School Year:</label>
+                        <label for="disabledSelect" class="form-label">Choose School Year:</label>
                         <select id="schoolYear" class="form-select" name= "schoolYear">
                           <option selected disabled>Please Select</option>
                           <option value="Undergraduate, Freshman">Undergraduate, Freshman</option>
@@ -245,6 +254,70 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" id="createButton" class="btn btn-primary">Update School Yeare</button>
                 </div>
+            </form>
+            <!-- add form changed -->
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Email -->
+<div class="modal fade" id="usernameModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/profile/username" method="POST">
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="exampleModalLabel">Update Username </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Enter Username</label>
+                        <input type="text" class="form-control" id="username" name="username"
+                            aria-describedby="emailHelp">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="createButton" class="btn btn-primary">Update Username</button>
+                </div>
+            </form>
+            <!-- add form changed -->
+        </div>
+    </div>
+</div>
+
+<!-- Modal Email -->
+<div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" id="passwordForm">
+                <input type="password" class="input-lg form-control" name="password1" id="password1"
+                    placeholder="New Password" autocomplete="off">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span id="8char" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> 8 Characters
+                        Long<br>
+                        <span id="ucase" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> One Uppercase
+                        Letter
+                    </div>
+                    <div class="col-sm-6">
+                        <span id="lcase" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> One Lowercase
+                        Letter<br>
+                        <span id="num" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> One Number
+                    </div>
+                </div>
+                <input type="password" class="input-lg form-control" name="password2" id="password2"
+                    placeholder="Repeat Password" autocomplete="off">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <span id="pwmatch" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> Passwords Match
+                    </div>
+                </div>
+                <input type="submit" class="col-xs-12 btn btn-primary btn-load btn-lg"
+                    data-loading-text="Changing Password..." value="Change Password">
             </form>
             <!-- add form changed -->
         </div>
