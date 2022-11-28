@@ -210,6 +210,24 @@ const dbConfig = {
       })
     });
 
+    // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    app.post('/profile/schoolYear', async (req, res) => {
+
+      var query1 = "UPDATE userTable SET schoolYear = $1 WHERE userTable.username = $2;";
+
+      db.any(query1, [ 
+      req.body.schoolYear,
+      req.session.user.username,
+    ])
+      .then(function (data) {
+          res.redirect('/profile');
+
+      })
+      .catch(function (err) {
+        res.render('pages/profile',{message: 'Error. Please try updating email again.'} );
+      })
+    });
+
 
     //Rendering home
     app.get('/home', (req, res) => {

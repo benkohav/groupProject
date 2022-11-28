@@ -74,12 +74,12 @@
                     </button> </td></th>                
                 <p>Email: <%= email %></p>
                 <th scope="row">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#emaiModal">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#emailModal">
                         Edit Email
                     </button> </td></th>
                 <p>University Year: <%= schoolYear %></p>
                 <th scope="row">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#schoolYearModal">
                         Edit University Year
                     </button> </td></th>
             </div>
@@ -98,11 +98,6 @@
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#usernameModal">
                     Update Username
                 </button> </td></th>
-                <p>Password:</p>
-                <th scope="row">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Change Password
-                    </button> </td></th>
                 </div>
             </div>
         </div>
@@ -194,7 +189,7 @@
     </div>
 </div>
 
-<!-- Modal Last Name -->
+<!-- Modal Email -->
 <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -210,6 +205,40 @@
                         <label for="email" class="form-label">Email</label>
                         <input type="text" class="form-control" id="email" name="email"
                             aria-describedby="emailHelp">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="createButton" class="btn btn-primary">Update Email</button>
+                </div>
+            </form>
+            <!-- add form changed -->
+        </div>
+    </div>
+</div>
+
+<!-- Modal School Year -->
+<div class="modal fade" id="schoolYearModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/profile/schoolYear" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update School Year </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="disabledSelect" class="form-label">School Year:</label>
+                        <select id="schoolYear" class="form-select" name= "schoolYear">
+                          <option selected disabled>Please Select</option>
+                          <option value="Undergraduate, Freshman">Undergraduate, Freshman</option>
+                          <option value="Undergraduate, Sophomore">Undergraduate, Sophomore</option>
+                          <option value="Undergraduate, Junior">Undergraduate, Junior</option>
+                          <option value="Undergraduate, Senior">Undergraduate, Senior</option>
+                          <option value = "Graduate Student">Graduate Student</option>
+                          <option value="Postgraduate">Postgraduate</option>
+                          <option value="Faculty">Faculty</option>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
