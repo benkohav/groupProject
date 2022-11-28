@@ -124,108 +124,59 @@ const dbConfig = {
     });
 
 
+// POSTS FOR THE PROFILE PAGE -----------------------------
+
 // updates the database after fields in profile page have been edited --> updating user variable is needed 
     app.post('/profile/username', async (req, res) => {
       // const hash = await bcrypt.hash(req.body.password, 10);
-
       var query1 = "UPDATE userTable SET username = $1 WHERE userTable.username = $2;";
-
       db.any(query1, [ 
       req.body.username,
-      // hash,
-      // req.body.firstName,
-      // req.body.lastName,
-      // req.body.email,
-      // req.body.schoolYear,
-
       req.session.user.username,
     ])
       .then(function (data) {
-          // console.log(req.body.schoolYear);
           req.session.user.username = req.body.username;
-          // res.render('pages/profile',{message: 'Username successfully updated.'} );
           res.redirect('/profile');
-
       })
       .catch(function (err) {
         res.render('pages/profile',{message: 'Error. Please try updating username again.'} );
       })
     });
-
-    // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    //FIRST NAME
     app.post('/profile/firstName', async (req, res) => {
-      // const hash = await bcrypt.hash(req.body.password, 10);
-
       var query1 = "UPDATE userTable SET firstName = $1 WHERE userTable.username = $2;";
-
-      db.any(query1, [ 
-      req.body.firstName,
-      req.session.user.username,
-    ])
-      .then(function (data) {
-          // console.log(req.body.schoolYear);
-          // res.render('pages/profile',{message: 'Username successfully updated.'} );
-          res.redirect('/profile');
-
-      })
-      .catch(function (err) {
-        res.render('pages/profile',{message: 'Error. Please try updating first name again.'} );
-      })
+      db.any(query1, [ req.body.firstName,req.session.user.username,])
+      .then(function (data) {res.redirect('/profile');})
+      .catch(function (err) {res.render('pages/profile',{message: 'Error. Please try updating first name again.'} );})
     });
-
-    // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    //LAST NAME
     app.post('/profile/lastName', async (req, res) => {
-
       var query1 = "UPDATE userTable SET lastName = $1 WHERE userTable.username = $2;";
-
-      db.any(query1, [ 
-      req.body.lastName,
-      req.session.user.username,
-    ])
-      .then(function (data) {
-          res.redirect('/profile');
-
-      })
-      .catch(function (err) {
-        res.render('pages/profile',{message: 'Error. Please try updating last name again.'} );
-      })
+      db.any(query1, [ req.body.lastName,req.session.user.username,])
+      .then(function (data) {res.redirect('/profile');})
+      .catch(function (err) {res.render('pages/profile',{message: 'Error. Please try updating last name again.'} );})
     });
-
-    // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    //EMAIL
     app.post('/profile/email', async (req, res) => {
-
       var query1 = "UPDATE userTable SET email = $1 WHERE userTable.username = $2;";
-
-      db.any(query1, [ 
-      req.body.email,
-      req.session.user.username,
-    ])
-      .then(function (data) {
-          res.redirect('/profile');
-
-      })
-      .catch(function (err) {
-        res.render('pages/profile',{message: 'Error. Please try updating email again.'} );
-      })
+      db.any(query1, [ req.body.email,req.session.user.username,])
+      .then(function (data) {res.redirect('/profile');})
+      .catch(function (err) { res.render('pages/profile',{message: 'Error. Please try updating email again.'} );})
     });
-
-    // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    //SCHOOL YEAR
     app.post('/profile/schoolYear', async (req, res) => {
-
       var query1 = "UPDATE userTable SET schoolYear = $1 WHERE userTable.username = $2;";
-
-      db.any(query1, [ 
-      req.body.schoolYear,
-      req.session.user.username,
-    ])
-      .then(function (data) {
-          res.redirect('/profile');
-
-      })
-      .catch(function (err) {
-        res.render('pages/profile',{message: 'Error. Please try updating email again.'} );
+      db.any(query1, [ req.body.schoolYear,req.session.user.username,])
+      .then(function (data) { res.redirect('/profile');})
+      .catch(function (err) { res.render('pages/profile',{message: 'Error. Please try updating email again.'} );
       })
     });
+// POSTS FOR THE PROFILE PAGE -----------------------------
+
+
+
+
+
 
 
     //Rendering home
