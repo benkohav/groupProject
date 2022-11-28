@@ -1,0 +1,43 @@
+<%- include ('../partials/header') %>
+<%- include ('../partials/menu') %>
+
+<main>
+  <div>
+    <div class="col-md-10 mx-auto justify-content-center">
+    <table class="table table-striped">
+      <% if(locals.username){ %>
+      <h1 class="title" ><center> <%= username %>'s Cart </center></h1>
+      <% } %>
+      <% if(locals.cart.length != 0) { %>
+      <thead>
+        <form action="/checkout" method="POST">
+            <tr>
+              <th scope="col">Item #</th>
+              <th scope="col">Name</th>
+              <th scope="col">Duration</th>
+              <th scope="col">Image</th>
+              <th scope="col"><button type="submit" id="submit_button" class="btn btn-primary" >Checkout All</button></th>
+            </tr>
+          </form>
+      </thead>
+      <tbody>
+        <% cart.forEach(function(Item){ %>
+          <tr>
+            <td> <%= Item.itemid %> </td>
+            <td> <%= Item.categoryname %> </td>
+            <td> <%= Item.durationname %></td>
+            <td> <img src=<%= Item.url %> alt= <%= Item.categoryname %> height=100 width=100></img> </td>
+            <td> <% if (Item.userid){ %> *this item is already checked out by another user and cannot be checked out by you <% } %><form id ="form3" action="/cart/delete" method="POST"><input name = "itemid" value = <%= Item.itemid %> type = "hidden"><input name = "returnto" value = "/cart" type = "hidden"><button type="submit">Remove From Cart</button></form></td>
+          </tr>
+        <% }) %>
+      </tbody>
+      <%} else {%>
+        <h4><center> No items checked out! Visit <a href="/home">home</a> to see what is available.</center></h4>
+    <% } %>
+    </table>
+  </div>
+  </div> 
+
+</main>
+
+<%- include ('../partials/footer') %>

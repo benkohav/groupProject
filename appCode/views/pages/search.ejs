@@ -1,0 +1,89 @@
+<%- include ('../partials/header') %>
+<%- include ('../partials/menu') %>
+<!--
+For Use in Modal:   
+<div class="mb-3">
+  <label for="disabledSelect" class="form-label">Select Duration:</label>
+  <select id="duration" class="form-select" name= "duration">
+    <option selected disabled>Please Select</option>
+    <option value="2 weeks">2 weeks</option>
+    <option value="1 week">1 week</option>
+    <option value="1 day">1 day</option>
+    <option value="12 hours">12 hours</option>
+  </select>
+</div> -->
+<main>
+  <div class="col"><%- include ('../partials/message') %></div>
+  <div class = "container">
+    <div class="col-auto" style="max-width: 1000px; ">
+    <h1>Search</h1>
+    <form class="d-flex" action="/search" method="GET">
+      <label for="search" class="form-label me-2"  >Search: </label>
+      <!-- <p>Search:</p> -->
+      <input type="text" class="form-control me-2" placeholder="Search" id="search" name ="search" <% if (locals.query){%>value="<%=query%>"<% } %>>
+      <!-- <label for="search" class="form-label"  >Filter: </label> -->
+      <label for="filter">Filter: </label>
+          <select id="filter" style="max-width: 150px; " class="form-select me-2" name= "available" <% if (locals.available){ %> value = "<%=available%>"<% } %>>
+            <option value="all">All Items</option>
+            <option value="available" <% if (locals.available){ %><% if(available == "available"){%> selected <%}}%>>Only Available</option>
+          </select>
+      <button id="submit_button" class="btn btn-secondary me-2" type="submit">Search</button>
+    </form>
+  </br>
+    <p>Tip: Hover over Name and Category Name for description. To see all, type in % or _</p>
+    </div>
+            <%
+            if (locals.results) {
+              var tab = '';
+              var num = 0;
+              <!-- tab += '<table> <thead> <tr> <th width = 100> ItemID </th> <th width = 100> Category </th> <th width = 100> SubCategory </th> <th width = 100>Brand</th> <th width = 100> Image </th><th> Add to Cart </th> </tr> <br> </thead> <tbody>' -->
+              results.forEach(function(item){
+                
+                tab+= '<div class="card mb-3 container-fluid" style="max-width: 600px">';
+                  tab+= '<div class="row g-0 container-fluid">';
+                    tab+= '<div class="col-md-3">';
+                      tab+='<img src = "' + item.url + '" class="img-fluid rounded-start" alt="..." height = 120 width = 160>';
+                    tab+=  '</div>';
+                    tab+= '<div class="col-md-7">';
+                      tab+= '<div class="card-body">';
+                        tab+='<h5 class="card-title" data-toggle="tooltip" data-placement="top" title="' + item.subcatdesc + '">' + item.subcatname + '</h5>';
+                        tab+='<h6 class="card-title">Brand: ' + item.brand + '&nbsp&nbsp&nbspNumber of Uses: ';
+                        if(item.uses != 1){tab += item.uses }else{tab += '0-1'}
+                        tab+='</h6>';
+                        tab+='<h6 class="card-title" data-toggle="tooltip" data-placement="top" title="' + item.catdesc + '">Category: ' + item.catname + '</h6>';
+                        tab+='<p class="card-title"> Item ID: ' + item.itemid + ' &nbsp&nbsp Condition: ';
+                        if(!item.condition){tab+= 'N/A</p>';}else{tab+= item.condition + '</p>';};
+                        if(item.userid){
+                          if(item.userid === userid){
+                            tab+= '<form id ="form3"><button type="submit" class="btn btn-dark" disabled>Item You Have</button></form>';
+                          }
+                          else{
+                            tab+= '<form id ="form3"><button type="submit" class="btn btn-dark" disabled>Item Unavaliable</button></form>';
+                          }
+                        }
+                        else if(item.incart){
+                          tab+= '<form id ="form3" action="/cart/delete" method="POST"><input name = "itemid" value = "' + item.itemid + '" type = "hidden"><button type="submit" class="btn btn-dark">Remove From Cart</button></form>';
+                        }
+                        else{
+                          <!-- add modal here, we do not need to show information if the item is already in cart, maybe for unavailable items as well, but here first, also add dropdown in modal for duration, -->
+                          tab+= '<form id ="form3" action="/cart/add" method="POST"><input name = "itemid" value = "' + item.itemid + '" type = "hidden"><input name = "duration" value = "7 days" type = "hidden"><button type="submit" class="btn btn-dark"> Add to Cart </button></form>';
+                        }
+                      tab+=  '</div>';
+                    tab+=  '</div>';
+                  tab+=  '</div>';
+                tab+=  '</div>';
+                num += 1;
+
+              }); 
+              %>
+              <% if (locals.query){ %>
+                <p>Showing <%=num %> Results For: "<%=query%>"</p>
+              <% } %>
+             <%- tab %>
+            <% } %>
+            
+            </div>
+  </div>
+</main>
+
+<%- include ('../partials/footer') %>
