@@ -109,7 +109,7 @@
 <div class="modal fade" id="usernameModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="/profile/updatePassword" method="POST">
+            <form action="/profile/username" method="POST">
                 <div class="modal-header">
 
                     <h5 class="modal-title" id="exampleModalLabel">Update Username </h5>
@@ -133,13 +133,6 @@
     </div>
 </div>
 
-<div>
-    <form action="/profile/updatePassword">
-        <input type="text" name ="password" value="password"></input>
-        <button type="submit">Submit Password</button>
-    </form>
-</div>
-
 <!-- Modal First Name -->
 <div class="modal fade" id="firstnameModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -153,7 +146,7 @@
                 <div class="modal-body">
 
                     <div class="mb-3">
-                        <label for="firstName" class="form-label">Firs Name</label>
+                        <label for="firstName" class="form-label">First Name</label>
                         <input type="text" class="form-control" id="firstName" name="firstName"
                             aria-describedby="emailHelp">
                     </div>
@@ -250,7 +243,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" id="createButton" class="btn btn-primary">Update School Yeare</button>
+                    <button type="submit" id="createButton" class="btn btn-primary">Update School Year</button>
                 </div>
             </form>
             <!-- add form changed -->

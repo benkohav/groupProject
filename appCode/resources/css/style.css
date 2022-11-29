@@ -1,0 +1,9 @@
+body {
+
+    font-family: 'Segoe UI';
+    font-weight: 400;
+    background-color: rgb(97, 95, 95);
+}
+
+a.nav-link {color:#FFFFFF;}
+a.nav-link_hover {color:#F00F00; text-decoration:none;}

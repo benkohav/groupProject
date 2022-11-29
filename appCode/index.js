@@ -124,126 +124,108 @@ const dbConfig = {
     });
 
 
-// POSTS FOR THE PROFILE PAGE -----------------------------
-
-  // updates the database after fields in profile page have been edited --> updating user variable is needed 
+// updates the database after fields in profile page have been edited --> updating user variable is needed 
     app.post('/profile/username', async (req, res) => {
-          var query1 = "UPDATE userTable SET username = $1 WHERE userTable.username = $2;";
-          db.any(query1, [req.body.useName,req.session.user.username,])
-          .then(function (data) { req.session.user.username = req.body.username; res.redirect('/profile');})
-            .catch(function (err) {
-              res.render('pages/profile', { message: 'Error. Please try updating username again.' });
-            }) 
-    });       
+      // const hash = await bcrypt.hash(req.body.password, 10);
 
-    //password
-    app.post('/profile/updatePassword', async (req, res) => {
-      console.log("PASSWORD IS READ AS ",req.body.password);
-      const hash = await bcrypt.hash(req.body.password, 10);
-      console.log(hash);
-      var query1 = "SELECT password, userID FROM userTable WHERE userName = $1 LIMIT 1;" //- querriy to check the password - from login 
-      var query2 = "UPDATE userTable SET password = $1 WHERE userTable.username = $2;"; //hash the new password //same thing as I did within register 
-      const userID = await db.query(query1, [req.body.username])
-      console.log(userID)
-      res.render('/pages/profile')
+      var query1 = "UPDATE userTable SET username = $1 WHERE userTable.username = $2;";
 
-      // db.any(query1,[
-      //   req.body.username,
-      //   hash,
-      //   req.body.firstName,
-      //   req.body.lastName,
-      //   req.body.email,
-      //   req.body.schoolYear
-      // ])
-      //   .then(async function (user) { //the erorr is somewhere here 
-      //       // res.redirect('/login');
-      //       console.log(req.body.password);
-      //       console.log("USER PASSWORD",user[0].password);
-      //       const match = await bcrypt.compare(req.body.password, user[0].password);
-      //       var u_name = req.body.username;
-      //       if(match)
-      //       {
-      //         console.log("USER ID IS AVAILABLE AS", user[0]);
-      //         req.session.user = {
-      //           userid: user[0].userid,
-      //           username: u_name,
-      //           search: ""
-      //         };
-      //         req.session.save();
+      db.any(query1, [ 
+      req.body.username,
+      // hash,
+      // req.body.firstName,
+      // req.body.lastName,
+      // req.body.email,
+      // req.body.schoolYear,
 
-      //         db.any(query2,[
-      //           req.body.username,
-      //           hash,
-      //           req.body.firstName,
-      //           req.body.lastName,
-      //           req.body.email,
-      //           req.body.schoolYear
-      //         ]).then(async function (user) {
-      //         res.render('pages/profile',{message: 'Password change successful'} );
-      //         })
-      //         .catch(function (err) {
-      //           res.render("pages/profile", {
-      //               Items: [],
-      //               error: true,
-      //               message: err.message,
-      //           });
-      //         });
-      //       }
-      //       else {
-      //         //{message: 'Password incorrect. Please try again.'}
-      //         console.log("ELSE BLOCK");
-      //         res.render('pages/profile',{message: 'Password incorrect. Please try again.'} );
-      //       }
+      req.session.user.username,
+    ])
+      .then(function (data) {
+          // console.log(req.body.schoolYear);
+          req.session.user.username = req.body.username;
+          // res.render('pages/profile',{message: 'Username successfully updated.'} );
+          res.redirect('/profile');
 
-      //   })
-      //   .catch(function (err) {
-      //     console.log("CATCH ERROR");
-      //       //{message: 'This username does not exist. Please register.'}
-      //       // res.redirect('/register');
-      //       res.render('pages/profile', {
-      //         Items: [],
-      //         error: true,
-      //         message: err.message, });
-      //   })
-    });
-
-
-    //FIRST NAME
-    app.post('/profile/firstName', async (req, res) => {
-      var used = req.body.firstName;
-      var query1 = "UPDATE userTable SET firstName = $1 WHERE userTable.username = $2;";
-      db.any(query1, [ req.body.firstName,req.session.user.username,])
-      .then(function (data) {res.redirect('/profile');})
-      .catch(function (err) {res.render('pages/profile',{message: 'Error. Please try updating first name again.'} );})
-    });
-    //LAST NAME
-    app.post('/profile/lastName', async (req, res) => {
-      var query1 = "UPDATE userTable SET lastName = $1 WHERE userTable.username = $2;";
-      db.any(query1, [ req.body.lastName,req.session.user.username,])
-      .then(function (data) {res.redirect('/profile');})
-      .catch(function (err) {res.render('pages/profile',{message: 'Error. Please try updating last name again.'} );})
-    });
-    //EMAIL
-    app.post('/profile/email', async (req, res) => {
-      var query1 = "UPDATE userTable SET email = $1 WHERE userTable.username = $2;";
-      db.any(query1, [ req.body.email,req.session.user.username,])
-      .then(function (data) {res.redirect('/profile');})
-      .catch(function (err) { res.render('pages/profile',{message: 'Error. Please try updating email again.'} );})
-    });
-    //SCHOOL YEAR
-    app.post('/profile/schoolYear', async (req, res) => {
-      var query1 = "UPDATE userTable SET schoolYear = $1 WHERE userTable.username = $2;";
-      db.any(query1, [ req.body.schoolYear,req.session.user.username,])
-      .then(function (data) { res.redirect('/profile');})
-      .catch(function (err) { res.render('pages/profile',{message: 'Error. Please try updating email again.'} );
+      })
+      .catch(function (err) {
+        res.render('pages/profile',{message: 'Error. Please try updating username again.'} );
       })
     });
-// POSTS FOR THE PROFILE PAGE -----------------------------
 
+    // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    app.post('/profile/firstName', async (req, res) => {
+      // const hash = await bcrypt.hash(req.body.password, 10);
 
+      var query1 = "UPDATE userTable SET firstName = $1 WHERE userTable.username = $2;";
 
+      db.any(query1, [ 
+      req.body.firstName,
+      req.session.user.username,
+    ])
+      .then(function (data) {
+          // console.log(req.body.schoolYear);
+          // res.render('pages/profile',{message: 'Username successfully updated.'} );
+          res.redirect('/profile');
 
+      })
+      .catch(function (err) {
+        res.render('pages/profile',{message: 'Error. Please try updating first name again.'} );
+      })
+    });
 
+    // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    app.post('/profile/lastName', async (req, res) => {
+
+      var query1 = "UPDATE userTable SET lastName = $1 WHERE userTable.username = $2;";
+
+      db.any(query1, [ 
+      req.body.lastName,
+      req.session.user.username,
+    ])
+      .then(function (data) {
+          res.redirect('/profile');
+
+      })
+      .catch(function (err) {
+        res.render('pages/profile',{message: 'Error. Please try updating last name again.'} );
+      })
+    });
+
+    // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    app.post('/profile/email', async (req, res) => {
+
+      var query1 = "UPDATE userTable SET email = $1 WHERE userTable.username = $2;";
+
+      db.any(query1, [ 
+      req.body.email,
+      req.session.user.username,
+    ])
+      .then(function (data) {
+          res.redirect('/profile');
+
+      })
+      .catch(function (err) {
+        res.render('pages/profile',{message: 'Error. Please try updating email again.'} );
+      })
+    });
+
+    // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    app.post('/profile/schoolYear', async (req, res) => {
+
+      var query1 = "UPDATE userTable SET schoolYear = $1 WHERE userTable.username = $2;";
+
+      db.any(query1, [ 
+      req.body.schoolYear,
+      req.session.user.username,
+    ])
+      .then(function (data) {
+          res.redirect('/profile');
+
+      })
+      .catch(function (err) {
+        res.render('pages/profile',{message: 'Error. Please try updating email again.'} );
+      })
+    });
 
 
     //Rendering home
@@ -431,7 +413,7 @@ const dbConfig = {
           }
         });
         if(overdue > 0){
-          res.render('pages/checkout',{message: 'You have ' + overdue + ' overdue items. Please return them or mark as missing and try again'} );
+          res.render('pages/checkout',{message: 'You have ' + overdue + ' overdue items. Please return them and try again'} );
         }
         else{
           var query = `Update Item 
@@ -442,7 +424,7 @@ const dbConfig = {
           DELETE FROM Cart WHERE userID = $1;`
           db.any(query, [req.session.user.userid])
           .then(async function (user) {
-            res.render('pages/checkout',{message: 'Checkout Successful. Your item(s) can be picked up at UMC Boulder Colorado'});
+            res.render('pages/checkout',{message: 'Checkout Successful'} );
           })
           .catch(function (err) {
               res.render('pages/checkout',{message: 'Checkout failed'} );

@@ -65,11 +65,11 @@ VALUES
 -- (2, 10, '2022-12-01 10:10:30', '2022-12-02 20:45:30'),
 -- (1, 6, '2022-12-01 10:10:30', '2022-12-02 20:45:30'),
 -- (1, 12, '2022-12-01 10:10:30', '2022-12-02 20:45:30');
-INSERT INTO History (userID, ItemID) VALUES
-(1,2),
-(1,3),
-(1,3),
-(2,3);
+-- INSERT INTO History (userID, ItemID) VALUES
+-- (1,2),
+-- (1,3),
+-- (1,3),
+-- (2,3);
 
 INSERT INTO Cart(userID, ItemID, Duration, DurationName)
 VALUES (1,3,'7 days','7 days'),
