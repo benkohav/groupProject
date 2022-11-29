@@ -54,7 +54,7 @@ VALUES
 (12,1, 'Slight wear', '2022-10-01 10:10:30', '2022-10-02 20:45:30');
 
 
-INSERT INTO History (userID, ItemID, timeReturned, payBy)
+INSERT INTO History (userID, ItemID, timeBorrowed, timeReturned)
 VALUES (2, 2, '2022-12-01 20:10:30', '2022-12-01 20:10:30'),
 (1, 3, '2022-12-01 10:10:30', '2022-12-02 20:45:30'),
 (1, 5, '2022-12-01 10:10:30', '2022-12-02 20:45:30'),
