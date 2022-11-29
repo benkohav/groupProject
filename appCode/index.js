@@ -259,7 +259,7 @@ const dbConfig = {
       }
       else{
         const search = req.query.search.toLowerCase();;
-        var query = `SELECT Item.userID as userid, Item.ItemID, SubCategory.CategoryName as subcatname, SuperCategory.CategoryName as catname, SuperCategory.CategoryDescription as catdesc, SubCategory.CategoryDescription as subcatdesc, SubCategory.Brand, SubCategory.URL, usercart.userID AS incart, COUNT(*) as uses
+        var query = `SELECT Item.userID as userid, Item.ItemID, Item.Condition, SubCategory.CategoryName as subcatname, SuperCategory.CategoryName as catname, SuperCategory.CategoryDescription as catdesc, SubCategory.CategoryDescription as subcatdesc, SubCategory.Brand, SubCategory.URL, usercart.userID AS incart, COUNT(*) as uses
         FROM Item 
         INNER JOIN Category SubCategory ON Item.CategoryID = SubCategory.CategoryID 
         LEFT OUTER JOIN Category SuperCategory ON SubCategory.SuperCategoryID = SuperCategory.CategoryID 
@@ -276,7 +276,7 @@ const dbConfig = {
           query += `AND Item.userID IS NULL
           `;
         }
-        query+= `GROUP BY Item.ItemID, Item.userID, SubCategory.CategoryName, SuperCategory.CategoryName, SuperCategory.CategoryDescription, SubCategory.CategoryDescription, SubCategory.Brand, SubCategory.URL, usercart.userID`
+        query+= `GROUP BY Item.ItemID, Item.userID, Item.Condition, SubCategory.CategoryName, SuperCategory.CategoryName, SuperCategory.CategoryDescription, SubCategory.CategoryDescription, SubCategory.Brand, SubCategory.URL, usercart.userID`
         query += `;`;
         db.any(query, [ 
           '%' + search + '%',
@@ -421,7 +421,7 @@ const dbConfig = {
           res.redirect(req.body.returnto)
         }
         else{
-        res.render('pages/search',{message: 'Added to Cart'} );
+        res.render('pages/checkout',{message: 'Added to Cart'} );
         }
       })
       .catch(function (err) {
@@ -444,7 +444,7 @@ const dbConfig = {
           res.redirect(req.body.returnto)
         }
         else{
-          res.render('pages/search',{message: 'Removed'} );
+          res.render('pages/checkout',{message: 'Item Removed'} );
         }
       })
       .catch(function (err) {
@@ -489,26 +489,3 @@ const dbConfig = {
     
     // Authentication Required
     // app.use(auth);
-
-
-    // app.get('/discover', (req, res) => {
-    //     axios({
-    //         url: `https://app.ticketmaster.com/discovery/v2/events.json`,
-    //             method: 'GET',
-    //             dataType:'json',
-    //             params: {
-    //                 "apikey": req.session.user.api_key,
-    //                 "keyword": "Coldplay", //you can choose any artist/event here
-    //                 "size": 11,
-    //             }
-    //         })
-    //         .then(results => {
-    //             console.log(results.data); // the results will be displayed on the terminal if the docker containers are running
-    //          // Send some parameters
-    //          res.render('pages/discover', {results: results.data});
-    //          //print out/present the results etc
-    //         })
-    //         .catch(error => {
-    //         // Handle errors
-    //         res.render('pages/discover', {results: []});
-    //         })

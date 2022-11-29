@@ -6,7 +6,8 @@ CREATE TABLE userTable (
     firstName VARCHAR(60),
     lastName VARCHAR(60),
     email VARCHAR(60),
-    schoolYear VARCHAR(60)
+    schoolYear VARCHAR(60),
+    fee DECIMAL(9,2)
 );
 
 DROP TABLE IF EXISTS Category ;
@@ -41,7 +42,7 @@ CREATE TABLE IF NOT EXISTS History (
   ItemID INT NOT NULL REFERENCES Item (ItemId),
   timeBorrowed TIMESTAMP,
   timeReturned TIMESTAMP,
-  payBy TIMESTAMP
+  fee DECIMAL(9,2)
 );
 
 DROP TABLE IF EXISTS Cart;
