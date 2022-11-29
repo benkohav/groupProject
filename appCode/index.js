@@ -137,22 +137,71 @@ const dbConfig = {
     });       
 
     //password
-    app.post('/profile/password', async (req, res) => {
+    app.post('/profile/updatePassword', async (req, res) => {
+      console.log("PASSWORD IS READ AS ",req.body.password);
       const hash = await bcrypt.hash(req.body.password, 10);
+      console.log(hash);
+      var query1 = "SELECT password, userID FROM userTable WHERE userName = $1 LIMIT 1;" //- querriy to check the password - from login 
+      var query2 = "UPDATE userTable SET password = $1 WHERE userTable.username = $2;"; //hash the new password //same thing as I did within register 
 
-      var query1 = "UPDATE userTable SET password = $1 WHERE userTable.username = $2;";
+      db.any(query1,[
+        req.body.username,
+        hash,
+        req.body.firstName,
+        req.body.lastName,
+        req.body.email,
+        req.body.schoolYear
+      ])
+        .then(async function (user) { //the erorr is somewhere here 
+            // res.redirect('/login');
+            console.log(req.body.password);
+            console.log("USER PASSWORD",user[0].password);
+            const match = await bcrypt.compare(req.body.password, user[0].password);
+            var u_name = req.body.username;
+            if(match)
+            {
+              console.log("USER ID IS AVAILABLE AS", user[0]);
+              req.session.user = {
+                userid: user[0].userid,
+                username: u_name,
+                search: ""
+              };
+              req.session.save();
 
-      db.any(query1, [ 
-      req.body.username,
-      req.session.user.username,
-    ])
-      .then(function (data) {
-          req.session.user.username = req.body.username;
-          res.redirect('/profile');
-      })
-      .catch(function (err) {
-        res.render('pages/profile',{message: 'Error. Please try updating username again.'} );
-      })
+              db.any(query2,[
+                req.body.username,
+                hash,
+                req.body.firstName,
+                req.body.lastName,
+                req.body.email,
+                req.body.schoolYear
+              ]).then(async function (user) {
+              res.render('pages/profile',{message: 'Password change successful'} );
+              })
+              .catch(function (err) {
+                res.render("pages/profile", {
+                    Items: [],
+                    error: true,
+                    message: err.message,
+                });
+              });
+            }
+            else {
+              //{message: 'Password incorrect. Please try again.'}
+              console.log("ELSE BLOCK");
+              res.render('pages/profile',{message: 'Password incorrect. Please try again.'} );
+            }
+
+        })
+        .catch(function (err) {
+          console.log("CATCH ERROR");
+            //{message: 'This username does not exist. Please register.'}
+            // res.redirect('/register');
+            res.render('pages/profile', {
+              Items: [],
+              error: true,
+              message: err.message, });
+        })
     });
 
 

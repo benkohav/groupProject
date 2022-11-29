@@ -139,7 +139,6 @@
                     <button type="submit" id="createButton" class="btn btn-primary">Update First Name</button>
                 </div>
             </form>
-            <!-- add form changed -->
         </div>
     </div>
 </div>
@@ -167,7 +166,6 @@
                     <button type="submit" id="createButton" class="btn btn-primary">Update Last Name</button> 
                 </div>
             </form>
-            <!-- add form changed -->
         </div>
     </div>
 </div>
@@ -195,7 +193,6 @@
                     <button type="submit" id="createButton" class="btn btn-primary">Update Email</button>
                 </div>
             </form>
-            <!-- add form changed -->
         </div>
     </div>
 </div>
@@ -229,7 +226,6 @@
                     <button type="submit" id="createButton" class="btn btn-primary">Update School Year</button>
                 </div>
             </form>
-            <!-- add form changed -->
         </div>
     </div>
 </div>
@@ -258,16 +254,16 @@
                     <button type="submit" id="submitUsername" name="submitUsername" class="btn btn-primary" >Update Username</button>
                 </div>
             </form>
-            <!-- add form changed -->
         </div>
     </div>
 </div>
 
-<!-- Modal Passworkd -->
-<!-- <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Password -->
+
+<div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="/profile/password" method="POST">
+            <form action="/profile/updatePassword" method="POST">
                 <div class="modal-header">
 
                     <h5 class="modal-title" id="exampleModalLabel">Change Password </h5>
@@ -276,61 +272,22 @@
                 <div class="modal-body">
 
                     <div class="mb-3">
-                        <label for="password" class="form-label">Enter Old Password</label>
-                        <input type="text" class="form-control" id="password" name="password"
-                            aria-describedby="emailHelp">
+                        <label for="password" class="form-label">Old Password</label>
+                        <input type="text" class="form-control" id="password" name="password" placeholder= "Old password cannot be blank"
+                            aria-describedby="emailHelp" required>
                     </div>
-
                     <div class="mb-3">
-                        <label for="password" class="form-label">Enter New Password</label>
-                        <input type="text" class="form-control" id="password" name="password"
-                            aria-describedby="emailHelp">
+                        <label for="Newpassword" class="form-label">New Password</label>
+                        <input type="text" class="form-control" id="Newpassword" name="Newpassword" placeholder= "New password cannot be blank"
+                            aria-describedby="emailHelp" required>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Confirm New Password</label>
-                        <input type="text" class="form-control" id="password" name="password"
-                            aria-describedby="emailHelp">
-                    </div>
-                    <span id="error" style="display:none">Password mismatch</span>
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" id="createButton" class="btn btn-primary">Change Password</button>
+                    <button type="submit" id="submitUsername" name="submitUsername" class="btn btn-primary" >Change Password</button>
                 </div>
             </form>
-        </div>
-    </div>
-</div> -->  
-
-<!-- Modal Password -->
-
-<div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form action="/profile/password" method="POST">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">To change password, log in again</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="username">Username</label>
-                        <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="password">Password</label>
-                    <input type="text" class="form-control" name="password" id="password" placeholder="Enter Password">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" id="createButton" class="btn btn-primary" disabled="disabled">Login</button>
-                </div>
-            </form>
-            <!-- add form changed -->
         </div>
     </div>
 </div>
