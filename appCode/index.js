@@ -413,7 +413,7 @@ const dbConfig = {
           }
         });
         if(overdue > 0){
-          res.render('pages/checkout',{message: 'You have ' + overdue + ' overdue items. Please return them or mark as missing and try again'} );
+          res.render('pages/checkout',{message: 'You have ' + overdue + ' overdue items. Please return them and try again'} );
         }
         else{
           var query = `Update Item 
