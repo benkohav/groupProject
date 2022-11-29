@@ -455,7 +455,7 @@ const dbConfig = {
           res.redirect(req.body.returnto)
         }
         else{
-        res.render('pages/search',{message: 'Added to Cart'} );
+        res.render('pages/checkout',{message: 'Added to Cart'} );
         }
       })
       .catch(function (err) {
@@ -478,7 +478,7 @@ const dbConfig = {
           res.redirect(req.body.returnto)
         }
         else{
-          res.render('pages/search',{message: 'Removed'} );
+          res.render('pages/checkout',{message: 'Item Removed'} );
         }
       })
       .catch(function (err) {
@@ -523,26 +523,3 @@ const dbConfig = {
     
     // Authentication Required
     // app.use(auth);
-
-
-    // app.get('/discover', (req, res) => {
-    //     axios({
-    //         url: `https://app.ticketmaster.com/discovery/v2/events.json`,
-    //             method: 'GET',
-    //             dataType:'json',
-    //             params: {
-    //                 "apikey": req.session.user.api_key,
-    //                 "keyword": "Coldplay", //you can choose any artist/event here
-    //                 "size": 11,
-    //             }
-    //         })
-    //         .then(results => {
-    //             console.log(results.data); // the results will be displayed on the terminal if the docker containers are running
-    //          // Send some parameters
-    //          res.render('pages/discover', {results: results.data});
-    //          //print out/present the results etc
-    //         })
-    //         .catch(error => {
-    //         // Handle errors
-    //         res.render('pages/discover', {results: []});
-    //         })
