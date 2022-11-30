@@ -75,13 +75,11 @@ const dbConfig = {
       var itemsCheckedOutQuery = `SELECT ItemID, EXTRACT(day FROM timeDue-NOW()) as day, ABS(EXTRACT(hour FROM timeDue-NOW())) as hour, ABS(EXTRACT(minute FROM timeDue-NOW())) as minute, CategoryName, CategoryDescription, URL
           FROM (SELECT * FROM Item WHERE Item.UserID = $1) AS userItems
           INNER JOIN Category ON userItems.CategoryID = Category.CategoryID;`;
-      // console.log('Testing');
       db.any(profileQuery, [
         req.session.user.userid
       ])
       .then(data => 
         {
-          // console.log(data);
           username = data[0].username;
           firstName = data[0].firstname;
           lastName = data[0].lastname;
@@ -93,7 +91,6 @@ const dbConfig = {
           ])
           .then(Items => 
             {
-              // console.log(Items);
               res.render("pages/profile", {
                 username,
                 firstName,
@@ -124,94 +121,36 @@ const dbConfig = {
     });
 
 
-// POSTS FOR THE PROFILE PAGE -----------------------------
-
-  // updates the database after fields in profile page have been edited --> updating user variable is needed 
-    app.post('/profile/username', async (req, res) => {
-          var query1 = "UPDATE userTable SET username = $1 WHERE userTable.username = $2;";
-          db.any(query1, [req.body.useName,req.session.user.username,])
-          .then(function (data) { req.session.user.username = req.body.username; res.redirect('/profile');})
-            .catch(function (err) {
-              res.render('pages/profile', { message: 'Error. Please try updating username again.' });
-            }) 
-    });       
+// POSTS FOR THE PROFILE PAGE -----------------------------    
+    // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    app.post('/profile/updateUsername', async (req, res) => {
+      var used = req.body.firstName;
+      var query1 = "UPDATE userTable SET username = $1 WHERE userTable.username = $2;";
+      db.any(query1, [ req.body.username,req.session.user.username,])
+      .then(function (data) {res.redirect('/profile');})
+      .catch(function (err) {res.render('pages/profile',{message: 'Error. Please try updating username again.'} );})
+    });
 
     //password
     app.post('/profile/updatePassword', async (req, res) => {
-      console.log("PASSWORD IS READ AS ",req.body);
+      //console.log("PASSWORD IS READ AS ",req.body);
       const hash = await bcrypt.hash(req.body.Newpassword, 10);
-      console.log(hash);
+      //console.log(hash);
 
       var query1 = "SELECT password FROM userTable WHERE userID = $1 LIMIT 1;" //- querriy to check the password - from login 
       var query2 = "UPDATE userTable SET password = $1 WHERE userID = $2;"; //hash the new password //same thing as I did within register 
       try {
         const userID = await db.query(query1, [req.session.user.userid])
-        console.log(userID);
+        // console.log(userID);
         const match = await bcrypt.compare(req.body.password, userID[0].password)
-        console.log(userID)
+        // console.log(userID)
         if(match){
           await db.query(query2, [hash, req.session.user.userid])
-  
           res.redirect('/profile')
         }
-        
       } catch (error) {
         console.log(error)
       }
-
-      // db.any(query1,[
-      //   req.body.username,
-      //   hash,
-      // ])
-      //   .then(async function (user) { //the erorr is somewhere here 
-      //       // res.redirect('/login');
-      //       console.log(req.body.password);
-      //       console.log("USER PASSWORD",user[0].password);
-
-      //       const match = await bcrypt.compare(req.body.password, user[0].password);
-      //       var u_name = req.body.username;
-      //       if(match)
-      //       {
-      //         console.log("USER ID IS AVAILABLE AS", user[0])
-              
-      //         req.session.user = {
-      //           userid: user[0].userid,
-      //           username: u_name,
-      //           search: ""
-      //         };
-      //         req.session.save();
-
-      //         db.any(query2,[
-      //           req.body.username,
-      //           hash,
-      //         ])
-      //         .then(async function (user) {
-      //         res.render('pages/profile',{message: 'Password change successful'} );
-      //         })
-      //         .catch(function (err) {
-      //           res.render("pages/profile", {
-      //               Items: [],
-      //               error: true,
-      //               message: err.message,
-      //           });
-      //         });
-      //       }
-      //       else {
-      //         //{message: 'Password incorrect. Please try again.'}
-      //         console.log("ELSE BLOCK");
-      //         res.render('pages/profile',{message: 'Password incorrect. Please try again.'} );
-      //       }
-
-      //   })
-      //   .catch(function (err) {
-      //     console.log("CATCH ERROR");
-      //       //{message: 'This username does not exist. Please register.'}
-      //       // res.redirect('/register');
-      //       res.render('pages/profile', {
-      //         Items: [],
-      //         error: true,
-      //         message: err.message, });
-      //   })
     });
 
 
@@ -371,7 +310,7 @@ const dbConfig = {
         req.body.schoolYear
       ])
         .then(function (data) {
-            console.log(req.body.schoolYear);
+            //console.log(req.body.schoolYear);
             res.redirect('/login');
         })
         .catch(function (err) {
