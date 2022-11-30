@@ -51,6 +51,7 @@ For Use in Modal:
                         if(item.uses != 1){tab += item.uses }else{tab += '0-1'}
                         tab+='</h6>';
                         tab+='<h6 class="card-title" data-toggle="tooltip" data-placement="top" title="' + item.catdesc + '">Category: ' + item.catname + '</h6>';
+                        tab+='<h6 class="card-title" data-toggle="tooltip" data-placement="top" title="' + item.catdesc + '">Description: ' + item.catdesc + '</h6>';
                         tab+='<p class="card-title"> Item ID: ' + item.itemid + ' &nbsp&nbsp Condition: ';
                         if(!item.condition){tab+= 'N/A</p>';}else{tab+= item.condition + '</p>';};
                         if(item.userid){
