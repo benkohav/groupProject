@@ -75,13 +75,11 @@ const dbConfig = {
       var itemsCheckedOutQuery = `SELECT ItemID, EXTRACT(day FROM timeDue-NOW()) as day, ABS(EXTRACT(hour FROM timeDue-NOW())) as hour, ABS(EXTRACT(minute FROM timeDue-NOW())) as minute, CategoryName, CategoryDescription, URL
           FROM (SELECT * FROM Item WHERE Item.UserID = $1) AS userItems
           INNER JOIN Category ON userItems.CategoryID = Category.CategoryID;`;
-      // console.log('Testing');
       db.any(profileQuery, [
         req.session.user.userid
       ])
       .then(data => 
         {
-          // console.log(data);
           username = data[0].username;
           firstName = data[0].firstname;
           lastName = data[0].lastname;
@@ -93,7 +91,6 @@ const dbConfig = {
           ])
           .then(Items => 
             {
-              // console.log(Items);
               res.render("pages/profile", {
                 username,
                 firstName,
@@ -124,108 +121,75 @@ const dbConfig = {
     });
 
 
-// updates the database after fields in profile page have been edited --> updating user variable is needed 
-    app.post('/profile/username', async (req, res) => {
-      // const hash = await bcrypt.hash(req.body.password, 10);
-
+// POSTS FOR THE PROFILE PAGE -----------------------------    
+    // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    app.post('/profile/updateUsername', async (req, res) => {
+      var used = req.body.firstName;
       var query1 = "UPDATE userTable SET username = $1 WHERE userTable.username = $2;";
-
-      db.any(query1, [ 
-      req.body.username,
-      // hash,
-      // req.body.firstName,
-      // req.body.lastName,
-      // req.body.email,
-      // req.body.schoolYear,
-
-      req.session.user.username,
-    ])
-      .then(function (data) {
-          // console.log(req.body.schoolYear);
-          req.session.user.username = req.body.username;
-          // res.render('pages/profile',{message: 'Username successfully updated.'} );
-          res.redirect('/profile');
-
-      })
-      .catch(function (err) {
-        res.render('pages/profile',{message: 'Error. Please try updating username again.'} );
-      })
+      db.any(query1, [ req.body.username,req.session.user.username,])
+      .then(function (data) {res.redirect('/profile');})
+      .catch(function (err) {res.render('pages/profile',{message: 'Error. Please try updating username again.'} );})
     });
 
-    // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    //password
+    app.post('/profile/updatePassword', async (req, res) => {
+      //console.log("PASSWORD IS READ AS ",req.body);
+      const hash = await bcrypt.hash(req.body.Newpassword, 10);
+      //console.log(hash);
+
+      var query1 = "SELECT password FROM userTable WHERE userID = $1 LIMIT 1;" //- querriy to check the password - from login 
+      var query2 = "UPDATE userTable SET password = $1 WHERE userID = $2;"; //hash the new password //same thing as I did within register 
+      try {
+        const userID = await db.query(query1, [req.session.user.userid])
+        // console.log(userID);
+        const match = await bcrypt.compare(req.body.password, userID[0].password)
+        // console.log(userID)
+        if(match){
+          await db.query(query2, [hash, req.session.user.userid])
+          res.redirect('/profile')
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    });
+
+
+    //FIRST NAME
     app.post('/profile/firstName', async (req, res) => {
-      // const hash = await bcrypt.hash(req.body.password, 10);
-
+      var used = req.body.firstName;
       var query1 = "UPDATE userTable SET firstName = $1 WHERE userTable.username = $2;";
-
-      db.any(query1, [ 
-      req.body.firstName,
-      req.session.user.username,
-    ])
-      .then(function (data) {
-          // console.log(req.body.schoolYear);
-          // res.render('pages/profile',{message: 'Username successfully updated.'} );
-          res.redirect('/profile');
-
-      })
-      .catch(function (err) {
-        res.render('pages/profile',{message: 'Error. Please try updating first name again.'} );
-      })
+      db.any(query1, [ req.body.firstName,req.session.user.username,])
+      .then(function (data) {res.redirect('/profile');})
+      .catch(function (err) {res.render('pages/profile',{message: 'Error. Please try updating first name again.'} );})
     });
-
-    // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    //LAST NAME
     app.post('/profile/lastName', async (req, res) => {
-
       var query1 = "UPDATE userTable SET lastName = $1 WHERE userTable.username = $2;";
-
-      db.any(query1, [ 
-      req.body.lastName,
-      req.session.user.username,
-    ])
-      .then(function (data) {
-          res.redirect('/profile');
-
-      })
-      .catch(function (err) {
-        res.render('pages/profile',{message: 'Error. Please try updating last name again.'} );
-      })
+      db.any(query1, [ req.body.lastName,req.session.user.username,])
+      .then(function (data) {res.redirect('/profile');})
+      .catch(function (err) {res.render('pages/profile',{message: 'Error. Please try updating last name again.'} );})
     });
-
-    // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    //EMAIL
     app.post('/profile/email', async (req, res) => {
-
       var query1 = "UPDATE userTable SET email = $1 WHERE userTable.username = $2;";
-
-      db.any(query1, [ 
-      req.body.email,
-      req.session.user.username,
-    ])
-      .then(function (data) {
-          res.redirect('/profile');
-
-      })
-      .catch(function (err) {
-        res.render('pages/profile',{message: 'Error. Please try updating email again.'} );
-      })
+      db.any(query1, [ req.body.email,req.session.user.username,])
+      .then(function (data) {res.redirect('/profile');})
+      .catch(function (err) { res.render('pages/profile',{message: 'Error. Please try updating email again.'} );})
     });
-
-    // updates the database after fields in profile page have been edited --> updating user variable is needed 
+    //SCHOOL YEAR
     app.post('/profile/schoolYear', async (req, res) => {
-
       var query1 = "UPDATE userTable SET schoolYear = $1 WHERE userTable.username = $2;";
-
-      db.any(query1, [ 
-      req.body.schoolYear,
-      req.session.user.username,
-    ])
-      .then(function (data) {
-          res.redirect('/profile');
-
-      })
-      .catch(function (err) {
-        res.render('pages/profile',{message: 'Error. Please try updating email again.'} );
+      db.any(query1, [ req.body.schoolYear,req.session.user.username,])
+      .then(function (data) { res.redirect('/profile');})
+      .catch(function (err) { res.render('pages/profile',{message: 'Error. Please try updating email again.'} );
       })
     });
+// POSTS FOR THE PROFILE PAGE -----------------------------
+
+
+
+
+
 
 
     //Rendering home
@@ -333,7 +297,7 @@ const dbConfig = {
     //Register logic 
     app.post('/register', async (req, res) => {
         const hash = await bcrypt.hash(req.body.password, 10);
-        console.log(hash);
+        
         var query = "INSERT INTO userTable (username, password, firstName, lastName, email, schoolYear) values ($1, $2, $3, $4, $5, $6);";
 
 
@@ -346,7 +310,8 @@ const dbConfig = {
         req.body.schoolYear
       ])
         .then(function (data) {
-            console.log(req.body.schoolYear);
+         
+
             res.redirect('/login');
         })
         .catch(function (err) {
@@ -413,7 +378,7 @@ const dbConfig = {
           }
         });
         if(overdue > 0){
-          res.render('pages/checkout',{message: 'You have ' + overdue + ' overdue items. Please return them or mark as missing and try again'} );
+          res.render('pages/checkout',{message: 'You have ' + overdue + ' overdue items. Please return them and try again'} );
         }
         else{
           var query = `Update Item 
@@ -424,7 +389,7 @@ const dbConfig = {
           DELETE FROM Cart WHERE userID = $1;`
           db.any(query, [req.session.user.userid])
           .then(async function (user) {
-            res.render('pages/checkout',{message: 'Checkout Successful'} );
+            res.render('pages/checkout',{message: 'Checkout Successful. Your item(s) can be picked up at UMC Boulder Colorado'});
           })
           .catch(function (err) {
               res.render('pages/checkout',{message: 'Checkout failed'} );
@@ -455,7 +420,7 @@ const dbConfig = {
           res.redirect(req.body.returnto)
         }
         else{
-        res.render('pages/search',{message: 'Added to Cart'} );
+        res.render('pages/checkout',{message: 'Added to Cart'} );
         }
       })
       .catch(function (err) {
@@ -478,7 +443,7 @@ const dbConfig = {
           res.redirect(req.body.returnto)
         }
         else{
-          res.render('pages/search',{message: 'Removed'} );
+          res.render('pages/checkout',{message: 'Item Removed'} );
         }
       })
       .catch(function (err) {
@@ -523,26 +488,3 @@ const dbConfig = {
     
     // Authentication Required
     // app.use(auth);
-
-
-    // app.get('/discover', (req, res) => {
-    //     axios({
-    //         url: `https://app.ticketmaster.com/discovery/v2/events.json`,
-    //             method: 'GET',
-    //             dataType:'json',
-    //             params: {
-    //                 "apikey": req.session.user.api_key,
-    //                 "keyword": "Coldplay", //you can choose any artist/event here
-    //                 "size": 11,
-    //             }
-    //         })
-    //         .then(results => {
-    //             console.log(results.data); // the results will be displayed on the terminal if the docker containers are running
-    //          // Send some parameters
-    //          res.render('pages/discover', {results: results.data});
-    //          //print out/present the results etc
-    //         })
-    //         .catch(error => {
-    //         // Handle errors
-    //         res.render('pages/discover', {results: []});
-    //         })
