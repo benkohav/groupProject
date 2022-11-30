@@ -358,7 +358,7 @@ const dbConfig = {
     //Register logic 
     app.post('/register', async (req, res) => {
         const hash = await bcrypt.hash(req.body.password, 10);
-        console.log(hash);
+        
         var query = "INSERT INTO userTable (username, password, firstName, lastName, email, schoolYear) values ($1, $2, $3, $4, $5, $6);";
 
 
@@ -371,7 +371,7 @@ const dbConfig = {
         req.body.schoolYear
       ])
         .then(function (data) {
-            console.log(req.body.schoolYear);
+         
             res.redirect('/login');
         })
         .catch(function (err) {
