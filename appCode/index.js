@@ -330,10 +330,10 @@ const dbConfig = {
       });
 
     //Render of Login from pages 
-    // app.get('/login', (req, res) => {
-    //     console.log("hello")
-    //     //res.render('pages/login'); //{<JSON data required to render the page, if applicable>}
-    //   });
+    app.get('/login', (req, res) => {
+        //console.log("hello")
+        res.render('pages/login'); //{<JSON data required to render the page, if applicable>}
+      });
 
     
     //Login logic
