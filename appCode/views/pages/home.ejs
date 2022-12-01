@@ -3,13 +3,31 @@
 
 <div class="container">
     <h1><center>Home</center></h1>
-    <p><center>Rules and How to Use</center> </p>
-    <p> &nbsp&nbsp&nbsp&nbsp&nbsp The CU Boulder University Tech Library is a convenient way to borrow various electronic items. We help users who have forgotten their devices or those who want to try something new. To get started, search for an item in the search bar above. Alternatively, down below is a list of the most commonly borrowed items.</p>
-    <p> &nbsp&nbsp&nbsp&nbsp&nbsp When you have added all of your items, just click on cart in the navbar, and it will walk you through the process. To pick up your items, visit front desk in the Norlin library. To change your personal information, to see your items, or to return your items, click on profile.</p>
+    <div class="card">
+        <div class="card-header">
+            <center>About Us</center>
+          </div>
+        <div class="card-body" style="background-color: #f6dfbc;">
+            <center> <p>
+                The CU Boulder Tech Library helps users who have forgotten or lost their devices. 
+                To get started, search for an item to borrow in the search bar above. 
+                Alternatively, down below is a list of the most commonly borrowed items.
+                </p></center>
+                <center> <p>When you have added all of your items, just click on cart in the navbar to checkout.
+                    To pick up your items, visit front desk in the Norlin library. 
+                    To change your personal information, see your items, or to return items, click on profile.
+                </p></center>               
+        </div>
+      </div>
 
    <table class = "table"><center>
    
-   <thead>
+   <thead> 
+    <style>
+        body {
+        background-color: #f8d293;
+        }
+    </style>
     <tr>
         <th> Popularity</th>
         <th> Item Type </th>
@@ -22,6 +40,10 @@
     
 
     <tbody>
+        <br>
+        <h1><center>Popular Items</center></h1>
+        <br>
+
     <% Items.forEach(function(Item){ %>
         
         <tr>

@@ -73,8 +73,8 @@ const dbConfig = {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
       }
       var profileQuery = "SELECT * FROM userTable WHERE userTable.userID = $1";
-      console.log("Hey There!!")
-      console.log(req.session.user.userid)
+      //console.log("Hey There!!")
+      //console.log(req.session.user.userid)
       var itemsCheckedOutQuery = `SELECT ItemID, EXTRACT(day FROM timeDue-NOW()) as day, ABS(EXTRACT(hour FROM timeDue-NOW())) as hour, ABS(EXTRACT(minute FROM timeDue-NOW())) as minute, CategoryName, CategoryDescription, URL
           FROM (SELECT * FROM Item WHERE Item.UserID = $1) AS userItems
           INNER JOIN Category ON userItems.CategoryID = Category.CategoryID;`;
@@ -128,13 +128,13 @@ const dbConfig = {
     // updates the database after fields in profile page have been edited --> updating user variable is needed 
 
     app.post('/profile/updateUsername', async (req, res) => {
-      console.log("Hey There")
+      //console.log("Hey There")
       var username = req.body.username;
-      console.log(req.body.username)
+      //console.log(req.body.username)
       var query1 = "UPDATE userTable SET username = $1 WHERE userTable.userID = $2;";
       db.any(query1, [ username,req.session.user.userid])
       .then(function (data) {
-        console.log("Update succesful")
+        //console.log("Update succesful")
         req.session.user.username = username
         req.session.save()
         res.redirect('/profile');})

@@ -3,20 +3,26 @@
 
 <main>
 
+    <style>
+        body {
+        background-color:  #f8d293;
+        }
+    </style>
+
 <div>
     <div class="container">
         <h1><center>Manage your Profile</center></h1>
         <div class="row">
             <div class="col">
                 <div class="card bg-dark text-white" style="width: 25rem;">
-                    <div class="card-body">
+                    <div class="card-body" style="background-color: rgba(248, 231, 135, 0.2);">
                     <h5 class="card-title">Account Holder:</h5>
                     <p class="card-text"><%= firstName %> <%= lastName %></p>
                     </div>
                 </div>
                 <p></p>
                 <div class="card" style="width: 32rem;">
-                    <div class="card-body">
+                    <div class="card-body" style="background-color: #f6dfbc;">
                     <h5 class="card-title"><%= firstName %>'s Checked Out Items:</h5>
                     <% if(locals.Items.length != 0) { %>
                     <table class = "table"><center>
@@ -42,7 +48,7 @@
                                  <td>
                                     <form id ="form3" action="/return" method="POST">
                                       <input value = <%=Item.itemid %> name = "itemid" id = <%= Item.itemid %> type = hidden>
-                                     <button type="submit" id="submit_button" class="btn btn-primary" style="margin-top: 20px;"> Return </button> 
+                                     <button type="submit" id="submit_button" class="btn btn-dark" style="margin-top: 20px;"> Return </button> 
                                     </form> 
                                 </td>
                              </tr>
@@ -59,27 +65,27 @@
             </div>
         <div class="col">
             <div class="card" style="width: 20rem;">
-                <div class="card-body">
+                <div class="card-body" style="background-color: #f6dfbc;">
                 <h5 class="card-title">Contact Details</h5>
                 <p class="card-text">Edit your contact info here.</p>
                 <p>First Name: <%= firstName %></p>
                 <th scope="row">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#firstnameModal">
+                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#firstnameModal">
                         Edit First Name
                     </button> </td></th>
                 <p>Last Name: <%= lastName %></p>
                 <th scope="row">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#LastNameModal">
+                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#LastNameModal">
                         Edit Last Name
                     </button> </td></th>                
                 <p>Email: <%= email %></p>
                 <th scope="row">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#emailModal">
+                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#emailModal">
                         Edit Email
                     </button> </td></th>
                 <p>School Year: <%= schoolYear %></p>
                 <th scope="row">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#schoolYearModal">
+                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#schoolYearModal">
                         Edit School Year
                     </button> </td></th>
             </div>
@@ -88,14 +94,14 @@
         
         <div class="col">
             <div class="card" style="width: 20rem;">
-                <div class="card-body">
+                <div class="card-body" style="background-color: #f6dfbc;">
                 <h5 class="card-title">Settings</h5>
                 <p class="card-text">Modify your username and shopping settings here. </p>
                 <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                 <p>Username: <%= username %></p>
                  <th scope="row">
 
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#usernameModal">
+                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#usernameModal">
                     Update Username
                 </button> </td></th>
                 
@@ -103,7 +109,7 @@
 
                 <i> User Password Hidden </i> 
                  <th scope="row">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#passwordModal">
+                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#passwordModal">
                     Change Password
                 </button> </td></th>
 
@@ -135,8 +141,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" id="createButton" class="btn btn-primary">Update First Name</button>
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="createButton" class="btn btn-dark">Update First Name</button>
                 </div>
             </form>
         </div>
@@ -162,8 +168,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" id="createButton" class="btn btn-primary">Update Last Name</button> 
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="createButton" class="btn btn-dark">Update Last Name</button> 
                 </div>
             </form>
         </div>
@@ -189,8 +195,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" id="createButton" class="btn btn-primary">Update Email</button>
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="createButton" class="btn btn-dark">Update Email</button>
                 </div>
             </form>
         </div>
@@ -222,8 +228,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" id="createButton" class="btn btn-primary">Update School Year</button>
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="createButton" class="btn btn-dark">Update School Year</button>
                 </div>
             </form>
         </div>
@@ -250,8 +256,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" id="submitUsername" name="submitUsername" class="btn btn-primary" >Update Username</button>
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="submitUsername" name="submitUsername" class="btn btn-dark" >Update Username</button>
                 </div>
             </form>
         </div>
@@ -284,8 +290,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" id="submitUsername" name="submitUsername" class="btn btn-primary" >Change Password</button>
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="submitUsername" name="submitUsername" class="btn btn-dark" >Change Password</button>
                 </div>
             </form>
         </div>
