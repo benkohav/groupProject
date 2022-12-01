@@ -57,7 +57,8 @@ const dbConfig = {
 
     //Rendering login
     app.get('/', (req, res) =>{
-      res.redirect('/login'); //this will call the /anotherRoute route in the API
+      //res.redirect('/login'); //this will call the /anotherRoute route in the API
+      res.render('pages/login');
     });
 
     //Rendering register
@@ -72,6 +73,8 @@ const dbConfig = {
         res.render('pages/login',{message: 'Error. No user logged in currently.'} );
       }
       var profileQuery = "SELECT * FROM userTable WHERE userTable.userID = $1";
+      //console.log("Hey There!!")
+      //console.log(req.session.user.userid)
       var itemsCheckedOutQuery = `SELECT ItemID, EXTRACT(day FROM timeDue-NOW()) as day, ABS(EXTRACT(hour FROM timeDue-NOW())) as hour, ABS(EXTRACT(minute FROM timeDue-NOW())) as minute, CategoryName, CategoryDescription, URL
           FROM (SELECT * FROM Item WHERE Item.UserID = $1) AS userItems
           INNER JOIN Category ON userItems.CategoryID = Category.CategoryID;`;
@@ -123,11 +126,18 @@ const dbConfig = {
 
 // POSTS FOR THE PROFILE PAGE -----------------------------    
     // updates the database after fields in profile page have been edited --> updating user variable is needed 
+
     app.post('/profile/updateUsername', async (req, res) => {
-      var used = req.body.firstName;
-      var query1 = "UPDATE userTable SET username = $1 WHERE userTable.username = $2;";
-      db.any(query1, [ req.body.username,req.session.user.username,])
-      .then(function (data) {res.redirect('/profile');})
+      //console.log("Hey There")
+      var username = req.body.username;
+      //console.log(req.body.username)
+      var query1 = "UPDATE userTable SET username = $1 WHERE userTable.userID = $2;";
+      db.any(query1, [ username,req.session.user.userid])
+      .then(function (data) {
+        //console.log("Update succesful")
+        req.session.user.username = username
+        req.session.save()
+        res.redirect('/profile');})
       .catch(function (err) {res.render('pages/profile',{message: 'Error. Please try updating username again.'} );})
     });
 
@@ -136,7 +146,6 @@ const dbConfig = {
       //console.log("PASSWORD IS READ AS ",req.body);
       const hash = await bcrypt.hash(req.body.Newpassword, 10);
       //console.log(hash);
-
       var query1 = "SELECT password FROM userTable WHERE userID = $1 LIMIT 1;" //- querriy to check the password - from login 
       var query2 = "UPDATE userTable SET password = $1 WHERE userID = $2;"; //hash the new password //same thing as I did within register 
       try {
@@ -321,9 +330,10 @@ const dbConfig = {
       });
 
     //Render of Login from pages 
-    app.get('/login', (req, res) => {
-        res.render('pages/login'); //{<JSON data required to render the page, if applicable>}
-      });
+    // app.get('/login', (req, res) => {
+    //     console.log("hello")
+    //     //res.render('pages/login'); //{<JSON data required to render the page, if applicable>}
+    //   });
 
     
     //Login logic
