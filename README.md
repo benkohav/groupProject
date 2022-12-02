@@ -1,6 +1,8 @@
 # groupProject
 groupProject for CSCI 3308 - Tech Library
 
+View a demo of this project here: https://drive.google.com/file/d/1nUbvnOx9XgxQRLggnCMBY-kgyktoImSW/view?usp=sharing
+
 
 -- Brief Application description -- 
 Project Overview: Our project, an online tech library, provides a forum for students to borrow essential school materials and equipment for a day’s use. Imagine the following scenario: Anna is a commuter student, and upon arriving on campus one day, she realizes that she left her computer charger at home. Our tech library allows Anna to connect with a resource center on campus to borrow a charger for the day.
