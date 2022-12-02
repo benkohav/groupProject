@@ -1,7 +1,7 @@
 # groupProject
 groupProject for CSCI 3308 - Tech Library
 
-View a demo of this project here: https://drive.google.com/file/d/1nUbvnOx9XgxQRLggnCMBY-kgyktoImSW/view?usp=sharing
+View a demo of our project here: https://drive.google.com/file/d/1nUbvnOx9XgxQRLggnCMBY-kgyktoImSW/view?usp=sharing
 
 
 -- Brief Application description -- 
@@ -14,16 +14,20 @@ Project Functionality: Once logged in, the user is redirected to our website’s
 Contributors - Andrew Connell, Benjamin Kohav, Charlotte Gorgemans, Roxanne Manthy, Ryan Hannigan, Sean Shi
 
 
-Technology Stack used for the project
+Technology Stack used for the project:
+We used the following tools to create our application:
+EJS, NodeJS, Postgres, and Docker, all comprising our tech stack. We used VS Code, GitHub, and GroupMe as our project methodology and execution method.
 
 
-Prerequisites to run the application - Any software that needs to be installed to run the application
+Prerequisites to run the application - Any software that needs to be installed to run the application:
+Please ensure that Docker is installed on your computer, as this imperative to run our application!
 
-
-Instructions on how to run the application locally.
-
-
-How to run the tests, if applicable
+Instructions on how to run the application locally:
+1. Clone our project into the appropriate folder on your local computer. 
+2. Start Docker (docker compose up)
+3. Open a new browser, and open http://localhost:3000/
+4. Voila! Our website is viewable, happy tech library searching!
 
 
 Link to the deployed application, if applicable
+*We are working on deploying our application and will link it here as soon as project is deployed.*
