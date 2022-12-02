@@ -29,5 +29,5 @@ Instructions on how to run the application locally:
 4. Voila! Our website is viewable, happy tech library searching!
 
 
-Link to the deployed application, if applicable
+Link to the deployed application, if applicable:
 *We are working on deploying our application and will link it here as soon as project is deployed.*
