@@ -1,7 +1,7 @@
 # techLibrary
 groupProject for CSCI 3308 - Tech Library
 
-View a demo of our project here: https://drive.google.com/file/d/1nUbvnOx9XgxQRLggnCMBY-kgyktoImSW/view?usp=sharing
+VIEW A PROJECT DEMO HERE: https://drive.google.com/file/d/1nUbvnOx9XgxQRLggnCMBY-kgyktoImSW/view?usp=sharing
 
 
 -- Brief Application description -- 
